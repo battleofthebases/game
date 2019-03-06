@@ -9,6 +9,8 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +46,11 @@ public class WIFIP2P extends AppCompatActivity {
     String[] deviceNameArray;
     WifiP2pDevice[] deviceArray;
 
+    static final int MESSAGE_READ = 1;
+    ServerClass serverClass;
+    ClientClass clientClass;
+    SendReceive sendReceive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +58,20 @@ public class WIFIP2P extends AppCompatActivity {
         initialWork();
         exqListener();
     }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case MESSAGE_READ:
+                    byte[] readBuff = (byte[]) msg.obj;
+                    String tempMsg = new String(readBuff, 0, msg.arg1);
+                    read_msg_box.setText(tempMsg);
+                    break;
+            }
+            return true;
+        }
+    });
 
     private void exqListener() {
         btnOnOff.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +119,14 @@ public class WIFIP2P extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Couldn't connect to "+ device.deviceName,Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msg = writeMsg.getText().toString();
+                sendReceive.write(msg.getBytes());
             }
         });
     }
@@ -146,8 +181,12 @@ public class WIFIP2P extends AppCompatActivity {
             final InetAddress groupOwnerAddress = info.groupOwnerAddress;
             if(info.groupFormed && info.isGroupOwner){
                 connectionStatus.setText("Host");
+                serverClass = new ServerClass();
+                serverClass.start();
             }else if(info.groupFormed){
                 connectionStatus.setText("Client");
+                clientClass = new ClientClass(groupOwnerAddress);
+                clientClass.start();
             }
         }
     };
@@ -162,5 +201,86 @@ public class WIFIP2P extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         unregisterReceiver(mReceiver);
+    }
+
+    public class ServerClass extends Thread{
+        Socket socket;
+        ServerSocket serverSocket;
+        Integer PORT = 8888;
+
+        @Override
+        public void run(){
+            try {
+                serverSocket = new ServerSocket(PORT);
+                socket = serverSocket.accept();
+                sendReceive = new SendReceive(socket);
+                sendReceive.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class SendReceive extends Thread{
+        private Socket socket;
+        private InputStream inputStream;
+        private OutputStream outputStream;
+
+        public SendReceive(Socket sock){
+            socket = sock;
+            try {
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void run(){
+            byte[] buffer = new byte[1024];
+            int bytes;
+
+            while(socket != null){
+                try {
+                    bytes = inputStream.read(buffer);
+                    if(bytes > 0){
+                        handler.obtainMessage(MESSAGE_READ,bytes,-1, buffer).sendToTarget();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void write(byte[] bytes){
+            try {
+                outputStream.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class ClientClass extends Thread{
+        Socket socket;
+        String hostAdd;
+        Integer PORT = 88888;
+
+        public ClientClass(InetAddress hostAddress){
+            hostAdd = hostAddress.getHostAddress();
+            socket = new Socket();
+        }
+
+        @Override
+        public void run(){
+            try {
+                socket.connect(new InetSocketAddress(hostAdd, PORT), 500);
+                sendReceive = new SendReceive(socket);
+                sendReceive.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
