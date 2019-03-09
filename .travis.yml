@@ -23,6 +23,7 @@ android:
 
 script:
 - chmod +x gradlew
+- ./gradlew build jacocoTestReport
 
 notifications:
   email: false
@@ -30,3 +31,6 @@ notifications:
 
 before_install:
 - yes | sdkmanager "platforms;android-$ANDROID_API"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
