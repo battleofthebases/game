@@ -23,7 +23,7 @@ android:
 
 script:
 - chmod +x gradlew
-- ./gradlew build jacocoTestReport
+- ./gradlew build customJacocoTestReport
 
 notifications:
   email: false
