@@ -13,7 +13,7 @@ public abstract class Weapon {
     public abstract String getWeaponType();
 
     public void applyToBoard(Board board, Location location) {
-        Placeable placeable = board.getPlacable(location);
+        Placeable placeable = board.getPlaceable(location);
         if (placeable != null) {
             placeable.destroy();
         }

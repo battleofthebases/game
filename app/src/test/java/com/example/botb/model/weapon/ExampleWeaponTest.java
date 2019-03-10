@@ -18,13 +18,13 @@ public class ExampleWeaponTest {
     public void initialize() {
         weapon = new ExampleWeapon();
         board = new Board(4, 4);
-        board.addPlacable(new ExamplePlaceable(), 2, 2);
+        board.addPlaceable(new ExamplePlaceable(), 2, 2);
     }
 
     @Test
     public void testDestroyPlaceable1() {
         Location location = new Location(2, 2);
-        Placeable placeable = board.getPlacable(location);
+        Placeable placeable = board.getPlaceable(location);
         assertFalse(placeable.isDestroyed());
         weapon.applyToBoard(board, location);
         assertTrue(placeable.isDestroyed());
@@ -32,7 +32,7 @@ public class ExampleWeaponTest {
 
     @Test
     public void testDestroyPlaceable2() {
-        Placeable placeable = board.getPlacable(2, 2);
+        Placeable placeable = board.getPlaceable(2, 2);
         assertFalse(placeable.isDestroyed());
         weapon.applyToBoard(board, 2, 2);
         assertTrue(placeable.isDestroyed());
