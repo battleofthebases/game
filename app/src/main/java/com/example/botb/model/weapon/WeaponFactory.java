@@ -2,11 +2,13 @@ package com.example.botb.model.weapon;
 
 public class WeaponFactory {
 
-    public static Weapon getWeapon(int id) {
+    public static Weapon getWeapon(String weaponId) {
 
-        switch (id) {
-            case 1:
-                return new ExampleWeapon(1);
+        switch (weaponId) {
+
+            case "example":
+                return new ExampleWeapon();
+
         }
 
         return null;
