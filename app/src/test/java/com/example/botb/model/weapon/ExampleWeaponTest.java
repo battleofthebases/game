@@ -1,15 +1,15 @@
-package com.example.botb.model;
+package com.example.botb.model.weapon;
 
+import com.example.botb.model.Board;
+import com.example.botb.model.Location;
 import com.example.botb.model.placable.ExamplePlaceable;
 import com.example.botb.model.placable.Placeable;
-import com.example.botb.model.weapon.ExampleWeapon;
-import com.example.botb.model.weapon.Weapon;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class WeaponTest {
+public class ExampleWeaponTest {
 
     private Weapon weapon;
     private Board board;
@@ -22,7 +22,7 @@ public class WeaponTest {
     }
 
     @Test
-    public void testWeaponDestroyPlaceable1() {
+    public void testDestroyPlaceable1() {
         Location location = new Location(2, 2);
         Placeable placeable = board.getPlacable(location);
         assertFalse(placeable.isDestroyed());
@@ -31,7 +31,7 @@ public class WeaponTest {
     }
 
     @Test
-    public void testWeaponDestroyPlaceable2() {
+    public void testDestroyPlaceable2() {
         Placeable placeable = board.getPlacable(2, 2);
         assertFalse(placeable.isDestroyed());
         weapon.applyToBoard(board, 2, 2);
