@@ -26,16 +26,24 @@ public abstract class Placeable {
         }
     }
 
-    public void destroy() {
-        destroyed = true;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getHealth() {
         return health;
     }
 
+    public void destroy() {
+        destroyed = true;
+    }
+
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 
     public Visibility getVisibility() {
