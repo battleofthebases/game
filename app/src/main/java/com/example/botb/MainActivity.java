@@ -3,12 +3,14 @@ package com.example.botb;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.botb.controller.GameController;
+
 public class MainActivity extends AppCompatActivity {
+    private InputManager inputManager = InputManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ConnectionHandler ch = new ConnectionHandler();
     }
 }
