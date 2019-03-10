@@ -6,7 +6,11 @@ import com.example.botb.model.placable.Placeable;
 
 public abstract class Weapon {
 
-    protected String name;
+    public final int weaponType;
+
+    public Weapon(int weaponType) {
+        this.weaponType = weaponType;
+    }
 
     public void applyToBoard(Board board, Location location) {
         Placeable placeable = board.getPlacable(location);
@@ -19,9 +23,13 @@ public abstract class Weapon {
         applyToBoard(board, new Location(x, y));
     }
 
+    public int getWeaponType() {
+        return weaponType;
+    }
+
     @Override
     public String toString() {
-        return name;
+        return "Weapon " + weaponType;
     }
 
 }

@@ -6,7 +6,7 @@ public class WeaponFactory {
 
         switch (id) {
             case 1:
-                return new ExampleWeapon();
+                return new ExampleWeapon(1);
         }
 
         return null;
