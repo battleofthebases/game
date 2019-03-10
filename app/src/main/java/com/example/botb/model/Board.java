@@ -3,12 +3,19 @@ package com.example.botb.model;
 import com.example.botb.model.placable.Placeable;
 import com.example.botb.model.weapon.Weapon;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
 
     private int width, height;
     private Map<Location, Placeable> placables;
+
+    public Board(int width, int height) {
+        this.width = width;
+        this.height = height;
+        placables = new HashMap<>();
+    }
 
     public Board(int width, int height, Map<Location, Placeable> placables) {
         this.width = width;
