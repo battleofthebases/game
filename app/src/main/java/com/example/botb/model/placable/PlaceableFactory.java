@@ -2,10 +2,10 @@ package com.example.botb.model.placable;
 
 public class PlaceableFactory {
 
-    public static Placeable getPlaceable(int id) {
+    public static Placeable getPlaceable(String placeableId) {
 
-        switch (id) {
-            case 1:
+        switch (placeableId) {
+            case "example":
                 return new ExamplePlaceable();
         }
 
