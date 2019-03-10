@@ -1,11 +1,10 @@
 package com.example.botb;
 
 import android.util.Log;
-import com.example.botb.controller.GameController;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -66,15 +65,16 @@ public class ConnectionHandler {
 
                     @Override
                     public void onMessage(String s) {
-                        String[] data = s.split(":");
-                        String identifier = data[0];
+                        String[] dataAll = s.split(":");
+                        String identifier = dataAll[0];
+                        String[] data = Arrays.copyOfRange(dataAll, 1, dataAll.length);
                         Log.e(TAG,"Message: "+identifier);
-                        Log.e(TAG,"Length: "+data.length);
                         switch (identifier){
-                            case "Message" :
-                                Log.i(TAG, "received a message : "+data[1]);
-                                inputManager.handleExternalAction(Arrays.copyOfRange(data, 1, data.length));
+                            case "Action" :
+                                inputManager.handleRemoteAction(data);
                                 break;
+                            case "InitialGameBoard":
+                                inputManager.setRemoteBoard(data);
                             default:
                                 Log.e("Tag","Non valid syntax!");
                         }
