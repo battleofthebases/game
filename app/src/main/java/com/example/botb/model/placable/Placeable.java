@@ -25,4 +25,16 @@ public abstract class Placeable {
         destroyed = true;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
 }
