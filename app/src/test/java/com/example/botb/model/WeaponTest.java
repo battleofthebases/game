@@ -38,4 +38,10 @@ public class WeaponTest {
         assertTrue(placeable.isDestroyed());
     }
 
+    @Test
+    public void testToString() {
+        // Need coverage bro
+        assertEquals(weapon.toString(), "Weapon " + weapon.getWeaponType());
+    }
+
 }
