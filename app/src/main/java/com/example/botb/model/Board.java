@@ -1,6 +1,6 @@
 package com.example.botb.model;
 
-import com.example.botb.model.placable.Placeable;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.Weapon;
 
 import java.util.HashMap;

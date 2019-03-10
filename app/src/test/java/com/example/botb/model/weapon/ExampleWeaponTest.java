@@ -2,8 +2,8 @@ package com.example.botb.model.weapon;
 
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
-import com.example.botb.model.placable.ExamplePlaceable;
-import com.example.botb.model.placable.Placeable;
+import com.example.botb.model.placeable.ExamplePlaceable;
+import com.example.botb.model.placeable.Placeable;
 
 import org.junit.Before;
 import org.junit.Test;

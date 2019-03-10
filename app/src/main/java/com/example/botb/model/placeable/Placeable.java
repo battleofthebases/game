@@ -1,4 +1,4 @@
-package com.example.botb.model.placable;
+package com.example.botb.model.placeable;
 
 public abstract class Placeable {
 
