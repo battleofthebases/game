@@ -5,12 +5,12 @@ public abstract class Placeable {
     private String name;
     private int health;
     private boolean destroyed;
-    private PlacableVisibility visibility;
+    private Visibility visibility;
 
     public Placeable(String name) {
         this.name = name;
         health = 100;
-        visibility = PlacableVisibility.HIDDEN;
+        visibility = Visibility.HIDDEN;
     }
 
     public void damage(int damage) {

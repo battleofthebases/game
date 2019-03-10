@@ -1,5 +1,5 @@
 package com.example.botb.model.placable;
 
-public enum  PlacableVisibility {
+public enum Visibility {
     HIDDEN, DETECTED, VISIBLE
 }
