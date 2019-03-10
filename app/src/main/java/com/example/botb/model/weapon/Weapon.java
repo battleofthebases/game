@@ -6,11 +6,7 @@ import com.example.botb.model.placable.Placeable;
 
 public abstract class Weapon {
 
-    private String name;
-
-    public Weapon(String name) {
-        this.name = name;
-    }
+    protected String name;
 
     public void applyToBoard(Board board, Location location) {
         Placeable placeable = board.getPlacable(location);

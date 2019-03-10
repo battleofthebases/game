@@ -20,7 +20,7 @@ public class LocationTest {
     }
 
     @Test
-    public void testEqualsAndHasCode() {
+    public void testEqualsAndHashCode() {
         Location loc1 = new Location(7, 6);
         Location loc2 = new Location(7, 6);
         assertTrue(loc1.equals(loc2) && loc2.equals(loc1));
