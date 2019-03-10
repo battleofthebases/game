@@ -20,4 +20,9 @@ public class Action {
         return weapon;
     }
 
+    @Override
+    public String toString() {
+        return "Action: " + weapon + " at " + location;
+    }
+
 }

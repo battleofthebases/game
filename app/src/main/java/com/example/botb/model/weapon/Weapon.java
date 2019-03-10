@@ -15,4 +15,13 @@ public abstract class Weapon {
         }
     }
 
+    public void applyToBoard(Board board, int x, int y) {
+        applyToBoard(board, new Location(x, y));
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

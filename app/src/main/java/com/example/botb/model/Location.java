@@ -35,4 +35,9 @@ public class Location {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public String toString() {
+        return "Location(" + x + "," + y + ")";
+    }
+
 }
