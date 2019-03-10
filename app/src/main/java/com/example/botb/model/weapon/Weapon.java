@@ -6,11 +6,11 @@ import com.example.botb.model.placable.Placeable;
 
 public abstract class Weapon {
 
-    public final int weaponType;
-
-    public Weapon(int weaponType) {
-        this.weaponType = weaponType;
-    }
+    /**
+     * Define a unique identifier for this weapon class
+     * @return unique weapon identifier
+     */
+    public abstract String getWeaponType();
 
     public void applyToBoard(Board board, Location location) {
         Placeable placeable = board.getPlacable(location);
@@ -23,13 +23,9 @@ public abstract class Weapon {
         applyToBoard(board, new Location(x, y));
     }
 
-    public int getWeaponType() {
-        return weaponType;
-    }
-
     @Override
     public String toString() {
-        return "Weapon " + weaponType;
+        return "Weapon " + getWeaponType();
     }
 
 }
