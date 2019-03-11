@@ -12,12 +12,14 @@ public class Game {
         this.isLocalTurn = isLocalTurn;
     }
 
-    public void applyAction(boolean localPlayer, Action action) {
+    public boolean applyAction(boolean localPlayer, Action action) {
         if (isLocalTurn == localPlayer) {
             if (localPlayer) remoteBoard.applyAction(action);
             else localBoard.applyAction(action);
             isLocalTurn = !isLocalTurn;
+            return true;
         }
+        return false;
     }
 
     public Board getLocalBoard() {

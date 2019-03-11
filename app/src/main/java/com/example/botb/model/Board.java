@@ -1,6 +1,6 @@
 package com.example.botb.model;
 
-import com.example.botb.model.placable.Placeable;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.Weapon;
 
 import java.util.HashMap;
@@ -9,18 +9,18 @@ import java.util.Map;
 public class Board {
 
     private int width, height;
-    private Map<Location, Placeable> placables;
+    private Map<Location, Placeable> placeables;
 
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
-        placables = new HashMap<>();
+        placeables = new HashMap<>();
     }
 
-    public Board(int width, int height, Map<Location, Placeable> placables) {
+    public Board(int width, int height, Map<Location, Placeable> placeables) {
         this.width = width;
         this.height = height;
-        this.placables = placables;
+        this.placeables = placeables;
     }
 
     public void applyAction(Action action) {
@@ -29,31 +29,31 @@ public class Board {
         weapon.applyToBoard(this, location);
     }
 
-    public boolean addPlacable(Placeable placeable, Location location) {
+    public boolean addPlaceable(Placeable placeable, Location location) {
         if (!isLocationAvailable(location)) return false;
-        placables.put(location, placeable);
+        placeables.put(location, placeable);
         return true;
     }
 
-    public boolean addPlacable(Placeable placeable, int x, int y) {
-        return addPlacable(placeable, new Location(x, y));
+    public boolean addPlaceable(Placeable placeable, int x, int y) {
+        return addPlaceable(placeable, new Location(x, y));
     }
 
-    public Placeable getPlacable(Location location) {
-        return placables.get(location);
+    public Placeable getPlaceable(Location location) {
+        return placeables.get(location);
     }
 
-    public Placeable getPlacable(int x, int y) {
-        return getPlacable(new Location(x, y));
+    public Placeable getPlaceable(int x, int y) {
+        return getPlaceable(new Location(x, y));
     }
 
-    public boolean movePlacable(Location from, Location to) {
+    public boolean movePlaceable(Location from, Location to) {
 
-        Placeable placeable = getPlacable(from);
+        Placeable placeable = getPlaceable(from);
 
         if (placeable != null && isLocationAvailable(to)) {
-            placables.remove(from);
-            placables.put(to, placeable);
+            placeables.remove(from);
+            placeables.put(to, placeable);
             return true;
         }
 
@@ -75,7 +75,7 @@ public class Board {
 
     public boolean isLocationAvailable(Location location) {
         boolean isValid = isLocationValid(location);
-        boolean isEmpty = placables.get(location) == null;
+        boolean isEmpty = placeables.get(location) == null;
         return isValid && isEmpty;
     }
 
