@@ -4,7 +4,7 @@ import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
 import com.example.botb.model.Location;
-import com.example.botb.model.placable.Placeable;
+import com.example.botb.model.placeable.Placeable;
 
 import java.util.Map;
 

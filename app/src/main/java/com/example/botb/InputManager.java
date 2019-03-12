@@ -6,12 +6,10 @@ import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
-import com.example.botb.model.placable.Placeable;
-import com.example.botb.model.weapon.WeaponFactory;
+import com.example.botb.model.placeable.Placeable;
 
-import java.lang.reflect.Array;
+
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 public class InputManager {
@@ -25,56 +23,30 @@ public class InputManager {
     private InputManager() {
         gameController = new GameController();
         //creating the connection
-        connectionHandler = new ConnectionHandler();
+        connectionHandler = new ConnectionHandler(this);
     }
 
     public static InputManager getInstance() {
         return instance;
     }
 
-    public void handleRemoteAction(String[] actionData) {
-        Log.e(TAG, "Got string message!");
-        gameController.applyAction(false, stringToAction(actionData));
+    public void handleRemoteAction(String actionJson) {
+        Log.e(TAG, "handleRemoteAction: "+Parser.jsonToAction(actionJson).toString());
+        gameController.applyAction(false, Parser.jsonToAction(actionJson));
     }
 
     public void handleLocalAction(Action action) {
         gameController.applyAction(true, action);
-        connectionHandler.sendMessage("Action:"+actionToString(action));
+        connectionHandler.sendMessage("Action:"+Parser.actionToJson(action));
     }
     
-    public void setRemoteBoard(String[] data){
-        gameController.setRemoteBoard(Integer.parseInt(data[0]),Integer.parseInt(data[1]), stringToBoard(Arrays.copyOfRange(data, 2, data.length)));
+    public void setRemoteBoard(String boardJson){
+        Board remoteBoard = Parser.jsonToBoard(boardJson);
+        gameController.setRemoteBoard(remoteBoard.getWidth(), remoteBoard.getHeight(), remoteBoard.getPlaceables());
     }
     
-    public void setLocalBoard(int width, int height, Map<Location,Placeable> map){
+    public void setLocalBoard(int width, int height, Map<Location, Placeable> map){
         gameController.setLocalBoard(width,height,map);
-        connectionHandler.sendMessage("InitialGameBoard:"+width+":"+height+":"+mapToString(map));
-    }
-    
-    //Helper Methods
-    private Action stringToAction(String[] actionData) {
-        // Format: "LocationX:LocationY:WeaponID"
-        return new Action(new Location(Integer.parseInt(actionData[0]), Integer.parseInt(actionData[1])), WeaponFactory.getWeapon(actionData[2]));
-    }
-
-    private String actionToString(Action action){
-        // Format: "LocationX:LocationY:WeaponID"
-        return ""+action.getLocation().getX()+":"+action.getLocation().getY()+":"+action.getWeapon().getWeaponType();
-    }
-    
-    private String mapToString(Map<Location,Placeable> map){
-        StringBuilder returnStr = new StringBuilder();
-        //Format [1,2,3] -- forEach entry
-        for (Map.Entry<Location,Placeable> entry : map.entrySet()) {
-            returnStr.append("[").append(entry.getKey().getX()).append("/").append(entry.getKey().getY()).append("/").append(entry.getValue().getPlaceableType());
-        }
-        return returnStr.toString();
-    }
-
-    private HashMap<Location, Placeable> stringToBoard(String[] data){
-
-        HashMap<Location, Placeable> map = new HashMap<Location, Placeable>();
-        
-        return map;
+        connectionHandler.sendMessage("InitialGameBoard:"+Parser.boardToJson(new Board(width,height,map)));
     }
 }

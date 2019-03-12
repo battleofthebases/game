@@ -39,6 +39,10 @@ public class Board {
         return addPlaceable(placeable, new Location(x, y));
     }
 
+    public Map<Location, Placeable> getPlaceables() {
+        return placeables;
+    }
+
     public Placeable getPlaceable(Location location) {
         return placeables.get(location);
     }

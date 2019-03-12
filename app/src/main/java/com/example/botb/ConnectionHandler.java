@@ -3,6 +3,7 @@ package com.example.botb;
 import android.util.Log;
 
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -27,19 +28,25 @@ public class ConnectionHandler {
     public static final String TAG = "ConnectionHandler";
     private WebSocketClient socket;
     private boolean https;
-    private String host = "10.22.0.168:8080";
-    private InputManager inputManager = InputManager.getInstance();
+    private String host = "10.22.12.154:8080";
+    private InputManager inputManager;
 
     /**
      * This is the constructor.
      * On run it creates the socket object.
      */
-    public ConnectionHandler(){
+    public ConnectionHandler(InputManager inputMan){
         this.socket = getSocket();
+        inputManager = inputMan;
     }
 
     public void sendMessage(String message){
-        socket.send(message);
+        try{
+            socket.send(message);
+        }catch (WebsocketNotConnectedException e){
+            Log.e(TAG, "WebsocketNotConnectedException"+e);
+            getSocket();
+        }
     }
 
     /**
@@ -67,10 +74,12 @@ public class ConnectionHandler {
                     public void onMessage(String s) {
                         String[] dataAll = s.split(":");
                         String identifier = dataAll[0];
-                        String[] data = Arrays.copyOfRange(dataAll, 1, dataAll.length);
+                        Log.e(TAG,"identitier:"+identifier);
+                        String data = s.substring(s.indexOf("{"));
                         Log.e(TAG,"Message: "+identifier);
                         switch (identifier){
                             case "Action" :
+                                Log.e(TAG,"Action json: "+data);
                                 inputManager.handleRemoteAction(data);
                                 break;
                             case "InitialGameBoard":
