@@ -1,5 +1,8 @@
 package com.example.botb;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
@@ -31,20 +34,41 @@ public class Parser {
         return instance;
     }
 
-    public static Action jsonToAction(String jsonData) {
-        return gson.fromJson(jsonData,Action.class);
+    /** Read the object from Base64 string. */
+    private static Object fromString( String s ) throws IOException ,
+            ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode( s );
+        ObjectInputStream ois = new ObjectInputStream(
+                new ByteArrayInputStream(  data ) );
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
     }
 
-    public static String actionToJson(Action action){
-        return gson.toJson(action);
+    /** Write the object to a Base64 string. */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static String toString(Serializable o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
-
-    public static String boardToJson(Board board){
-        return gson.toJson(board);
+    public static Action stringToAction(String jsonData) throws IOException, ClassNotFoundException {
+        return (Action) fromString(jsonData);
     }
 
-    public static Board jsonToBoard(String boardJson){
-        return gson.fromJson(boardJson,Board.class);
+    public static String actionToString(Action action) throws IOException {
+        return toString(action);
     }
+
+    public static Board stringToBoard(String boardJson) throws IOException, ClassNotFoundException {
+        return (Board) fromString(boardJson);
+    }
+
+    public static String boardToString(Board board) throws IOException {
+        return toString(board);
+    }
+
 }

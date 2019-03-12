@@ -6,6 +6,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -74,16 +75,26 @@ public class ConnectionHandler {
                     public void onMessage(String s) {
                         String[] dataAll = s.split(":");
                         String identifier = dataAll[0];
-                        Log.e(TAG,"identitier:"+identifier);
-                        String data = s.substring(s.indexOf("{"));
-                        Log.e(TAG,"Message: "+identifier);
+                        String data = dataAll[1];
                         switch (identifier){
                             case "Action" :
                                 Log.e(TAG,"Action json: "+data);
-                                inputManager.handleRemoteAction(data);
+                                try {
+                                    inputManager.handleRemoteAction(data);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             case "InitialGameBoard":
-                                inputManager.setRemoteBoard(data);
+                                try {
+                                    inputManager.setRemoteBoard(data);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
                             default:
                                 Log.e("Tag","Non valid syntax!");
                         }

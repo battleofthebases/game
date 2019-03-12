@@ -9,6 +9,7 @@ import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -30,23 +31,23 @@ public class InputManager {
         return instance;
     }
 
-    public void handleRemoteAction(String actionJson) {
-        Log.e(TAG, "handleRemoteAction: "+Parser.jsonToAction(actionJson).toString());
-        gameController.applyAction(false, Parser.jsonToAction(actionJson));
+    public void handleRemoteAction(String actionJson) throws IOException, ClassNotFoundException {
+        Log.e(TAG, "handleRemoteAction: "+Parser.stringToAction(actionJson).getWeapon().toString());
+        gameController.applyAction(false, Parser.stringToAction(actionJson));
     }
 
-    public void handleLocalAction(Action action) {
+    public void handleLocalAction(Action action) throws IOException {
         gameController.applyAction(true, action);
-        connectionHandler.sendMessage("Action:"+Parser.actionToJson(action));
+        connectionHandler.sendMessage("Action:"+Parser.actionToString(action));
     }
     
-    public void setRemoteBoard(String boardJson){
-        Board remoteBoard = Parser.jsonToBoard(boardJson);
+    public void setRemoteBoard(String boardJson) throws IOException, ClassNotFoundException {
+        Board remoteBoard = Parser.stringToBoard(boardJson);
         gameController.setRemoteBoard(remoteBoard.getWidth(), remoteBoard.getHeight(), remoteBoard.getPlaceables());
     }
     
-    public void setLocalBoard(int width, int height, Map<Location, Placeable> map){
+    public void setLocalBoard(int width, int height, Map<Location, Placeable> map) throws IOException {
         gameController.setLocalBoard(width,height,map);
-        connectionHandler.sendMessage("InitialGameBoard:"+Parser.boardToJson(new Board(width,height,map)));
+        connectionHandler.sendMessage("InitialGameBoard:"+Parser.boardToString(new Board(width,height,map)));
     }
 }

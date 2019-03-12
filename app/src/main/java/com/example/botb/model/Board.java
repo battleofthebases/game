@@ -3,10 +3,11 @@ package com.example.botb.model;
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.Weapon;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board {
+public class Board implements Serializable {
 
     private int width, height;
     private Map<Location, Placeable> placeables;

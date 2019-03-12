@@ -4,7 +4,9 @@ import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
 
-public abstract class Weapon {
+import java.io.Serializable;
+
+public abstract class Weapon implements Serializable {
 
     /**
      * Define a unique identifier for this weapon class

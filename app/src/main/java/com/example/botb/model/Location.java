@@ -1,8 +1,9 @@
 package com.example.botb.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Location {
+public class Location implements Serializable{
 
     private final int x, y;
 

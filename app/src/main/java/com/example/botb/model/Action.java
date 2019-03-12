@@ -2,7 +2,9 @@ package com.example.botb.model;
 
 import com.example.botb.model.weapon.Weapon;
 
-public class Action {
+import java.io.Serializable;
+
+public class Action implements Serializable{
 
     private Location location;
     private Weapon weapon;

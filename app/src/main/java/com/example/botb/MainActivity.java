@@ -9,7 +9,10 @@ import android.widget.Button;
 import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Location;
+import com.example.botb.model.weapon.ExampleWeapon;
 import com.example.botb.model.weapon.WeaponFactory;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -26,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        inputManager.handleLocalAction(new Action(new Location(2,3), WeaponFactory.getWeapon("example")));
+        try {
+            inputManager.handleLocalAction(new Action(new Location(2,3), new ExampleWeapon()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
