@@ -39,27 +39,36 @@ public class Droppable {
         Drawable enterShape = context.getResources().getDrawable(
                 R.drawable.shape_droptarget);
         Drawable normalShape = context.getResources().getDrawable(R.drawable.shape);
+        Drawable noEntryShape = context.getResources().getDrawable(R.drawable.no_entry_shape);
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();
+
+            View view = (View) event.getLocalState();
+            LinearLayout container = (LinearLayout) v;
+            ViewGroup owner = (ViewGroup) view.getParent();
+
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     // do nothing
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    v.setBackgroundDrawable(enterShape);
+                    if (container.getChildCount() > 0 && container != owner){
+                        v.setBackgroundDrawable(noEntryShape);
+                    } else {
+                        v.setBackgroundDrawable(enterShape);
+                    }
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
                     v.setBackgroundDrawable(normalShape);
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
-                    View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
-                    owner.removeView(view);
-                    LinearLayout container = (LinearLayout) v;
-                    container.addView(view);
+                    if (container.getChildCount() == 0){
+                        owner.removeView(view);
+                        container.addView(view);
+                    }
                     view.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:

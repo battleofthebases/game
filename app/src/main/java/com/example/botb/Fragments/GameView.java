@@ -56,21 +56,27 @@ public class GameView extends Fragment {
         });
 
         GridLayout layout = view.findViewById(R.id.grid);
-        layout.setRowCount(4);
-        layout.setColumnCount(4);
+        layout.setRowCount(10);
+        layout.setColumnCount(8);
+
+        int lineHeight = Height/layout.getRowCount();
+        int lineWidth = Width/layout.getColumnCount();
+
+        int itemHeight = lineHeight/2;
+        int itemWidth = lineWidth/2;
 
         for (int i = 0; i < layout.getRowCount(); i++) {
             GridLayout.Spec rowSpec = GridLayout.spec(i, 1,1);
             for (int j = 0; j < layout.getColumnCount(); j++) {
                 GridLayout.Spec colSpec = GridLayout.spec(j, 1,1);
                 LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(100, 100));
+                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
 
 
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayout.setId(R.id.parent + i + j);
                 linearLayout.setGravity(Gravity.FILL_HORIZONTAL);
-                linearLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_droptarget));
+                linearLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape));
                 Droppable droppable = new Droppable(getActivity(), linearLayout);
 
                 if (toggle){
