@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.Fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

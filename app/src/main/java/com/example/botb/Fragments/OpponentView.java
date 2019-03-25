@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class GameView extends Fragment {
-    private static final String TAG = "GameView";
+import com.example.botb.R;
+
+public class OpponentView extends Fragment {
+    private static final String TAG = "OpponentView";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.game_view, container, false);
+        View view = inflater.inflate(R.layout.opponent_view, container, false);
         return view;
     }
 }
