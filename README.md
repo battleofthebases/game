@@ -24,7 +24,7 @@ git clone https://github.com/battleofthebases/game.git
 
 Open the "**game**" folder as a project in Android Studio.
 
-To run tests
+To run [tests](https://github.com/arturdm/jacoco-android-gradle-plugin)
 ```
 ./gradlew jacocoTestReport
 ```
