@@ -29,7 +29,7 @@ public class ConnectionHandler {
     public static final String TAG = "ConnectionHandler";
     private WebSocketClient socket;
     private boolean https;
-    private String host = "10.22.12.154:8080";
+    private String host = "10.22.1.209:8080";
     private InputManager inputManager;
 
     /**

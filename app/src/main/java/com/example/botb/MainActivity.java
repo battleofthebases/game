@@ -10,7 +10,6 @@ import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
-import com.example.botb.model.weapon.WeaponFactory;
 
 import java.io.IOException;
 
