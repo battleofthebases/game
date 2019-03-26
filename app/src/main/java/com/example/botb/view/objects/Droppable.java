@@ -2,6 +2,7 @@ package com.example.botb.view.objects;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +12,26 @@ import com.example.botb.R;
 
 import android.view.View.OnDragListener;
 
-public class Droppable {
+public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
 
-    private Context context;
 
-    public Droppable(Context con, View view) {
-        context = con;
-        view.setOnDragListener(new Droppable.DragListener());
+
+    public Droppable(Context context) {
+        super(context);
+        this.setOnDragListener(new Droppable.DragListener());
     }
 
     class DragListener implements OnDragListener {
-        Drawable enterShape = context.getResources().getDrawable(
+        Drawable enterShape = getContext().getResources().getDrawable(
                 R.drawable.shape_droptarget);
-        Drawable normalShape = context.getResources().getDrawable(R.drawable.shape);
-        Drawable noEntryShape = context.getResources().getDrawable(R.drawable.no_entry_shape);
+        Drawable normalShape = getContext().getResources().getDrawable(R.drawable.shape);
+        Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();
             View view = (View) event.getLocalState();
-            LinearLayout container = (LinearLayout) v;
+            Droppable container = (Droppable) v;
             ViewGroup owner = (ViewGroup) view.getParent();
 
             switch (event.getAction()) {

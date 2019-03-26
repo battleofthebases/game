@@ -2,6 +2,7 @@ package com.example.botb.view.objects;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -26,6 +27,7 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
                 return true;
             }
             else {
+                Log.d("onTouch:", "false");
                 return false;
             }
         }

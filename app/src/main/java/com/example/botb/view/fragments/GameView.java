@@ -56,7 +56,7 @@ public class GameView extends Fragment {
             GridLayout.Spec rowSpec = GridLayout.spec(i, 1,1);
             for (int j = 0; j < layout.getColumnCount(); j++) {
                 GridLayout.Spec colSpec = GridLayout.spec(j, 1,1);
-                LinearLayout linearLayout = new LinearLayout(getContext());
+                Droppable linearLayout = new Droppable(getContext());
                 linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
 
 
@@ -64,7 +64,7 @@ public class GameView extends Fragment {
                 linearLayout.setId(R.id.parent + i + j);
                 linearLayout.setGravity(Gravity.FILL_HORIZONTAL);
                 linearLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape));
-                Droppable droppable = new Droppable(getActivity(), linearLayout);
+
 
                 if (toggle){
                     Draggable imageView = new Draggable(getContext());
