@@ -12,13 +12,10 @@ apply plugin: 'jacoco-android'
 
 jacoco {
     toolVersion = "0.8.3"
-    //reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 jacocoAndroidUnitTestReport {
-    excludes += ['**/AutoValue_*.*',
-                 '**/*JavascriptBridge.class',
-    "**/*Activity.*"]
+    excludes += ["**/*Activity.*"]
 }
 
 tasks.withType(Test) {
