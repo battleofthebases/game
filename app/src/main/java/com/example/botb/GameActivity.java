@@ -7,9 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.botb.Fragments.GameView;
-import com.example.botb.Fragments.OpponentView;
-import com.example.botb.Fragments.statePageAdapter;
+import com.example.botb.view.fragments.GameView;
+import com.example.botb.view.fragments.OpponentView;
+import com.example.botb.view.fragments.statePageAdapter;
 
 public class GameActivity extends AppCompatActivity {
 

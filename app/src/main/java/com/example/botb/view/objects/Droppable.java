@@ -1,36 +1,15 @@
-package com.example.botb.objects;
+package com.example.botb.view.objects;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 import com.example.botb.R;
 
-import android.app.Activity;
-import android.content.ClipData;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.DragEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import org.xmlpull.v1.XmlPullParser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Droppable {
 
@@ -51,7 +30,6 @@ public class Droppable {
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();
             View view = (View) event.getLocalState();
-            view.getParent();
             LinearLayout container = (LinearLayout) v;
             ViewGroup owner = (ViewGroup) view.getParent();
 
