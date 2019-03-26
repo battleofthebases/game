@@ -2,20 +2,16 @@ package com.example.botb.model.placeable;
 
 public abstract class Placeable {
 
+    protected String name;
     protected int health;
     protected boolean destroyed;
     protected Visibility visibility;
 
-    public Placeable() {
+    public Placeable(String name) {
+        this.name = name;
         health = 100;
         visibility = Visibility.HIDDEN;
     }
-
-    /**
-     * Define a unique identifier for this placeable class
-     * @return unique placeable identifier
-     */
-    public abstract String getPlaceableType();
 
     public void damage(int damage) {
 
@@ -32,6 +28,10 @@ public abstract class Placeable {
 
     public int getHealth() {
         return health;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void destroy() {

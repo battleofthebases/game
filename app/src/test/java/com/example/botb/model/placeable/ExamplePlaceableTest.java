@@ -42,8 +42,8 @@ public class ExamplePlaceableTest {
     }
 
     @Test
-    public void testType() {
-        assertEquals(placeable.getPlaceableType(), "example");
+    public void testName() {
+        assertEquals(placeable.getName(), "ExamplePlaceable");
     }
 
 }

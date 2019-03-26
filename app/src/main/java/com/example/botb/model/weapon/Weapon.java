@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 public abstract class Weapon implements Serializable {
 
-    /**
-     * Define a unique identifier for this weapon class
-     * @return unique weapon identifier
-     */
-    public abstract String getWeaponType();
+    protected String name;
+
+    public Weapon(String name) {
+        this.name = name;
+    }
 
     public void applyToBoard(Board board, Location location) {
         Placeable placeable = board.getPlaceable(location);
@@ -25,9 +25,13 @@ public abstract class Weapon implements Serializable {
         applyToBoard(board, new Location(x, y));
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "Weapon " + getWeaponType();
+        return "Weapon: " + getName();
     }
 
 }
