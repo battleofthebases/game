@@ -1,5 +1,5 @@
 # Battle of the Bases
-[![Build Status](https://travis-ci.org/battleofthebases/game.svg?branch=master)](https://travis-ci.org/battleofthebases/game)
+[![Build Status](https://travis-ci.com/battleofthebases/game.svg?branch=master)](https://travis-ci.com/battleofthebases/game)
 [![codecov](https://codecov.io/gh/battleofthebases/game/branch/master/graph/badge.svg)](https://codecov.io/gh/battleofthebases/game)
 
 NTNU Course [TDT4240 Software Architecture](https://www.ntnu.edu/studies/courses/TDT4240#tab=omEmnet) project repository for group 26.
