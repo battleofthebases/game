@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
+import android.util.AttributeSet;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -62,7 +63,7 @@ public class GameView extends Fragment {
         int lineHeight = Height/layout.getRowCount();
         int lineWidth = Width/layout.getColumnCount();
 
-        int itemHeight = lineHeight/2;
+        int itemHeight = lineHeight;
         int itemWidth = lineWidth/2;
 
         for (int i = 0; i < layout.getRowCount(); i++) {
@@ -80,13 +81,13 @@ public class GameView extends Fragment {
                 Droppable droppable = new Droppable(getActivity(), linearLayout);
 
                 if (toggle){
-                    ImageView imageView = new ImageView(getContext());
+                    Draggable imageView = new Draggable(getContext());
                     imageView.setImageResource(R.drawable.ic_launcher_background);
                     imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     imageView.setAdjustViewBounds(true);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     linearLayout.addView(imageView);
-                    new Draggable(imageView);
+
                 }
                 toggle = !toggle;
 

@@ -10,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Layout;
+import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import android.app.Activity;
@@ -34,10 +36,14 @@ import org.xmlpull.v1.XmlPullParser;
 
 import com.example.botb.R;
 
-public class Draggable {
+public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
-    public Draggable(View view) {
-        view.setOnTouchListener(new TouchListener());
+    public int size;  // possible if multiple space occupation
+
+
+    public Draggable(Context context) {
+        super(context);
+        this.setOnTouchListener(new TouchListener());
     }
 
 
@@ -45,8 +51,7 @@ public class Draggable {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
-                DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-                        view);
+                DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
                 view.setVisibility(View.INVISIBLE);
                 return true;
