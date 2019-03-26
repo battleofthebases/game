@@ -44,4 +44,9 @@ public class ExampleWeaponTest {
         assertEquals(weapon.toString(), "Weapon: " + weapon.getName());
     }
 
+    @Test
+    public void testName() {
+        assertEquals(weapon.getName(), "ExampleWeapon");
+    }
+
 }
