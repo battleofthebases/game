@@ -41,9 +41,4 @@ public class ExamplePlaceableTest {
         assertEquals(placeable.getHealth(), 50);
     }
 
-    @Test
-    public void testType() {
-        assertEquals(placeable.getPlaceableType(), "example");
-    }
-
 }

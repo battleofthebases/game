@@ -41,7 +41,7 @@ public class ExampleWeaponTest {
     @Test
     public void testToString() {
         // Need coverage bro
-        assertEquals(weapon.toString(), "Weapon " + weapon.getWeaponType());
+        assertEquals(weapon.toString(), "Weapon: " + weapon.getName());
     }
 
 }

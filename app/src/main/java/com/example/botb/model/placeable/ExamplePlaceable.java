@@ -2,9 +2,8 @@ package com.example.botb.model.placeable;
 
 public class ExamplePlaceable extends Placeable {
 
-    @Override
-    public String getPlaceableType() {
-        return "example";
+    public ExamplePlaceable() {
+        super("ExamplePlaceable");
     }
 
     @Override
