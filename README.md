@@ -36,4 +36,4 @@ To create test coverage report
 
 
 ## Game Instructions
-Press "Play" and follow the ingame instructions.
+Press "Play" and follow the in-game instructions.
