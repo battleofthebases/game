@@ -1,4 +1,4 @@
-package com.example.botb.Fragments;
+package com.example.botb.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

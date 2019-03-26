@@ -1,36 +1,22 @@
-package com.example.botb.Fragments;
+package com.example.botb.view.fragments;
 
-import android.content.ClipData;
-import android.content.Context;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
-import android.util.AttributeSet;
-import android.view.Display;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.botb.R;
-import com.example.botb.objects.Draggable;
-import com.example.botb.objects.Droppable;
-
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
-import java.io.StringReader;
-
+import com.example.botb.view.objects.Draggable;
+import com.example.botb.view.objects.Droppable;
+import com.example.botb.view.objects.GameGrid;
 
 
 public class GameView extends Fragment {
@@ -56,7 +42,7 @@ public class GameView extends Fragment {
               }
         });
 
-        GridLayout layout = view.findViewById(R.id.grid);
+        GameGrid layout = view.findViewById(R.id.grid);
         layout.setRowCount(10);
         layout.setColumnCount(8);
 
