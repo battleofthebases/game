@@ -9,24 +9,41 @@ import com.example.botb.model.placeable.Placeable;
 import java.util.Map;
 
 public class GameController {
+
     private Game game;
-    private Board localBoard, remoteBoard;
+    private Board initialLocalBoard, initialRemoteBoard;
+
     public boolean startGame(boolean isLocalTurn){
-        if (localBoard != null && remoteBoard != null) {
-            game = new Game(localBoard, remoteBoard, isLocalTurn);
+        if (initialLocalBoard != null && initialRemoteBoard != null) {
+            game = new Game(initialLocalBoard, initialRemoteBoard, isLocalTurn);
             return true;
         }
         return false;
     }
-    public void setLocalBoard(int width, int height, Map<Location, Placeable> placeables) {
-        localBoard = new Board(width, height, placeables);
+
+    public void setInitialLocalBoard(Board board) {
+        initialLocalBoard = board;
     }
-    public void setRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
-        remoteBoard = new Board(width, height, placeables);
+
+    public void setInitialRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
+        initialRemoteBoard = new Board(width, height, placeables);
     }
+
+    public Board getLocalBoard() {
+        return game.getLocalBoard();
+    }
+
+    public Board getRemoteBoard() {
+        return game.getRemoteBoard();
+    }
+
     public void applyAction(boolean localPlayer, Action action) {
         if (game != null) {
             game.applyAction(localPlayer, action);
         }
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
