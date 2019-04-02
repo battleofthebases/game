@@ -43,24 +43,22 @@ public class InputManager {
         return instance;
     }
 
-    public void handleRemoteAction(String actionJson) throws IOException, ClassNotFoundException {
-        Log.e(TAG, "handleRemoteAction: "+Parser.stringToAction(actionJson).getWeapon().toString());
-        gameController.applyAction(false, Parser.stringToAction(actionJson));
+    public void handleRemoteAction(Action action) {
+        gameController.applyAction(false, action);
     }
 
     public void handleLocalAction(Action action) throws IOException {
         gameController.applyAction(true, action);
-        connectionHandler.sendMessage("Action:"+Parser.actionToString(action));
+        connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
     }
     
-    public void setInitialRemoteBoard(String boardJson) throws IOException, ClassNotFoundException {
-        Board remoteBoard = Parser.stringToBoard(boardJson);
-        gameController.setInitialRemoteBoard(remoteBoard.getWidth(), remoteBoard.getHeight(), remoteBoard.getPlaceables());
+    public void setInitialRemoteBoard(Board board) {
+        gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
     }
     
     public void setInitialLocalBoard() throws IOException {
         gameController.setInitialLocalBoard(tempLocalBoard);
-        connectionHandler.sendMessage("InitialGameBoard:"+Parser.boardToString(tempLocalBoard));
+        connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
     }
 
     public Board getLocalBoard() {

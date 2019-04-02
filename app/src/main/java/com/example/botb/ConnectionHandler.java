@@ -77,9 +77,9 @@ public class ConnectionHandler {
                         String data = dataAll[1];
                         switch (identifier){
                             case "Action" :
-                                Log.e(TAG,"Action json: "+data);
+                                Log.e(TAG,"Action json: " + data);
                                 try {
-                                    inputManager.handleRemoteAction(data);
+                                    inputManager.handleRemoteAction(Parser.stringToAction(data));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
@@ -88,7 +88,7 @@ public class ConnectionHandler {
                                 break;
                             case "InitialGameBoard":
                                 try {
-                                    inputManager.setInitialRemoteBoard(data);
+                                    inputManager.setInitialRemoteBoard(Parser.stringToBoard(data));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
