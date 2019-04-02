@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +20,9 @@ import com.example.botb.view.objects.Draggable;
 import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GameView extends Fragment {
     private static final String TAG = "";
@@ -29,6 +31,11 @@ public class GameView extends Fragment {
     private int Height;
 
     View v;
+
+    private List <Draggable> draggables = new ArrayList<Draggable>();
+    public List<Draggable> getDraggables(){
+        return this.draggables;
+    }
 
     @Nullable
     @Override
@@ -64,14 +71,13 @@ public class GameView extends Fragment {
 
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
 
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayout.setId(R.id.parent + x + y);
-                linearLayout.setGravity(Gravity.FILL_HORIZONTAL);
-                linearLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape));
-                Droppable droppable = new Droppable(getActivity(), linearLayout);
+                Droppable droppable = new Droppable(getContext(), 80, 100, 0, 0, 0, 0);
+                droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
+                droppable.setOrientation(LinearLayout.HORIZONTAL);
+                droppable.setId(R.id.parent + x + y);
+                droppable.setGravity(Gravity.FILL_HORIZONTAL);
+
                 droppable.setLocation(x, y);
                 droppable.gameView = this;
 
@@ -79,15 +85,14 @@ public class GameView extends Fragment {
                 Placeable placeable = board.getPlaceable(x, y);
 
                 if (placeable != null){
-                    Draggable imageView = new Draggable(getContext());
-                    imageView.setImageResource(R.drawable.ic_launcher_background);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    linearLayout.addView(imageView);
-
-                    // Set draggable location
-                    imageView.setLocation(x, y);
+                    Draggable draggable = new Draggable(getContext());
+                    draggable.setImageResource(R.drawable.ic_launcher_background);
+                    draggable.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    draggable.setAdjustViewBounds(true);
+                    draggable.setScaleType(ImageView.ScaleType.FIT_XY);
+                    droppable.addView(draggable);
+                    draggables.add(draggable);
+                    draggable.setLocation(x, y);
                 }
 
                 GridLayout.LayoutParams myGLP = new GridLayout.LayoutParams();
@@ -97,11 +102,8 @@ public class GameView extends Fragment {
                 myGLP.columnSpec = colSpec;
                 myGLP.width = 0;
                 myGLP.height = 0;
-                layout.addView(linearLayout, myGLP);
+                layout.addView(droppable, myGLP);
             }
         }
-
     }
-
-
 }

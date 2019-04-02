@@ -2,6 +2,7 @@ package com.example.botb.view.objects;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,16 +31,11 @@ public class GameGrid extends android.support.v7.widget.GridLayout {
         public boolean onDrag(View v, DragEvent event) {
 
             View view = (View) event.getLocalState();
-            GameGrid container = (GameGrid) v;
-            ViewGroup owner = (ViewGroup) view.getParent();
-
             switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_EXITED:
-
-
-                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    return false;
                 case DragEvent.ACTION_DRAG_ENDED:
-
+                    view.setVisibility(View.VISIBLE);
                 default:
                     break;
             }

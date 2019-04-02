@@ -1,7 +1,11 @@
 package com.example.botb.view.objects;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,30 +19,36 @@ import com.example.botb.view.fragments.GameView;
 
 import android.view.View.OnDragListener;
 
-import java.io.Console;
+public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
 
-public class Droppable {
-
-    private Context context;
     private Location location;
     public GameView gameView;
 
-    public Droppable(Context con, View view) {
-        context = con;
-        view.setOnDragListener(new Droppable.DragListener());
+    public Droppable(Context context,  int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
+        super(context);
+
+        Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldc);
+        Bitmap sprite = Bitmap.createBitmap(spritesheet, frameWidth*frameX+10, frameHeight*frameY+15, frameWidth, frameHeight-10);
+        BitmapDrawable background = new BitmapDrawable(sprite);
+        this.setBackgroundDrawable(background);
+
+        this.setOnDragListener(new Droppable.DragListener(background));
     }
 
     class DragListener implements OnDragListener {
-        Drawable enterShape = context.getResources().getDrawable(
-                R.drawable.shape_droptarget);
-        Drawable normalShape = context.getResources().getDrawable(R.drawable.shape);
-        Drawable noEntryShape = context.getResources().getDrawable(R.drawable.no_entry_shape);
+        BitmapDrawable background;
+        DragListener(BitmapDrawable background){
+            this.background = background;
+        }
 
+        Drawable enterShape = getContext().getResources().getDrawable(
+                R.drawable.shape_droptarget);
+        Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
             Draggable draggable = (Draggable) event.getLocalState();
-            LinearLayout container = (LinearLayout) v;
+            Droppable container = (Droppable) v;
             ViewGroup owner = (ViewGroup) draggable.getParent();
 
             Board board = InputManager.getInstance().getLocalBoard();
@@ -55,7 +65,7 @@ public class Droppable {
                     }
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackgroundDrawable(normalShape);
+                    v.setBackgroundDrawable(background);
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
@@ -72,7 +82,7 @@ public class Droppable {
                     draggable.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    v.setBackgroundDrawable(normalShape);
+                    v.setBackgroundDrawable(background);
                 default:
                     break;
             }

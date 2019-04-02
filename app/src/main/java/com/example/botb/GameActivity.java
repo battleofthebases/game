@@ -1,6 +1,7 @@
 package com.example.botb;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,9 @@ import android.widget.Button;
 import com.example.botb.view.fragments.GameView;
 import com.example.botb.view.fragments.OpponentView;
 import com.example.botb.view.fragments.statePageAdapter;
+import com.example.botb.view.objects.Draggable;
+
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -19,6 +23,9 @@ public class GameActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     private int toggle = 0;
+
+    public GameView gameview = new GameView();
+    public OpponentView opponentView = new OpponentView();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +42,30 @@ public class GameActivity extends AppCompatActivity {
 
 
         mainButton.setOnClickListener(new View.OnClickListener() {
+
+            Boolean toggle = true;
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(toggle);
-                if (toggle == 0){toggle = 1;} else {toggle = 0;}
+                List <Draggable> draggables =  gameview.getDraggables();
+                if(toggle){
+                    for(Draggable d : draggables){
+                        d.StopDrag();
+                    }
+                } else {
+                    for(Draggable d : draggables){
+                        d.StartDrag();
+                    }
+                }
+                toggle = !toggle;
+
             }
         });
     }
 
     private void setupViewPager(ViewPager viewPager){
         statePageAdapter adapter = new statePageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new GameView(), "GameView");
-        adapter.addFragment(new OpponentView(), "OpponentView");
+        adapter.addFragment(gameview, "GameView");
+        adapter.addFragment(opponentView, "OpponentView");
         viewPager.setAdapter(adapter);
     }
 
