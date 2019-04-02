@@ -8,16 +8,22 @@ import android.view.View;
 
 public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
-    public int size;  // possible if multiple space occupation
-
 
     public Draggable(Context context) {
         super(context);
+        this.StartDrag();
+    }
+
+    public void StopDrag(){
+        this.setOnTouchListener(new StopTouchListener());
+    }
+
+    public void StartDrag(){
         this.setOnTouchListener(new TouchListener());
     }
 
-
     private final class TouchListener implements OnTouchListener {
+        @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
@@ -30,6 +36,13 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
                 Log.d("onTouch:", "false");
                 return false;
             }
+        }
+    }
+
+    private final class StopTouchListener implements OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            return false;
         }
     }
 

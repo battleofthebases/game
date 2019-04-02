@@ -22,6 +22,9 @@ import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Nexus;
 import com.example.botb.view.objects.Shield;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GameView extends Fragment {
     private static final String TAG = "";
@@ -31,9 +34,14 @@ public class GameView extends Fragment {
 
     private boolean toggle = true;
 
+    private List <Draggable> draggables = new ArrayList<Draggable>();
     View v;
 
     //Nexus nexus = new Nexus(getContext(), 100, 90, 0, 5, 15,-10);
+
+    public List<Draggable> getDraggables(){
+        return this.draggables;
+    }
 
     @Nullable
     @Override
@@ -76,7 +84,7 @@ public class GameView extends Fragment {
                     shield.setAdjustViewBounds(true);
                     shield.setScaleType(ImageView.ScaleType.FIT_XY);
                     linearLayout.addView(shield);
-
+                    draggables.add(shield);
                 }
                 toggle = !toggle;
 
