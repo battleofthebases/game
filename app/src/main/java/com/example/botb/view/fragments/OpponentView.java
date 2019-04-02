@@ -48,7 +48,7 @@ public class OpponentView  extends Fragment {
             }
         });
 
-        GameGrid layout = view.findViewById(R.id.grid);
+        /*GameGrid layout = view.findViewById(R.id.grid);
         layout.setRowCount(10);
         layout.setColumnCount(8);
 
@@ -87,7 +87,7 @@ public class OpponentView  extends Fragment {
                 myGLP.height = 0;
                 layout.addView(linearLayout, myGLP);
             }
-        }
+        }*/
 
         return view;
     }

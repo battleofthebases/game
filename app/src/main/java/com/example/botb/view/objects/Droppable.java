@@ -5,17 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
+import com.example.botb.InputManager;
 import com.example.botb.R;
-
-import android.view.View.OnDragListener;
+import com.example.botb.model.Board;
+import com.example.botb.model.Location;
+import com.example.botb.view.fragments.GameView;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
+
+    private Location location;
+    public GameView gameView;
 
     public Droppable(Context context,  int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
         super(context);
@@ -28,7 +31,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
         this.setOnDragListener(new Droppable.DragListener(background));
     }
 
-
     class DragListener implements OnDragListener {
         BitmapDrawable background;
         DragListener(BitmapDrawable background){
@@ -40,10 +42,12 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
         Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            int action = event.getAction();
-            View view = (View) event.getLocalState();
+
+            Draggable draggable = (Draggable) event.getLocalState();
             Droppable container = (Droppable) v;
-            ViewGroup owner = (ViewGroup) view.getParent();
+            ViewGroup owner = (ViewGroup) draggable.getParent();
+
+            Board board = InputManager.getInstance().getLocalBoard();
 
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
@@ -62,10 +66,18 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     if (container.getChildCount() == 0){
-                        owner.removeView(view);
-                        container.addView(view);
+
+                        // Move placeable and recreate board
+                        Location fromLocation = draggable.getLocation();
+                        Location toLocation = getLocation();
+
+                        board.movePlaceable(fromLocation, toLocation);
+                        draggable.setLocation(toLocation);
+
+                        owner.removeView(draggable);
+                        container.addView(draggable);
                     }
-                    view.setVisibility(View.VISIBLE);
+                    draggable.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.setBackgroundDrawable(background);
@@ -74,6 +86,14 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
             }
             return true;
         }
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(int x, int y) {
+        location = new Location(x, y);
     }
 
 }

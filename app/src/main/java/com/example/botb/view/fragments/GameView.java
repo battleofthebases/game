@@ -1,12 +1,9 @@
 package com.example.botb.view.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.botb.InputManager;
 import com.example.botb.R;
+import com.example.botb.model.Board;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.objects.Draggable;
 import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
-import com.example.botb.view.objects.Nexus;
-import com.example.botb.view.objects.Shield;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +30,9 @@ public class GameView extends Fragment {
     private int Width;
     private int Height;
 
-    private boolean toggle = true;
-
-    private List <Draggable> draggables = new ArrayList<Draggable>();
     View v;
 
-    //Nexus nexus = new Nexus(getContext(), 100, 90, 0, 5, 15,-10);
-
+    private List <Draggable> draggables = new ArrayList<Draggable>();
     public List<Draggable> getDraggables(){
         return this.draggables;
     }
@@ -56,49 +50,60 @@ public class GameView extends Fragment {
               }
         });
 
-        GameGrid layout = view.findViewById(R.id.grid);
+        // Create the board
+        createBoard();
+
+        return view;
+    }
+
+    public void createBoard() {
+
+        // Get local board
+        Board board = InputManager.getInstance().getLocalBoard();
+
+        GameGrid layout = v.findViewById(R.id.grid);
+        layout.removeAllViews();
         layout.setRowCount(10);
         layout.setColumnCount(8);
 
         int lineHeight = Height/layout.getRowCount();
         int lineWidth = Width/layout.getColumnCount();
 
-        int itemHeight = lineHeight;
-        int itemWidth = lineWidth/2;
+        for (int x = 0; x < layout.getRowCount(); x++) {
+            for (int y = 0; y < layout.getColumnCount(); y++) {
 
-        for (int i = 0; i < layout.getRowCount(); i++) {
-            GridLayout.Spec rowSpec = GridLayout.spec(i, 1,1);
-            for (int j = 0; j < layout.getColumnCount(); j++) {
-                GridLayout.Spec colSpec = GridLayout.spec(j, 1,1);
+                Droppable droppable = new Droppable(getContext(), 80, 100, 0, 0, 0, 0);
+                droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
+                droppable.setOrientation(LinearLayout.HORIZONTAL);
+                droppable.setId(R.id.parent + x + y);
+                droppable.setGravity(Gravity.FILL_HORIZONTAL);
 
+                droppable.setLocation(x, y);
+                droppable.gameView = this;
 
-                Droppable linearLayout = new Droppable(getContext(),80, 100, 0,0, 0,0 );
-                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth));
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                linearLayout.setId(R.id.parent + i + j);
-                linearLayout.setGravity(Gravity.FILL_HORIZONTAL);
+                // Get placeable
+                Placeable placeable = board.getPlaceable(x, y);
 
-                if (toggle){
-                    Shield shield = new Shield(getContext(), 56, 56, 2, 9, 0,0);
-                    shield.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    shield.setAdjustViewBounds(true);
-                    shield.setScaleType(ImageView.ScaleType.FIT_XY);
-                    linearLayout.addView(shield);
-                    draggables.add(shield);
+                if (placeable != null){
+                    Draggable draggable = new Draggable(getContext());
+                    draggable.setImageResource(R.drawable.ic_launcher_background);
+                    draggable.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    draggable.setAdjustViewBounds(true);
+                    draggable.setScaleType(ImageView.ScaleType.FIT_XY);
+                    droppable.addView(draggable);
+                    draggables.add(draggable);
+                    draggable.setLocation(x, y);
                 }
-                toggle = !toggle;
 
                 GridLayout.LayoutParams myGLP = new GridLayout.LayoutParams();
+                GridLayout.Spec rowSpec = GridLayout.spec(x, 1,1);
+                GridLayout.Spec colSpec = GridLayout.spec(y, 1,1);
                 myGLP.rowSpec = rowSpec;
                 myGLP.columnSpec = colSpec;
                 myGLP.width = 0;
                 myGLP.height = 0;
-                layout.addView(linearLayout, myGLP);
+                layout.addView(droppable, myGLP);
             }
         }
-
-        return view;
     }
-
-
 }
