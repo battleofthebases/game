@@ -68,9 +68,11 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                     if (container.getChildCount() == 0){
 
                         // Move placeable and recreate board
-                        board.movePlaceable(draggable.getLocation(), getLocation());
-                        /*if (gameView != null)
-                            gameView.createBoard();*/
+                        Location fromLocation = draggable.getLocation();
+                        Location toLocation = getLocation();
+
+                        board.movePlaceable(fromLocation, toLocation);
+                        draggable.setLocation(toLocation);
 
                         owner.removeView(draggable);
                         container.addView(draggable);
