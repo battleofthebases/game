@@ -24,23 +24,21 @@ import javax.net.ssl.X509TrustManager;
  * Created by tjabe on 02.02.2018.
  */
 
-public class ConnectionHandler {
-    public static final String TAG = "ConnectionHandler";
+class ConnectionHandler {
+    private static final String TAG = "ConnectionHandler";
     private WebSocketClient socket;
-    private boolean https;
-    private String host = "10.22.1.209:8080";
     private InputManager inputManager;
 
     /**
      * This is the constructor.
      * On run it creates the socket object.
      */
-    public ConnectionHandler(InputManager inputMan){
+    ConnectionHandler(InputManager inputMan){
         this.socket = getSocket();
         inputManager = inputMan;
     }
 
-    public void sendMessage(String message){
+    void sendMessage(String message){
         try{
             socket.send(message);
         }catch (WebsocketNotConnectedException e){
@@ -54,12 +52,12 @@ public class ConnectionHandler {
      * This method request the https webSocket connection:
      * @return  The socket object on connection.
      */
-    public synchronized WebSocketClient getSocket() {
+    synchronized WebSocketClient getSocket() {
         URI uri;
         String webSocketEndPointUrl;
         WebSocketClient mWebSocketClient = null;
         try {
-            webSocketEndPointUrl="wss://"+host;
+            webSocketEndPointUrl = "wss://" + ServerValues.SERVER_ADDRESS + ServerValues.SERVER_PORT;
 
             uri = new URI(webSocketEndPointUrl);
             try {
