@@ -1,5 +1,7 @@
 package com.example.botb.view.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +19,8 @@ import com.example.botb.R;
 import com.example.botb.view.objects.Draggable;
 import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
+import com.example.botb.view.objects.Nexus;
+import com.example.botb.view.objects.Shield;
 
 
 public class GameView extends Fragment {
@@ -28,6 +32,8 @@ public class GameView extends Fragment {
     private boolean toggle = true;
 
     View v;
+
+    //Nexus nexus = new Nexus(getContext(), 100, 90, 0, 5, 15,-10);
 
     @Nullable
     @Override
@@ -56,23 +62,20 @@ public class GameView extends Fragment {
             GridLayout.Spec rowSpec = GridLayout.spec(i, 1,1);
             for (int j = 0; j < layout.getColumnCount(); j++) {
                 GridLayout.Spec colSpec = GridLayout.spec(j, 1,1);
-                Droppable linearLayout = new Droppable(getContext());
-                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
 
 
+                Droppable linearLayout = new Droppable(getContext(),80, 100, 0,0, 0,0 );
+                linearLayout.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayout.setId(R.id.parent + i + j);
                 linearLayout.setGravity(Gravity.FILL_HORIZONTAL);
-                linearLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape));
-
 
                 if (toggle){
-                    Draggable imageView = new Draggable(getContext());
-                    imageView.setImageResource(R.drawable.ic_launcher_background);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    linearLayout.addView(imageView);
+                    Shield shield = new Shield(getContext(), 56, 56, 2, 9, 0,0);
+                    shield.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    shield.setAdjustViewBounds(true);
+                    shield.setScaleType(ImageView.ScaleType.FIT_XY);
+                    linearLayout.addView(shield);
 
                 }
                 toggle = !toggle;
