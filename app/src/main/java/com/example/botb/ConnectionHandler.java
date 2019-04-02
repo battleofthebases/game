@@ -13,7 +13,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -89,7 +88,7 @@ public class ConnectionHandler {
                                 break;
                             case "InitialGameBoard":
                                 try {
-                                    inputManager.setRemoteBoard(data);
+                                    inputManager.setInitialRemoteBoard(data);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
