@@ -2,7 +2,6 @@ package com.example.botb.model.weapon;
 
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
-import com.example.botb.model.placeable.ExamplePlaceable;
 import com.example.botb.model.placeable.Placeable;
 
 import org.junit.Before;

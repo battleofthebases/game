@@ -6,9 +6,8 @@ import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
-import com.example.botb.model.Location;
-import com.example.botb.model.placeable.ExamplePlaceable;
-import com.example.botb.model.placeable.Placeable;
+import com.example.botb.model.placeable.Nexus;
+import com.example.botb.model.placeable.Shield;
 
 
 import java.io.ByteArrayInputStream;
@@ -16,8 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class InputManager {
 
@@ -34,9 +31,11 @@ public class InputManager {
         connectionHandler = new ConnectionHandler(this);
 
         tempLocalBoard = new Board(10, 8);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 0, 0);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 1, 1);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
+        tempLocalBoard.addPlaceable(new Nexus(), 0, 0);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 1);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 2);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 3);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 4);
     }
 
     public static InputManager getInstance() {
@@ -72,10 +71,11 @@ public class InputManager {
     }
 
     public Board getRemoteBoard() {
-        if (gameController.getGame() != null) {
+        if (gameController.getGame() == null) {
+            return tempLocalBoard;
+        } else {
             return gameController.getRemoteBoard();
         }
-        return null;
     }
 
     public Game getGame() {

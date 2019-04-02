@@ -13,22 +13,31 @@ import com.example.botb.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
+import com.example.botb.view.fragments.BoardAdapter;
 import com.example.botb.view.fragments.GameView;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
 
     private Location location;
-    public GameView gameView;
+    public BoardAdapter gameView;
 
-    public Droppable(Context context,  int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
+    public Droppable(Context context, Boolean view,  int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
         super(context);
 
         Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldc);
-        Bitmap sprite = Bitmap.createBitmap(spritesheet, frameWidth*frameX+10, frameHeight*frameY+15, frameWidth, frameHeight-10);
+        Bitmap sprite;
+        // if view set sprite, else set opponent sprite
+        if(view){
+             sprite = Bitmap.createBitmap(spritesheet, frameWidth*frameX+10, frameHeight*frameY+15, frameWidth, frameHeight-10);
+        } else {
+             sprite = Bitmap.createBitmap(spritesheet, frameWidth+100, frameHeight, frameWidth, frameHeight-10);
+        }
         BitmapDrawable background = new BitmapDrawable(sprite);
         this.setBackgroundDrawable(background);
 
-        this.setOnDragListener(new Droppable.DragListener(background));
+        if(view){
+            this.setOnDragListener(new Droppable.DragListener(background));
+        }
     }
 
     class DragListener implements OnDragListener {

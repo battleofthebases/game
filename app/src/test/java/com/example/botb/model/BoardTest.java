@@ -1,6 +1,5 @@
 package com.example.botb.model;
 
-import com.example.botb.model.placeable.ExamplePlaceable;
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.ExampleWeapon;
 
