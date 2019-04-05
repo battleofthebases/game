@@ -7,11 +7,18 @@ import com.example.botb.R;
 
 
 public class Shield extends Draggable {
-    public Shield(Context context, int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
+    private static final String TAG = "Shield";
+    @Override
+    public Object getTag() {return TAG; }
+
+    Sprites sprites = new Sprites(this.getContext());
+    public Shield(Context context, Boolean view) {
         super(context);
-        Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldb);
-        Bitmap sprite = Bitmap.createBitmap(spritesheet, frameWidth*frameX, frameHeight*frameY, frameWidth+addX, frameHeight+addY);
-        this.setImageBitmap(sprite);
+        if(view){
+            this.setImageBitmap(sprites.getPlayerShield());
+        } else {
+            this.StopDrag();
+        }
     }
 
 }

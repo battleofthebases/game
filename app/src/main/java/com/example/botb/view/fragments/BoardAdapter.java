@@ -40,8 +40,6 @@ public class BoardAdapter extends Fragment {
 
 
     public void createBoard(Boolean view) {
-
-
         // Get local board
 
         com.example.botb.model.Board board;
@@ -58,12 +56,11 @@ public class BoardAdapter extends Fragment {
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
 
-                Droppable droppable = new Droppable(getContext(),view, 80, 100, 0, 0, 0, 0);
+                Droppable droppable = new Droppable(getContext(),view);
                 droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight,lineWidth ));
                 droppable.setOrientation(LinearLayout.HORIZONTAL);
                 droppable.setId(R.id.parent + x + y);
-                droppable.setGravity(Gravity.FILL_HORIZONTAL);
-
+                droppable.setGravity(Gravity.CENTER);
                 droppable.setLocation(x, y);
                 droppable.gameView = this;
 
@@ -72,14 +69,8 @@ public class BoardAdapter extends Fragment {
 
                 if (placeable != null){
                     Draggable draggable;
-                    switch (placeable.getName()){
-                        case "Nexus":
-                            draggable = createNexus(view);
-                            break;
-                        default:
-                            draggable = createShield(view);
-
-                    }
+                    if(placeable.getName() == "Nexus"){ draggable = createNexus(view);}
+                    else{ draggable = createShield(view);}
                     droppable.addView(draggable);
                     draggables.add(draggable);
                     draggable.setLocation(x, y);
@@ -97,24 +88,18 @@ public class BoardAdapter extends Fragment {
         }
     }
     private Draggable createNexus(Boolean view){
-        Nexus nexus = new Nexus(getContext(), 100, 90, 0, 5, 15,-10);
+        Nexus nexus = new Nexus(getContext(),view);
         nexus.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
         nexus.setScaleType(ImageView.ScaleType.FIT_XY);
-        if(!view){
-            nexus.StopDrag();
-        }
         return nexus;
     }
 
     private Draggable createShield(Boolean view){
-        Shield shield = new Shield(getContext(), 56, 56, 2, 9, 0,0);
+        Shield shield = new Shield(getContext(),view);
         shield.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);
         shield.setScaleType(ImageView.ScaleType.FIT_XY);
-        if(!view){
-            shield.StopDrag();
-        }
         return shield;
     }
 }

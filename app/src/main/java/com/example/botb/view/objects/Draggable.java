@@ -2,6 +2,7 @@ package com.example.botb.view.objects;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,6 @@ import com.example.botb.model.Location;
 
 public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
-    public int size;  // possible if multiple space occupation
 
     private Location location;
 
