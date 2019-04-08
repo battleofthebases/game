@@ -1,30 +1,25 @@
 package com.example.botb;
-import org.java_websocket.client.WebSocketClient;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
+
+import org.java_websocket.client.WebSocketClient;
+import org.junit.*;
+import org.junit.runner.*;
+import org.mockito.*;
+import org.mockito.runners.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionHandlerTest {
 
     // Empty test to showcase usage of Mockito mock-framework
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Mock
     ConnectionHandler connectionHandler;
+
+    @Test
+    public void getSocket() {
+        WebSocketClient socket = mock(WebSocketClient.class);
+    }
 
     @Test
     public void sendMessage() {
@@ -32,9 +27,11 @@ public class ConnectionHandlerTest {
 
     }
 
+    @Before
+    public void setUp() throws Exception {
+    }
 
-    @Test
-    public void getSocket() {
-        WebSocketClient socket = mock(WebSocketClient.class);
+    @After
+    public void tearDown() throws Exception {
     }
 }

@@ -8,38 +8,27 @@ import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.botb.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.view.fragments.GameView;
 
-public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
-
-    private Location location;
-    public GameView gameView;
-
-    public Droppable(Context context,  int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
-        super(context);
-
-        Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldc);
-        Bitmap sprite = Bitmap.createBitmap(spritesheet, frameWidth*frameX+10, frameHeight*frameY+15, frameWidth, frameHeight-10);
-        BitmapDrawable background = new BitmapDrawable(sprite);
-        this.setBackgroundDrawable(background);
-
-        this.setOnDragListener(new Droppable.DragListener(background));
-    }
+public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     class DragListener implements OnDragListener {
+
         BitmapDrawable background;
-        DragListener(BitmapDrawable background){
-            this.background = background;
-        }
 
         Drawable enterShape = getContext().getResources().getDrawable(
                 R.drawable.shape_droptarget);
+
         Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
+
+        DragListener(BitmapDrawable background) {
+            this.background = background;
+        }
+
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
@@ -54,7 +43,7 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                     // do nothing
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    if (container.getChildCount() > 0 && container != owner){
+                    if (container.getChildCount() > 0 && container != owner) {
                         v.setBackgroundDrawable(noEntryShape);
                     } else {
                         v.setBackgroundDrawable(enterShape);
@@ -65,7 +54,7 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
-                    if (container.getChildCount() == 0){
+                    if (container.getChildCount() == 0) {
 
                         // Move placeable and recreate board
                         Location fromLocation = draggable.getLocation();
@@ -86,6 +75,23 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
             }
             return true;
         }
+    }
+
+    public GameView gameView;
+
+    private Location location;
+
+    public Droppable(Context context, int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
+        super(context);
+
+        Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldc);
+        Bitmap sprite = Bitmap
+                .createBitmap(spritesheet, frameWidth * frameX + 10, frameHeight * frameY + 15, frameWidth,
+                        frameHeight - 10);
+        BitmapDrawable background = new BitmapDrawable(sprite);
+        this.setBackgroundDrawable(background);
+
+        this.setOnDragListener(new Droppable.DragListener(background));
     }
 
     public Location getLocation() {

@@ -3,7 +3,7 @@ package com.example.botb.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Location implements Serializable{
+public class Location implements Serializable {
 
     private final int x, y;
 
@@ -12,23 +12,27 @@ public class Location implements Serializable{
         this.y = y;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Location)) {
+            return false;
+        }
+
+        Location location = (Location) obj;
+
+        return location.x == x && location.y == y;
+    }
+
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == this) return true;
-        if (!(obj instanceof Location)) return false;
-
-        Location location = (Location) obj;
-
-        return location.x == x && location.y == y;
     }
 
     @Override

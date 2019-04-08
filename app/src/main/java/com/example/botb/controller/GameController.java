@@ -5,28 +5,22 @@ import com.example.botb.model.Board;
 import com.example.botb.model.Game;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-
 import java.util.Map;
 
 public class GameController {
 
     private Game game;
+
     private Board initialLocalBoard, initialRemoteBoard;
 
-    public boolean startGame(boolean isLocalTurn){
-        if (initialLocalBoard != null && initialRemoteBoard != null) {
-            game = new Game(initialLocalBoard, initialRemoteBoard, isLocalTurn);
-            return true;
+    public void applyAction(boolean localPlayer, Action action) {
+        if (game != null) {
+            game.applyAction(localPlayer, action);
         }
-        return false;
     }
 
-    public void setInitialLocalBoard(Board board) {
-        initialLocalBoard = board;
-    }
-
-    public void setInitialRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
-        initialRemoteBoard = new Board(width, height, placeables);
+    public Game getGame() {
+        return game;
     }
 
     public Board getLocalBoard() {
@@ -37,13 +31,19 @@ public class GameController {
         return game.getRemoteBoard();
     }
 
-    public void applyAction(boolean localPlayer, Action action) {
-        if (game != null) {
-            game.applyAction(localPlayer, action);
-        }
+    public void setInitialLocalBoard(Board board) {
+        initialLocalBoard = board;
     }
 
-    public Game getGame() {
-        return game;
+    public void setInitialRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
+        initialRemoteBoard = new Board(width, height, placeables);
+    }
+
+    public boolean startGame(boolean isLocalTurn) {
+        if (initialLocalBoard != null && initialRemoteBoard != null) {
+            game = new Game(initialLocalBoard, initialRemoteBoard, isLocalTurn);
+            return true;
+        }
+        return false;
     }
 }
