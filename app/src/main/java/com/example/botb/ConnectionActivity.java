@@ -22,20 +22,28 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
     @Override
     public void connectionClosed() {
         inputManager.unsubscribe(this);
-        TextView statusTextView = (TextView) findViewById(R.id.status);
-        statusTextView.setText("Waiting for other players!");
         finish();
     }
 
     @Override
     public void connectionOpen() {
-        TextView statusTextView = (TextView) findViewById(R.id.status);
-        statusTextView.setText("Waiting for other players!");
+        updateTheStatusText(getResources().getString(R.string.waiting_for_players));
     }
 
     @Override
     public void mached() {
         startActivity(new Intent(ConnectionActivity.this, GameActivity.class));
+    }
+
+    private void updateTheStatusText(final String text) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                TextView statusTextView = (TextView) findViewById(R.id.status);
+                statusTextView.setText(text);
+            }
+        });
     }
 
 
