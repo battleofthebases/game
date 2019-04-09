@@ -21,14 +21,9 @@ import org.java_websocket.handshake.ServerHandshake;
  * Created by tjabe on 02.02.2018.
  */
 
-public class ConnectionHandler {
-
-    public static final String TAG = "ConnectionHandler";
-
-    private String host = "10.22.1.209:8080";
-
-    private boolean https;
-
+class ConnectionHandler {
+    private static final String TAG = "ConnectionHandler";
+    private WebSocketClient socket;
     private InputManager inputManager;
 
     private WebSocketClient socket;
@@ -50,9 +45,19 @@ public class ConnectionHandler {
      * This is the constructor.
      * On run it creates the socket object.
      */
-    public ConnectionHandler(InputManager inputMan) {
+
+    ConnectionHandler(InputManager inputMan){
         this.socket = getSocket();
         inputManager = inputMan;
+    }
+
+    void sendMessage(String message){
+        try{
+            socket.send(message);
+        }catch (WebsocketNotConnectedException e){
+            Log.e(TAG, "WebsocketNotConnectedException"+e);
+            getSocket();
+        }
     }
 
     /**
@@ -61,13 +66,12 @@ public class ConnectionHandler {
      *
      * @return The socket object on connection.
      */
-    public synchronized WebSocketClient getSocket() {
+    synchronized WebSocketClient getSocket() {
         URI uri;
         String webSocketEndPointUrl;
         WebSocketClient mWebSocketClient = null;
         try {
-            webSocketEndPointUrl = "wss://" + host;
-
+            webSocketEndPointUrl = "wss://" + ServerValues.SERVER_ADDRESS + ServerValues.SERVER_PORT;
             uri = new URI(webSocketEndPointUrl);
             try {
                 mWebSocketClient = new WebSocketClient(uri) {
