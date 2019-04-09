@@ -2,15 +2,15 @@ package com.example.botb.model;
 
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.Weapon;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board implements Serializable {
 
-    private int width, height;
     private Map<Location, Placeable> placeables;
+
+    private int width, height;
 
     public Board(int width, int height) {
         this.width = width;
@@ -24,14 +24,10 @@ public class Board implements Serializable {
         this.placeables = placeables;
     }
 
-    public void applyAction(Action action) {
-        Weapon weapon = action.getWeapon();
-        Location location = action.getLocation();
-        weapon.applyToBoard(this, location);
-    }
-
     public boolean addPlaceable(Placeable placeable, Location location) {
-        if (!isLocationAvailable(location)) return false;
+        if (!isLocationAvailable(location)) {
+            return false;
+        }
         placeables.put(location, placeable);
         return true;
     }
@@ -40,8 +36,14 @@ public class Board implements Serializable {
         return addPlaceable(placeable, new Location(x, y));
     }
 
-    public Map<Location, Placeable> getPlaceables() {
-        return placeables;
+    public void applyAction(Action action) {
+        Weapon weapon = action.getWeapon();
+        Location location = action.getLocation();
+        weapon.applyToBoard(this, location);
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public Placeable getPlaceable(Location location) {
@@ -50,6 +52,25 @@ public class Board implements Serializable {
 
     public Placeable getPlaceable(int x, int y) {
         return getPlaceable(new Location(x, y));
+    }
+
+    public Map<Location, Placeable> getPlaceables() {
+        return placeables;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public boolean isLocationAvailable(Location location) {
+        boolean isValid = isLocationValid(location);
+        boolean isEmpty = placeables.get(location) == null;
+        return isValid && isEmpty;
+    }
+
+    public boolean isLocationValid(Location location) {
+        int x = location.getX(), y = location.getY();
+        return (0 <= x && x < width) && (0 <= y && y < height);
     }
 
     public boolean movePlaceable(Location from, Location to) {
@@ -63,25 +84,6 @@ public class Board implements Serializable {
         }
 
         return false;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public boolean isLocationValid(Location location) {
-        int x = location.getX(), y = location.getY();
-        return (0 <= x && x < width) && (0 <= y && y < height);
-    }
-
-    public boolean isLocationAvailable(Location location) {
-        boolean isValid = isLocationValid(location);
-        boolean isEmpty = placeables.get(location) == null;
-        return isValid && isEmpty;
     }
 
 }

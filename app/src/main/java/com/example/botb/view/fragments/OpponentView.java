@@ -1,50 +1,40 @@
 package com.example.botb.view.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
 import com.example.botb.R;
-import com.example.botb.view.objects.Draggable;
-import com.example.botb.view.objects.Droppable;
-import com.example.botb.view.objects.GameGrid;
-import com.example.botb.view.objects.Nexus;
-import com.example.botb.view.objects.Shield;
 
 
-public class OpponentView  extends Fragment {
+public class OpponentView extends Fragment {
+
     private static final String TAG = "";
 
-    private int Width;
+    View v;
+
     private int Height;
 
-    private boolean toggle = true;
+    private int Width;
 
-    View v;
+    private boolean toggle = true;
 
     //Nexus nexus = new Nexus(getContext(), 100, 90, 0, 5, 15,-10);
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
         view.post(new Runnable() {
             @Override
             public void run() {
-                Height=v.getMeasuredHeight();
-                Width=v.getMeasuredWidth();
+                Height = v.getMeasuredHeight();
+                Width = v.getMeasuredWidth();
             }
         });
 

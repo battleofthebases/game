@@ -2,9 +2,11 @@ package com.example.botb.model;
 
 public class Game {
 
-    private Board localBoard;
-    private Board remoteBoard;
     private boolean isLocalTurn;
+
+    private Board localBoard;
+
+    private Board remoteBoard;
 
     public Game(Board localBoard, Board remoteBoard, boolean isLocalTurn) {
         this.localBoard = localBoard;
@@ -14,12 +16,20 @@ public class Game {
 
     public boolean applyAction(boolean localPlayer, Action action) {
         if (isLocalTurn == localPlayer) {
-            if (localPlayer) remoteBoard.applyAction(action);
-            else localBoard.applyAction(action);
+            if (localPlayer) {
+                remoteBoard.applyAction(action);
+            } else {
+                localBoard.applyAction(action);
+            }
             isLocalTurn = !isLocalTurn;
             return true;
         }
         return false;
+    }
+
+    public int checkWinner() {
+        // TODO: How do we check winner?
+        return 0;
     }
 
     public Board getLocalBoard() {
@@ -40,11 +50,6 @@ public class Game {
 
     public boolean isLocalTurn() {
         return isLocalTurn;
-    }
-
-    public int checkWinner() {
-        // TODO: How do we check winner?
-        return 0;
     }
 
 }

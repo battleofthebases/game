@@ -2,28 +2,10 @@ package com.example.botb.view.objects;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 public class GameGrid extends android.support.v7.widget.GridLayout {
-
-    public GameGrid(Context context){
-        super(context);
-        this.setOnDragListener(new DragListener());
-    }
-
-    public GameGrid(Context context, AttributeSet attrs){
-        super(context, attrs);
-        this.setOnDragListener(new DragListener());
-    }
-
-    public GameGrid(Context context, AttributeSet attrs, int defStyle){
-        super(context, attrs, defStyle);
-        this.setOnDragListener(new DragListener());
-    }
-
 
     class DragListener implements OnDragListener {
 
@@ -41,6 +23,22 @@ public class GameGrid extends android.support.v7.widget.GridLayout {
             }
             return true;
         }
+    }
+
+    public GameGrid(Context context) {
+        super(context);
+        this.setOnDragListener(new DragListener());
+    }
+
+    public GameGrid(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.setOnDragListener(new DragListener());
+    }
+
+
+    public GameGrid(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.setOnDragListener(new DragListener());
     }
 
 }
