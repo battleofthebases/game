@@ -1,5 +1,6 @@
 package com.example.botb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -31,4 +32,11 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
         TextView statusTextView = (TextView) findViewById(R.id.status);
         statusTextView.setText("Waiting for other players!");
     }
+
+    @Override
+    public void mached() {
+        startActivity(new Intent(ConnectionActivity.this, GameActivity.class));
+    }
+
+
 }

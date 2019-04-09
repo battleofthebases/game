@@ -5,4 +5,6 @@ public interface InputSubscriber {
     void connectionClosed();
 
     void connectionOpen();
+
+    void mached();
 }

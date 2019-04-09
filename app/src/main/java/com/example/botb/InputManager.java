@@ -1,5 +1,6 @@
 package com.example.botb;
 
+import android.util.Log;
 import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
@@ -43,7 +44,7 @@ public class InputManager {
         tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
     }
 
-    public void connectToServer(){
+    public void connectToServer() {
         connectionHandler.connect();
     }
 
@@ -107,6 +108,11 @@ public class InputManager {
                 case DISCONNECTED:
                     subscriber.connectionClosed();
                     break;
+                case MATCHED:
+                    subscriber.mached();
+                    break;
+                default:
+                    Log.e("Tag", "Non valid syntax!" + " id: " + event);
             }
         }
     }

@@ -83,6 +83,7 @@ class ConnectionHandler {
 
                     @Override
                     public void onMessage(String s) {
+                        Log.e(TAG, s);
                         String[] dataAll = s.split(":");
                         String identifier = dataAll[0];
                         String data = dataAll[1];
@@ -97,17 +98,8 @@ class ConnectionHandler {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case "InitialGameBoard":
-                                try {
-                                    inputManager.setInitialRemoteBoard(Parser.stringToBoard(data));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (ClassNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
                             case "AddedToRoom":
-
+                                inputManager.subscriptionEvent(ConnectionEvent.MATCHED);
                                 break;
                             default:
                                 Log.e("Tag", "Non valid syntax!" + " id: " + identifier);
