@@ -52,6 +52,7 @@ class ConnectionHandler {
     }
 
     /**
+     * inputManager
      * The socket create method.
      * This method request the https webSocket ConnectionActivity:
      *
@@ -108,6 +109,7 @@ class ConnectionHandler {
                     @Override
                     public void onOpen(ServerHandshake serverHandshake) {
                         Log.e("Websocket", "Opened");
+                        inputManager.subscribtionEvent(ConnectionEvent.CONNECTED);
                     }
                 };
 

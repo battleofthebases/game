@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InputManager {
 
@@ -20,6 +22,8 @@ public class InputManager {
     private ConnectionHandler connectionHandler;
 
     private GameController gameController;
+
+    private List<InputSubscriber> subscribers = new ArrayList<InputSubscriber>();
 
     private Board tempLocalBoard;
 
@@ -77,6 +81,12 @@ public class InputManager {
         gameController.applyAction(false, action);
     }
 
+    public void onWSOpen() {
+        for (InputSubscriber subscriber : subscribers) {
+            subscriber.wsOpen();
+        }
+    }
+
     public void setInitialLocalBoard() throws IOException {
         gameController.setInitialLocalBoard(tempLocalBoard);
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
@@ -86,5 +96,25 @@ public class InputManager {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
     }
 
+    public void subscribe(InputSubscriber newSubscriber) {
+        subscribers.add(newSubscriber);
+    }
+
+    public void subscribtionEvent(ConnectionEvent event) {
+        for (InputSubscriber subscriber : subscribers) {
+            switch (event){
+                case CONNECTED:
+                    subscriber.wsOpen();
+                    break;
+                case DISCONNECTED:
+                    subscriber.wsClosed();
+                    break;
+            }
+        }
+    }
+
+    public void unsubscribe(InputSubscriber newSubscriber) {
+        subscribers.remove(newSubscriber);
+    }
 
 }
