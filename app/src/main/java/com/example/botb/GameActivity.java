@@ -44,7 +44,9 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 List<Draggable> draggables = gameview.getDraggables();
+
                 if (toggle) {
                     for (Draggable d : draggables) {
                         d.StopDrag();

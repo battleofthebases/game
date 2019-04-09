@@ -1,8 +1,8 @@
 package com.example.botb.model.placeable;
 
-import org.junit.Before;
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.*;
 
 public class ExamplePlaceableTest {
 
@@ -28,13 +28,6 @@ public class ExamplePlaceableTest {
     }
 
     @Test
-    public void testVisibility() {
-        assertEquals(placeable.getVisibility(), Visibility.HIDDEN);
-        placeable.setVisibility(Visibility.VISIBLE);
-        assertEquals(placeable.getVisibility(), Visibility.VISIBLE);
-    }
-
-    @Test
     public void testHealth() {
         assertEquals(placeable.getHealth(), 100);
         placeable.setHealth(50);
@@ -44,6 +37,13 @@ public class ExamplePlaceableTest {
     @Test
     public void testName() {
         assertEquals(placeable.getName(), "ExamplePlaceable");
+    }
+
+    @Test
+    public void testVisibility() {
+        assertEquals(placeable.getVisibility(), Visibility.HIDDEN);
+        placeable.setVisibility(Visibility.VISIBLE);
+        assertEquals(placeable.getVisibility(), Visibility.VISIBLE);
     }
 
 }

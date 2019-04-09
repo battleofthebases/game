@@ -9,6 +9,7 @@ import com.example.botb.model.Location;
 
 public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
+
     private final class TouchListener implements OnTouchListener {
 
         @Override
@@ -33,8 +34,6 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
             return false;
         }
     }
-
-    public int size;  // possible if multiple space occupation
 
     private Location location;
 

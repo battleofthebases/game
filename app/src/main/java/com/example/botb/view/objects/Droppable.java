@@ -1,20 +1,56 @@
 package com.example.botb.view.objects;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import com.example.botb.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
-import com.example.botb.view.fragments.GameView;
+import com.example.botb.view.fragments.BoardAdapter;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
+
+    class stopOnClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+        }
+    }
+
+    class onClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Droppable container = (Droppable) v;
+
+            if (container.getChildCount() == 0) {
+                // funksjon for bom
+                Shot shot = new Shot(getContext());
+                shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                shot.setAdjustViewBounds(true);
+                shot.setScaleType(ImageView.ScaleType.FIT_XY);
+                container.addView(shot);
+            } else {
+                // funksjon for treff
+                View view = ((Droppable) v).getChildAt(0);
+                // Hvis ikke allerede beskutt
+                if (view.getTag() != "Shot") {
+                    Draggable draggable = (Draggable) ((Droppable) v).getChildAt(0);
+                    if (draggable.getTag() == "Nexus") {
+                        draggable.setImageBitmap(sprites.getOpponentNexus());
+                    } else {
+                        draggable.setImageBitmap(sprites.getOpponentShield());
+                    }
+                }
+            }
+        }
+    }
 
     class DragListener implements OnDragListener {
 
@@ -77,21 +113,26 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
         }
     }
 
-    public GameView gameView;
+    public BoardAdapter gameView;
 
     private Location location;
 
-    public Droppable(Context context, int frameWidth, int frameHeight, int frameX, int frameY, int addX, int addY) {
+    private Sprites sprites = new Sprites(this.getContext());
+
+    public Droppable(Context context, Boolean view) {
         super(context);
 
-        Bitmap spritesheet = BitmapFactory.decodeResource(this.getResources(), R.drawable.overworldc);
-        Bitmap sprite = Bitmap
-                .createBitmap(spritesheet, frameWidth * frameX + 10, frameHeight * frameY + 15, frameWidth,
-                        frameHeight - 10);
-        BitmapDrawable background = new BitmapDrawable(sprite);
+        BitmapDrawable background;
+
+        if (view) {
+            background = sprites.getPlayerBackground();
+            this.setOnDragListener(new Droppable.DragListener(background));
+        } else {
+            background = sprites.getOpponentBackground();
+            setOnClikcListener();
+        }
         this.setBackgroundDrawable(background);
 
-        this.setOnDragListener(new Droppable.DragListener(background));
     }
 
     public Location getLocation() {
@@ -100,6 +141,14 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     public void setLocation(int x, int y) {
         location = new Location(x, y);
+    }
+
+    public void setOnClikcListener() {
+        this.setOnClickListener(new onClickListener());
+    }
+
+    public void stopClikcListener() {
+        this.setOnClickListener(new stopOnClickListener());
     }
 
 }

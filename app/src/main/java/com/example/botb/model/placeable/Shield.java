@@ -1,9 +1,9 @@
 package com.example.botb.model.placeable;
 
-public class ExamplePlaceable extends Placeable {
+public class Shield extends Placeable {
 
-    public ExamplePlaceable() {
-        super("ExamplePlaceable");
+    public Shield() {
+        super("Shield");
     }
 
     @Override
