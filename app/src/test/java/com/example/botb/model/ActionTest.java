@@ -1,17 +1,18 @@
 package com.example.botb.model;
 
+import static org.junit.Assert.*;
+
 import com.example.botb.model.weapon.ExampleWeapon;
 import com.example.botb.model.weapon.Weapon;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
 
 public class ActionTest {
 
-    private Location location;
-    private Weapon weapon;
     private Action action;
+
+    private Location location;
+
+    private Weapon weapon;
 
     @Before
     public void initialize() {

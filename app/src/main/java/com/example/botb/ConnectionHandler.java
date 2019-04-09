@@ -29,7 +29,6 @@ class ConnectionHandler {
 
     private WebSocketClient socket;
 
-
     //Helper Methods
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -47,7 +46,6 @@ class ConnectionHandler {
      * This is the constructor.
      * On run it creates the socket object.
      */
-
     ConnectionHandler(InputManager inputMan) {
         this.socket = getSocket();
         inputManager = inputMan;
@@ -65,6 +63,7 @@ class ConnectionHandler {
         WebSocketClient mWebSocketClient = null;
         try {
             webSocketEndPointUrl = "wss://" + ServerValues.SERVER_ADDRESS + ServerValues.SERVER_PORT;
+
             uri = new URI(webSocketEndPointUrl);
             try {
                 mWebSocketClient = new WebSocketClient(uri) {
@@ -145,5 +144,4 @@ class ConnectionHandler {
             getSocket();
         }
     }
-
 }
