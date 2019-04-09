@@ -50,7 +50,7 @@ class ConnectionHandler {
         inputManager = inputMan;
     }
 
-    void connect(){
+    void connect() {
         this.socket = getSocket();
     }
 
@@ -105,8 +105,12 @@ class ConnectionHandler {
                                 } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
+                                break;
+                            case "AddedToRoom":
+
+                                break;
                             default:
-                                Log.e("Tag", "Non valid syntax!");
+                                Log.e("Tag", "Non valid syntax!" + " id: " + identifier);
                         }
                     }
 

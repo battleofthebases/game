@@ -13,9 +13,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button start = (Button) findViewById(R.id.start);
+        Button startUX = (Button) findViewById(R.id.startUX);
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ConnectionActivity.class));
+            }
+        });
+
+        startUX.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GameActivity.class));
             }
         });
     }
