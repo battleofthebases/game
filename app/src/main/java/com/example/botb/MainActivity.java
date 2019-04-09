@@ -15,36 +15,8 @@ public class MainActivity extends AppCompatActivity {
         Button start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GameActivity.class));
+                startActivity(new Intent(MainActivity.this, ConnectionActivity.class));
             }
         });
     }
 }
-
-
-
-/*
-import java.io.IOException;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "MainActivity";
-    private InputManager inputManager = InputManager.getInstance();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        try {
-            inputManager.handleLocalAction(new Action(new Location(2,3), new ExampleWeapon()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}*/

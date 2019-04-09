@@ -30,7 +30,7 @@ public class InputManager {
     //private constructor to avoid client applications to use constructor
     private InputManager() {
         gameController = new GameController();
-        //creating the connection
+        //creating the ConnectionActivity
         connectionHandler = new ConnectionHandler(this);
 
         tempLocalBoard = new Board(10, 8);

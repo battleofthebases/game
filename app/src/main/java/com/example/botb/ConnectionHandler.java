@@ -29,8 +29,6 @@ class ConnectionHandler {
 
     private WebSocketClient socket;
 
-
-    //Helper Methods
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
@@ -55,9 +53,9 @@ class ConnectionHandler {
 
     /**
      * The socket create method.
-     * This method request the https webSocket connection:
+     * This method request the https webSocket ConnectionActivity:
      *
-     * @return The socket object on connection.
+     * @return The socket object on ConnectionActivity.
      */
     synchronized WebSocketClient getSocket() {
         URI uri;
