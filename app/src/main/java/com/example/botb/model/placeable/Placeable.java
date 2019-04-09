@@ -2,9 +2,12 @@ package com.example.botb.model.placeable;
 
 public abstract class Placeable {
 
-    protected String name;
-    protected int health;
     protected boolean destroyed;
+
+    protected int health;
+
+    protected String name;
+
     protected Visibility visibility;
 
     public Placeable(String name) {
@@ -22,32 +25,32 @@ public abstract class Placeable {
         }
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void destroy() {
+        destroyed = true;
     }
 
     public int getHealth() {
         return health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void destroy() {
-        destroyed = true;
-    }
-
-    public boolean isDestroyed() {
-        return destroyed;
+    public Visibility getVisibility() {
+        return visibility;
     }
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
     }
 
-    public Visibility getVisibility() {
-        return visibility;
+    public boolean isDestroyed() {
+        return destroyed;
     }
 
 }
