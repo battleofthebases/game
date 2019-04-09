@@ -21,14 +21,17 @@ import org.java_websocket.handshake.ServerHandshake;
  * Created by tjabe on 02.02.2018.
  */
 
-class ConnectionHandler {
+public class ConnectionHandler {
 
-    private static final String TAG = "ConnectionHandler";
+    public static final String TAG = "ConnectionHandler";
+
+    private String host = "10.22.1.209:8080";
+
+    private boolean https;
 
     private InputManager inputManager;
 
     private WebSocketClient socket;
-
 
     //Helper Methods
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -47,8 +50,7 @@ class ConnectionHandler {
      * This is the constructor.
      * On run it creates the socket object.
      */
-
-    ConnectionHandler(InputManager inputMan) {
+    public ConnectionHandler(InputManager inputMan) {
         this.socket = getSocket();
         inputManager = inputMan;
     }
@@ -59,12 +61,13 @@ class ConnectionHandler {
      *
      * @return The socket object on connection.
      */
-    synchronized WebSocketClient getSocket() {
+    public synchronized WebSocketClient getSocket() {
         URI uri;
         String webSocketEndPointUrl;
         WebSocketClient mWebSocketClient = null;
         try {
-            webSocketEndPointUrl = "wss://" + ServerValues.SERVER_ADDRESS + ServerValues.SERVER_PORT;
+            webSocketEndPointUrl = "wss://" + host;
+
             uri = new URI(webSocketEndPointUrl);
             try {
                 mWebSocketClient = new WebSocketClient(uri) {
@@ -87,7 +90,7 @@ class ConnectionHandler {
                             case "Action":
                                 Log.e(TAG, "Action json: " + data);
                                 try {
-                                    inputManager.handleRemoteAction(data);
+                                    inputManager.handleRemoteAction(Parser.stringToAction(data));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
@@ -96,7 +99,7 @@ class ConnectionHandler {
                                 break;
                             case "InitialGameBoard":
                                 try {
-                                    inputManager.setInitialRemoteBoard(data);
+                                    inputManager.setInitialRemoteBoard(Parser.stringToBoard(data));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (ClassNotFoundException e) {
@@ -137,7 +140,7 @@ class ConnectionHandler {
         return mWebSocketClient;
     }
 
-    void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             socket.send(message);
         } catch (WebsocketNotConnectedException e) {
@@ -145,5 +148,4 @@ class ConnectionHandler {
             getSocket();
         }
     }
-
 }

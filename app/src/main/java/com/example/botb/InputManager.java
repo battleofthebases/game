@@ -1,12 +1,10 @@
 package com.example.botb;
 
-import android.util.Log;
 import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
-import com.example.botb.model.placeable.Nexus;
-import com.example.botb.model.placeable.Shield;
+import com.example.botb.model.placeable.ExamplePlaceable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,11 +34,9 @@ public class InputManager {
         connectionHandler = new ConnectionHandler(this);
 
         tempLocalBoard = new Board(10, 8);
-        tempLocalBoard.addPlaceable(new Nexus(), 0, 0);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 1);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 2);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 3);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 4);
+        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 0, 0);
+        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 1, 1);
+        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
     }
 
     public Game getGame() {
@@ -66,11 +62,10 @@ public class InputManager {
     }
 
     public Board getRemoteBoard() {
-        if (gameController.getGame() == null) {
-            return tempLocalBoard;
-        } else {
+        if (gameController.getGame() != null) {
             return gameController.getRemoteBoard();
         }
+        return null;
     }
 
     public void handleLocalAction(Action action) throws IOException {
@@ -78,9 +73,8 @@ public class InputManager {
         connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
     }
 
-    public void handleRemoteAction(String actionJson) throws IOException, ClassNotFoundException {
-        Log.e(TAG, "handleRemoteAction: " + Parser.stringToAction(actionJson).getWeapon().toString());
-        gameController.applyAction(false, Parser.stringToAction(actionJson));
+    public void handleRemoteAction(Action action) {
+        gameController.applyAction(false, action);
     }
 
     public void setInitialLocalBoard() throws IOException {
@@ -88,10 +82,8 @@ public class InputManager {
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
     }
 
-    public void setInitialRemoteBoard(String boardJson) throws IOException, ClassNotFoundException {
-        Board remoteBoard = Parser.stringToBoard(boardJson);
-        gameController
-                .setInitialRemoteBoard(remoteBoard.getWidth(), remoteBoard.getHeight(), remoteBoard.getPlaceables());
+    public void setInitialRemoteBoard(Board board) {
+        gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
     }
 
 
