@@ -59,7 +59,15 @@ public class BoardAdapter extends Fragment {
                 droppable.gameView = this;
 
                 // Get placeable
-                Placeable placeable = board.getPlaceable(x, y);
+
+                //TODO: FixNullPointerExceptionHandling
+                Placeable placeable = null;
+                try {
+                    placeable = board.getPlaceable(x, y);
+
+                } catch (NullPointerException e) {
+
+                }
 
                 if (placeable != null) {
                     Draggable draggable;
