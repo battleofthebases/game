@@ -22,11 +22,13 @@ import org.java_websocket.handshake.ServerHandshake;
  */
 
 class ConnectionHandler {
+
     private static final String TAG = "ConnectionHandler";
-    private WebSocketClient socket;
+
     private InputManager inputManager;
 
     private WebSocketClient socket;
+
 
     //Helper Methods
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -46,18 +48,9 @@ class ConnectionHandler {
      * On run it creates the socket object.
      */
 
-    ConnectionHandler(InputManager inputMan){
+    ConnectionHandler(InputManager inputMan) {
         this.socket = getSocket();
         inputManager = inputMan;
-    }
-
-    void sendMessage(String message){
-        try{
-            socket.send(message);
-        }catch (WebsocketNotConnectedException e){
-            Log.e(TAG, "WebsocketNotConnectedException"+e);
-            getSocket();
-        }
     }
 
     /**
@@ -144,7 +137,7 @@ class ConnectionHandler {
         return mWebSocketClient;
     }
 
-    public void sendMessage(String message) {
+    void sendMessage(String message) {
         try {
             socket.send(message);
         } catch (WebsocketNotConnectedException e) {
@@ -152,4 +145,5 @@ class ConnectionHandler {
             getSocket();
         }
     }
+
 }
