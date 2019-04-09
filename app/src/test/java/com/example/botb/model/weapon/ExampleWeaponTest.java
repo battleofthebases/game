@@ -1,17 +1,18 @@
 package com.example.botb.model.weapon;
 
+import static org.junit.Assert.*;
+
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
+import com.example.botb.model.placeable.ExamplePlaceable;
 import com.example.botb.model.placeable.Placeable;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
 
 public class ExampleWeaponTest {
 
-    private Weapon weapon;
     private Board board;
+
+    private Weapon weapon;
 
     @Before
     public void initialize() {
@@ -38,14 +39,14 @@ public class ExampleWeaponTest {
     }
 
     @Test
-    public void testToString() {
-        // Need coverage bro
-        assertEquals(weapon.toString(), "Weapon: " + weapon.getName());
+    public void testName() {
+        assertEquals(weapon.getName(), "ExampleWeapon");
     }
 
     @Test
-    public void testName() {
-        assertEquals(weapon.getName(), "ExampleWeapon");
+    public void testToString() {
+        // Need coverage bro
+        assertEquals(weapon.toString(), "Weapon: " + weapon.getName());
     }
 
 }
