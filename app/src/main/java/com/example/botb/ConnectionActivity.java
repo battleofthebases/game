@@ -15,16 +15,20 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
         //Trying to connect
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
+        inputManager.connectToServer();
     }
 
     @Override
-    public void wsOpen() {
-        TextView statusTextView = (TextView) findViewById(R.id.status);
-        statusTextView.setText("Connected to server!");
-    }
-
-    @Override
-    public void wsClosed() {
+    public void connectionClosed() {
         inputManager.unsubscribe(this);
+        TextView statusTextView = (TextView) findViewById(R.id.status);
+        statusTextView.setText("Waiting for other players!");
+        finish();
+    }
+
+    @Override
+    public void connectionOpen() {
+        TextView statusTextView = (TextView) findViewById(R.id.status);
+        statusTextView.setText("Waiting for other players!");
     }
 }

@@ -47,8 +47,11 @@ class ConnectionHandler {
      */
 
     ConnectionHandler(InputManager inputMan) {
-        this.socket = getSocket();
         inputManager = inputMan;
+    }
+
+    void connect(){
+        this.socket = getSocket();
     }
 
     /**
@@ -70,6 +73,7 @@ class ConnectionHandler {
                     @Override
                     public void onClose(int i, String s, boolean b) {
                         Log.i(TAG, "WebSocket Closed :" + s);
+                        inputManager.subscriptionEvent(ConnectionEvent.DISCONNECTED);
                     }
 
                     @Override
@@ -109,7 +113,7 @@ class ConnectionHandler {
                     @Override
                     public void onOpen(ServerHandshake serverHandshake) {
                         Log.e("Websocket", "Opened");
-                        inputManager.subscribtionEvent(ConnectionEvent.CONNECTED);
+                        inputManager.subscriptionEvent(ConnectionEvent.CONNECTED);
                     }
                 };
 

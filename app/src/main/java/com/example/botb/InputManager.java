@@ -43,6 +43,10 @@ public class InputManager {
         tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
     }
 
+    public void connectToServer(){
+        connectionHandler.connect();
+    }
+
     public Game getGame() {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -81,12 +85,6 @@ public class InputManager {
         gameController.applyAction(false, action);
     }
 
-    public void onWSOpen() {
-        for (InputSubscriber subscriber : subscribers) {
-            subscriber.wsOpen();
-        }
-    }
-
     public void setInitialLocalBoard() throws IOException {
         gameController.setInitialLocalBoard(tempLocalBoard);
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
@@ -100,14 +98,14 @@ public class InputManager {
         subscribers.add(newSubscriber);
     }
 
-    public void subscribtionEvent(ConnectionEvent event) {
+    public void subscriptionEvent(ConnectionEvent event) {
         for (InputSubscriber subscriber : subscribers) {
-            switch (event){
+            switch (event) {
                 case CONNECTED:
-                    subscriber.wsOpen();
+                    subscriber.connectionOpen();
                     break;
                 case DISCONNECTED:
-                    subscriber.wsClosed();
+                    subscriber.connectionClosed();
                     break;
             }
         }
