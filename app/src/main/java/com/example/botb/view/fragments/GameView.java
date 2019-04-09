@@ -6,20 +6,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.botb.R;
 
 public class GameView extends BoardAdapter {
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
         view.post(new Runnable() {
             @Override
             public void run() {
-                Height=v.getMeasuredHeight();
-                Width=v.getMeasuredWidth();
+                Height = v.getMeasuredHeight();
+                Width = v.getMeasuredWidth();
             }
         });
 

@@ -1,54 +1,29 @@
 package com.example.botb.view.objects;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.example.botb.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.view.fragments.BoardAdapter;
 
-public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
+public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
-    private Location location;
-    public BoardAdapter gameView;
-    private Sprites sprites = new Sprites(this.getContext());
+    class stopOnClickListener implements OnClickListener {
 
-    public Droppable(Context context, Boolean view) {
-        super(context);
-
-        BitmapDrawable background;
-
-        if(view){
-            background = sprites.getPlayerBackground();
-            this.setOnDragListener(new Droppable.DragListener(background));
-        } else {
-            background = sprites.getOpponentBackground();
-            setOnClikcListener();
-        }
-        this.setBackgroundDrawable(background);
-
-    }
-
-    public void stopClikcListener(){ this.setOnClickListener(new stopOnClickListener()); }
-    public void setOnClikcListener(){ this.setOnClickListener(new onClickListener()); }
-    class stopOnClickListener implements  OnClickListener {
         @Override
         public void onClick(View v) {
         }
     }
 
+    class onClickListener implements OnClickListener {
 
-    class onClickListener implements  OnClickListener {
         @Override
         public void onClick(View v) {
             Droppable container = (Droppable) v;
@@ -56,17 +31,18 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
             if (container.getChildCount() == 0) {
                 // funksjon for bom
                 Shot shot = new Shot(getContext());
-                shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
                 shot.setAdjustViewBounds(true);
                 shot.setScaleType(ImageView.ScaleType.FIT_XY);
                 container.addView(shot);
             } else {
                 // funksjon for treff
-                View view =  ((Droppable) v).getChildAt(0);
+                View view = ((Droppable) v).getChildAt(0);
                 // Hvis ikke allerede beskutt
-                if (view.getTag() != "Shot"){
-                    Draggable  draggable = (Draggable) ((Droppable) v).getChildAt(0);
-                    if(draggable.getTag() == "Nexus"){
+                if (view.getTag() != "Shot") {
+                    Draggable draggable = (Draggable) ((Droppable) v).getChildAt(0);
+                    if (draggable.getTag() == "Nexus") {
                         draggable.setImageBitmap(sprites.getOpponentNexus());
                     } else {
                         draggable.setImageBitmap(sprites.getOpponentShield());
@@ -76,17 +52,19 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
         }
     }
 
-
-
     class DragListener implements OnDragListener {
+
         BitmapDrawable background;
-        DragListener(BitmapDrawable background){
-            this.background = background;
-        }
 
         Drawable enterShape = getContext().getResources().getDrawable(
                 R.drawable.shape_droptarget);
+
         Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
+
+        DragListener(BitmapDrawable background) {
+            this.background = background;
+        }
+
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
@@ -101,7 +79,7 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                     // do nothing
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    if (container.getChildCount() > 0 && container != owner){
+                    if (container.getChildCount() > 0 && container != owner) {
                         v.setBackgroundDrawable(noEntryShape);
                     } else {
                         v.setBackgroundDrawable(enterShape);
@@ -112,7 +90,7 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
-                    if (container.getChildCount() == 0){
+                    if (container.getChildCount() == 0) {
 
                         // Move placeable and recreate board
                         Location fromLocation = draggable.getLocation();
@@ -135,12 +113,42 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat{
         }
     }
 
+    public BoardAdapter gameView;
+
+    private Location location;
+
+    private Sprites sprites = new Sprites(this.getContext());
+
+    public Droppable(Context context, Boolean view) {
+        super(context);
+
+        BitmapDrawable background;
+
+        if (view) {
+            background = sprites.getPlayerBackground();
+            this.setOnDragListener(new Droppable.DragListener(background));
+        } else {
+            background = sprites.getOpponentBackground();
+            setOnClikcListener();
+        }
+        this.setBackgroundDrawable(background);
+
+    }
+
     public Location getLocation() {
         return location;
     }
 
     public void setLocation(int x, int y) {
         location = new Location(x, y);
+    }
+
+    public void setOnClikcListener() {
+        this.setOnClickListener(new onClickListener());
+    }
+
+    public void stopClikcListener() {
+        this.setOnClickListener(new stopOnClickListener());
     }
 
 }
