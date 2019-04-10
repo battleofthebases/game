@@ -45,7 +45,6 @@ class ConnectionHandler {
      * This is the constructor.
      * On run it creates the socket object.
      */
-
     ConnectionHandler(InputManager inputMan) {
         inputManager = inputMan;
     }
@@ -55,11 +54,10 @@ class ConnectionHandler {
     }
 
     /**
-     * inputManager
      * The socket create method.
-     * This method request the https webSocket ConnectionActivity:
+     * This method request the https webSocket connection:
      *
-     * @return The socket object on ConnectionActivity.
+     * @return The socket object on connection.
      */
     synchronized WebSocketClient getSocket() {
         URI uri;
@@ -67,6 +65,7 @@ class ConnectionHandler {
         WebSocketClient mWebSocketClient = null;
         try {
             webSocketEndPointUrl = "wss://" + ServerValues.SERVER_ADDRESS + ServerValues.SERVER_PORT;
+
             uri = new URI(webSocketEndPointUrl);
             try {
                 mWebSocketClient = new WebSocketClient(uri) {
@@ -145,5 +144,4 @@ class ConnectionHandler {
             getSocket();
         }
     }
-
 }
