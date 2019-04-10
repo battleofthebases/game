@@ -61,7 +61,7 @@ public class Scanner extends Weapon {
     // Check if a placeable exist at location and set visibility to detected if so
     private boolean checkLocation(Board board, Location location) {
         Placeable placeable = board.getPlaceable(location);
-        if (placeable != null) {
+        if (placeable != null && placeable.getVisibility() == Visibility.HIDDEN) {
             placeable.setVisibility(Visibility.DETECTED);
             return true;
         }

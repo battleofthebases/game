@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.example.botb.model.Board;
 import com.example.botb.model.placeable.ExamplePlaceable;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.placeable.Visibility;
 import org.junit.*;
 
@@ -56,6 +57,14 @@ public class ScannerTest {
         assertNotSame(board.getPlaceable(8, 4).getVisibility(), Visibility.DETECTED);
         assertNotSame(board.getPlaceable(2, 8).getVisibility(), Visibility.DETECTED);
         assertNotSame(board.getPlaceable(0, 4).getVisibility(), Visibility.DETECTED);
+    }
+
+    @Test
+    public void testWeaponOnVisiblePlaceable() {
+        Placeable placeable = board.getPlaceable(4, 2);
+        placeable.setVisibility(Visibility.VISIBLE);
+        weapon.applyToBoard(board, 4, 4);
+        assertSame(placeable.getVisibility(), Visibility.VISIBLE);
     }
 
 }
