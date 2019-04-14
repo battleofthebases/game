@@ -1,5 +1,6 @@
 package com.example.botb;
 
+import android.util.Log;
 import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
@@ -10,6 +11,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InputManager {
 
@@ -21,6 +24,8 @@ public class InputManager {
 
     private GameController gameController;
 
+    private List<InputSubscriber> subscribers = new ArrayList<InputSubscriber>();
+
     private Board tempLocalBoard;
 
     public static InputManager getInstance() {
@@ -30,13 +35,17 @@ public class InputManager {
     //private constructor to avoid client applications to use constructor
     private InputManager() {
         gameController = new GameController();
-        //creating the connection
+        //creating the ConnectionActivity
         connectionHandler = new ConnectionHandler(this);
 
         tempLocalBoard = new Board(10, 8);
         tempLocalBoard.addPlaceable(new ExamplePlaceable(), 0, 0);
         tempLocalBoard.addPlaceable(new ExamplePlaceable(), 1, 1);
         tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
+    }
+
+    public void connectToServer() {
+        connectionHandler.connect();
     }
 
     public Game getGame() {
@@ -86,5 +95,30 @@ public class InputManager {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
     }
 
+    public void subscribe(InputSubscriber newSubscriber) {
+        subscribers.add(newSubscriber);
+    }
+
+    public void subscriptionEvent(ConnectionEvent event) {
+        for (InputSubscriber subscriber : subscribers) {
+            switch (event) {
+                case CONNECTED:
+                    subscriber.connectionOpen();
+                    break;
+                case DISCONNECTED:
+                    subscriber.connectionClosed();
+                    break;
+                case MATCHED:
+                    subscriber.mached();
+                    break;
+                default:
+                    Log.e("Tag", "Non valid syntax!" + " id: " + event);
+            }
+        }
+    }
+
+    public void unsubscribe(InputSubscriber newSubscriber) {
+        subscribers.remove(newSubscriber);
+    }
 
 }
