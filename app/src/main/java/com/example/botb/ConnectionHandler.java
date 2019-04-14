@@ -29,7 +29,6 @@ class ConnectionHandler {
 
     private WebSocketClient socket;
 
-    //Helper Methods
     private TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
@@ -47,8 +46,11 @@ class ConnectionHandler {
      * On run it creates the socket object.
      */
     ConnectionHandler(InputManager inputMan) {
-        this.socket = getSocket();
         inputManager = inputMan;
+    }
+
+    void connect() {
+        this.socket = getSocket();
     }
 
     /**
@@ -70,6 +72,7 @@ class ConnectionHandler {
                     @Override
                     public void onClose(int i, String s, boolean b) {
                         Log.i(TAG, "WebSocket Closed :" + s);
+                        inputManager.subscriptionEvent(ConnectionEvent.DISCONNECTED);
                     }
 
                     @Override
@@ -79,6 +82,7 @@ class ConnectionHandler {
 
                     @Override
                     public void onMessage(String s) {
+                        Log.e(TAG, s);
                         String[] dataAll = s.split(":");
                         String identifier = dataAll[0];
                         String data = dataAll[1];
@@ -93,22 +97,18 @@ class ConnectionHandler {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case "InitialGameBoard":
-                                try {
-                                    inputManager.setInitialRemoteBoard(Parser.stringToBoard(data));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (ClassNotFoundException e) {
-                                    e.printStackTrace();
-                                }
+                            case "AddedToRoom":
+                                inputManager.subscriptionEvent(ConnectionEvent.MATCHED);
+                                break;
                             default:
-                                Log.e("Tag", "Non valid syntax!");
+                                Log.e("Tag", "Non valid syntax!" + " id: " + identifier);
                         }
                     }
 
                     @Override
                     public void onOpen(ServerHandshake serverHandshake) {
                         Log.e("Websocket", "Opened");
+                        inputManager.subscriptionEvent(ConnectionEvent.CONNECTED);
                     }
                 };
 
