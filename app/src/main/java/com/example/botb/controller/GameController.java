@@ -18,7 +18,13 @@ public class GameController {
     public void applyAction(boolean localPlayer, Action action) {
         if (game != null) {
             game.applyAction(localPlayer, action);
+        } else {
+            throw new NullPointerException("Game is null");
         }
+    }
+
+    public boolean gameCanStart() {
+        return initialLocalBoard != null && initialRemoteBoard != null;
     }
 
     public Game getGame() {

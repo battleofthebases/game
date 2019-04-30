@@ -19,7 +19,6 @@ import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Nexus;
 import com.example.botb.view.objects.Shield;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class BoardAdapter extends Fragment {
@@ -32,19 +31,22 @@ public class BoardAdapter extends Fragment {
 
     View v;
 
-    private int gridWidth = 8;
+    private List<Draggable> draggables = new ArrayList<Draggable>();
+
     private int gridHeight = 10;
 
-    private List<Draggable> draggables = new ArrayList<Draggable>();
+    private int gridWidth = 8;
+
+    private InputManager inputManager = InputManager.getInstance();
 
     public void createBoard(Boolean player) {
         // Get local board
 
-        com.example.botb.model.Board board;
+        Board board;
         if (player) {
-            board = InputManager.getInstance().getLocalBoard();
+            board = inputManager.getLocalBoard();
         } else {
-            board = InputManager.getInstance().getRemoteBoard();
+            board = inputManager.getRemoteBoard();
         }
         GameGrid layout = v.findViewById(R.id.grid);
         layout.removeAllViews();
@@ -100,34 +102,38 @@ public class BoardAdapter extends Fragment {
         }
     }
 
-    public void updateBoard(Boolean player){
+    public List<Draggable> getDraggables() {
+        return this.draggables;
+    }
+
+    public void updateBoard(Boolean player) {
         Log.d("Update", "Board");
-        com.example.botb.model.Board board;
-        if (player) {
-            board = InputManager.getInstance().getLocalBoard();
+        Board board;
+        System.out.println("The player " + player);
+        if (!player) {
+            board = inputManager.getLocalBoard();
         } else {
-            board = InputManager.getInstance().getRemoteBoard();
+            board = inputManager.getRemoteBoard();
         }
         GameGrid layout = v.findViewById(R.id.grid);
-        List<Location> Shots = board.getShots();
-        for (int i = 0; i < Shots.size(); i++){
-            Droppable droppable = (Droppable) layout.getChildAt(Shots.get(i).getX() + Shots.get(i).getY()*gridWidth);
-            if(!droppable.isHit){
-               if(droppable.getChildCount() == 1) {
-                   Draggable draggable = (Draggable) droppable.getChildAt(0);
-                   if (draggable.getName() != "Shot"){
-                       draggable.updateHit();
-                   }
-               } else {
-                   droppable.addView(droppable.createShot());
-               }
+        List<Location> shots = board.getShots();
+        System.out.println("shots size" + shots.size());
+        for (int i = 0; i < shots.size(); i++) {
+            Droppable droppable = (Droppable) layout
+                    .getChildAt(shots.get(i).getX() + shots.get(i).getY() * gridWidth);
+            System.out.println("bla bla" + droppable);
+            if (!droppable.isHit) {
+                if (droppable.getChildCount() == 1) {
+                    Draggable draggable = (Draggable) droppable.getChildAt(0);
+                    if (draggable.getName() != "Shot") {
+                        draggable.updateHit();
+                    }
+                } else {
+                    droppable.addView(droppable.createShot());
+                }
             }
         }
 
-    }
-
-    public List<Draggable> getDraggables() {
-        return this.draggables;
     }
 
     private Draggable createNexus(Boolean view, Placeable placable) {

@@ -95,10 +95,16 @@ public class InputManager {
     public void setInitialLocalBoard() throws IOException {
         gameController.setInitialLocalBoard(tempLocalBoard);
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
+        if (gameController.gameCanStart()) {
+            gameController.startGame();
+        }
     }
 
     public void setInitialRemoteBoard(Board board) {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
+        if (gameController.gameCanStart()) {
+            gameController.startGame();
+        }
     }
 
     public void setPlayerOne(boolean playerOne) {

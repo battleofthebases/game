@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         mainButton = (Button) findViewById(R.id.Main_button);
         startGameButton = (Button) findViewById(R.id.startGame);
         final InputManager inputManager = InputManager.getInstance();
+        inputManager.subscribe(this);
 
         adapter = new statePageAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.contianer);
@@ -94,6 +95,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
+        System.out.println("new Action game activity");
         gameview.updateBoard(isLocalAction);
     }
 

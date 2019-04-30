@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class  Board implements Serializable {
+public class Board implements Serializable {
 
     private Map<Location, Placeable> placeables;
 
@@ -45,7 +45,11 @@ public class  Board implements Serializable {
     public void applyAction(Action action) {
         Weapon weapon = action.getWeapon();
         Location location = action.getLocation();
+        System.out.println("Shots Added!");
+        System.out.println(this);
+
         shots.add(location);
+        System.out.println("bla2 " + shots.size());
         weapon.applyToBoard(this, location);
     }
 
@@ -66,6 +70,8 @@ public class  Board implements Serializable {
     }
 
     public List<Location> getShots() {
+        System.out.println("get shots " + shots.size());
+        System.out.println(this);
         return shots;
     }
 
