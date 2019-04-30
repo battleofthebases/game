@@ -80,10 +80,16 @@ public class InputManager {
     public void handleLocalAction(Action action) throws IOException {
         gameController.applyAction(true, action);
         connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
+        for (InputSubscriber subscriber : subscribers) {
+            subscriber.newAction(true);
+        }
     }
 
     public void handleRemoteAction(Action action) {
         gameController.applyAction(false, action);
+        for (InputSubscriber subscriber : subscribers) {
+            subscriber.newAction(false);
+        }
     }
 
     public void setInitialLocalBoard() throws IOException {
@@ -93,6 +99,10 @@ public class InputManager {
 
     public void setInitialRemoteBoard(Board board) {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
+    }
+
+    public void setPlayerOne(boolean playerOne) {
+        gameController.setPlayerOne(playerOne);
     }
 
     public void subscribe(InputSubscriber newSubscriber) {
@@ -109,7 +119,7 @@ public class InputManager {
                     subscriber.connectionClosed();
                     break;
                 case MATCHED:
-                    subscriber.mached();
+                    subscriber.matched();
                     break;
                 default:
                     Log.e("Tag", "Non valid syntax!" + " id: " + event);

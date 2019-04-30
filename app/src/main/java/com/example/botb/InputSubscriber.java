@@ -6,5 +6,7 @@ public interface InputSubscriber {
 
     void connectionOpen();
 
-    void mached();
+    void matched();
+
+    void newAction(boolean isLocalAction);
 }

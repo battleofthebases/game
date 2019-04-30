@@ -13,7 +13,7 @@ import com.example.botb.view.objects.Draggable;
 import java.io.IOException;
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     public GameView gameview = new GameView();
 
@@ -75,6 +75,30 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void connectionClosed() {
+
+    }
+
+    @Override
+    public void connectionOpen() {
+
+    }
+
+    @Override
+    public void matched() {
+
+    }
+
+    @Override
+    public void newAction(final boolean isLocalAction) {
+        if (isLocalAction) {
+            // TODO: Update gameView
+        } else {
+            // TODO: Update opponentView
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

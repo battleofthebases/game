@@ -99,6 +99,7 @@ class ConnectionHandler {
                                 break;
                             case "AddedToRoom":
                                 inputManager.subscriptionEvent(ConnectionEvent.MATCHED);
+                                inputManager.setPlayerOne(dataAll[1].equals("0"));
                                 break;
                             case "InitialGameBoard":
                                 try {

@@ -31,8 +31,13 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
     }
 
     @Override
-    public void mached() {
+    public void matched() {
         startActivity(new Intent(ConnectionActivity.this, GameActivity.class));
+    }
+
+    @Override
+    public void newAction(final boolean isLocalAction) {
+
     }
 
     private void updateTheStatusText(final String text) {
