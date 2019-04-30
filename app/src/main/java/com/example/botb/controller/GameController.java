@@ -13,6 +13,8 @@ public class GameController {
 
     private Board initialLocalBoard, initialRemoteBoard;
 
+    private boolean isPlayerOne;
+
     public void applyAction(boolean localPlayer, Action action) {
         if (game != null) {
             game.applyAction(localPlayer, action);
@@ -39,11 +41,16 @@ public class GameController {
         initialRemoteBoard = new Board(width, height, placeables);
     }
 
-    public boolean startGame(boolean isLocalTurn) {
+    public void setPlayerOne(boolean playerOne) {
+        isPlayerOne = playerOne;
+    }
+
+    public boolean startGame() {
         if (initialLocalBoard != null && initialRemoteBoard != null) {
-            game = new Game(initialLocalBoard, initialRemoteBoard, isLocalTurn);
+            game = new Game(initialLocalBoard, initialRemoteBoard, isPlayerOne);
             return true;
         }
         return false;
     }
+
 }
