@@ -40,6 +40,7 @@ public class InputManagerTest {
         assertNull(remoteBoard);
     }
 
+    @Test
     public void handleLocalAction() {
     }
 
