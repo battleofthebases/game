@@ -20,7 +20,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({Base64.class})
 public class ParserTest {
 
-    @PrepareForTest({Base64.class})
     @Test
     public void actionToString() throws IOException {
         PowerMockito.mockStatic(Base64.class);
