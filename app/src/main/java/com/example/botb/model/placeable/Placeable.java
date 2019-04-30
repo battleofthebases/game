@@ -1,6 +1,8 @@
 package com.example.botb.model.placeable;
 
-public abstract class Placeable {
+import java.io.Serializable;
+
+public abstract class Placeable implements Serializable {
 
     protected boolean destroyed;
 
