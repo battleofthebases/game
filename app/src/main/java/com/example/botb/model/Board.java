@@ -73,6 +73,7 @@ public class Board implements Serializable {
         System.out.println("get shots " + shots.size());
         System.out.println(this);
         return shots;
+
     }
 
     public int getWidth() {
