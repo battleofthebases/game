@@ -2,6 +2,7 @@ package com.example.botb.view.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +101,7 @@ public class BoardAdapter extends Fragment {
     }
 
     public void updateBoard(Boolean player){
+        Log.d("Update", "Board");
         com.example.botb.model.Board board;
         if (player) {
             board = InputManager.getInstance().getLocalBoard();

@@ -94,11 +94,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        if (isLocalAction) {
-            // TODO: Update gameView
-        } else {
-            // TODO: Update opponentView
-        }
+        gameview.updateBoard(isLocalAction);
     }
 
     private void setupViewPager(ViewPager viewPager) {
