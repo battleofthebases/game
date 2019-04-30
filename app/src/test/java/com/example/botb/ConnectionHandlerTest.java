@@ -1,5 +1,6 @@
 package com.example.botb;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.java_websocket.client.WebSocketClient;
@@ -11,7 +12,7 @@ import org.mockito.runners.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionHandlerTest {
 
-    // Empty test to showcase usage of Mockito mock-framework
+    // Example usage of Mockito mock-framework
 
     @Mock
     ConnectionHandler connectionHandler;
@@ -19,19 +20,11 @@ public class ConnectionHandlerTest {
     @Test
     public void getSocket() {
         WebSocketClient socket = mock(WebSocketClient.class);
+        assertEquals(socket.getSocket(), connectionHandler.getSocket());
     }
 
     @Test
     public void sendMessage() {
         connectionHandler.sendMessage("Hello");
-
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 }
