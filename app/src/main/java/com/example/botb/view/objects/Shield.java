@@ -1,6 +1,7 @@
 package com.example.botb.view.objects;
 
 import android.content.Context;
+import com.example.botb.model.placeable.Placeable;
 
 
 public class Shield extends Draggable {
@@ -9,8 +10,9 @@ public class Shield extends Draggable {
 
     Sprites sprites = new Sprites(this.getContext());
 
-    public Shield(Context context, Boolean view) {
+    public Shield(Context context, Boolean view, Placeable placable) {
         super(context);
+        this.placable = placable;
         if (view) {
             this.setImageBitmap(sprites.getPlayerShield());
         } else {

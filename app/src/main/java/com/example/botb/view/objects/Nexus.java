@@ -2,6 +2,7 @@ package com.example.botb.view.objects;
 
 
 import android.content.Context;
+import com.example.botb.model.placeable.Placeable;
 
 
 public class Nexus extends Draggable {
@@ -10,8 +11,9 @@ public class Nexus extends Draggable {
 
     Sprites sprites = new Sprites(this.getContext());
 
-    public Nexus(Context context, Boolean view) {
+    public Nexus(Context context, Boolean view, Placeable placable) {
         super(context);
+        this.placable = placable;
         if (view) {
             this.setImageBitmap(sprites.getPlayerNexus());
         } else {

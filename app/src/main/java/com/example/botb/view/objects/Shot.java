@@ -5,9 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import com.example.botb.R;
 
-public class Shot extends android.support.v7.widget.AppCompatImageView {
+public class Shot extends Draggable {
 
-    private static final String TAG = "Shot";
 
     int currentFrame = 0;
 
@@ -28,6 +27,7 @@ public class Shot extends android.support.v7.widget.AppCompatImageView {
     public Shot(Context context) {
 
         super(context);
+        this.name = "Shot";
         //while (true){ prøver å mekke bitmap/spritesheet animasjon, stopper opp hele spillet
         Bitmap flame = Bitmap.createBitmap(light, width * currentFrame, 400, width, height);
         //if(getCurrentFrame()){
@@ -48,11 +48,6 @@ public class Shot extends android.support.v7.widget.AppCompatImageView {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public Object getTag() {
-        return TAG;
     }
 
 

@@ -6,9 +6,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
+import com.example.botb.model.placeable.Placeable;
+import com.example.botb.model.placeable.Visibility;
 
 public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
+    protected Placeable placable;
+    protected String name;
+    private Boolean hit = false;
 
     private final class TouchListener implements OnTouchListener {
 
@@ -40,6 +45,13 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
     public Draggable(Context context) {
         super(context);
         this.StartDrag();
+    }
+
+    public String getName() { return name; }
+
+    public void updateHit(){
+        hit = true;
+        // change bitmap
     }
 
     public void StartDrag() {
