@@ -15,7 +15,7 @@ jacoco {
 }
 
 jacocoAndroidUnitTestReport {
-    excludes += ["**/*Activity.*", "**/view/**"]
+    excludes += ["**/*Activity.*", "**/view/**", "GameActivity.java", "ConnectionActivity.java", "MainActivity.java"]
 }
 
 tasks.withType(Test) {
