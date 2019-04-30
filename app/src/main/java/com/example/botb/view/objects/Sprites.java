@@ -64,7 +64,7 @@ public class Sprites {
     }
 
     public Bitmap getPlayerShield() {
-        return Bitmap.createBitmap(overworldb, 120, 505, 50, 60);
+        return Bitmap.createBitmap(overworldb, 120, 405, 50, 60);
     }
 
 

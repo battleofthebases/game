@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board implements Serializable {
+public class  Board implements Serializable {
 
     private Map<Location, Placeable> placeables;
 
