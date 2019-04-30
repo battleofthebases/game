@@ -100,6 +100,15 @@ class ConnectionHandler {
                             case "AddedToRoom":
                                 inputManager.subscriptionEvent(ConnectionEvent.MATCHED);
                                 break;
+                            case "InitialGameBoard":
+                                try {
+                                    inputManager.setInitialRemoteBoard(Parser.stringToBoard(data));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
                             default:
                                 Log.e("Tag", "Non valid syntax!" + " id: " + identifier);
                         }

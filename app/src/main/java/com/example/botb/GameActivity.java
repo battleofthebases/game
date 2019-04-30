@@ -10,6 +10,7 @@ import com.example.botb.view.fragments.GameView;
 import com.example.botb.view.fragments.OpponentView;
 import com.example.botb.view.fragments.statePageAdapter;
 import com.example.botb.view.objects.Draggable;
+import java.io.IOException;
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
@@ -22,6 +23,8 @@ public class GameActivity extends AppCompatActivity {
 
     private Button mainButton;
 
+    private Button startGameButton;
+
     private int toggle = 0;
 
     private ViewPager viewPager;
@@ -33,6 +36,8 @@ public class GameActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mainButton = (Button) findViewById(R.id.Main_button);
+        startGameButton = (Button) findViewById(R.id.startGame);
+        final InputManager inputManager = InputManager.getInstance();
 
         adapter = new statePageAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.contianer);
@@ -58,6 +63,16 @@ public class GameActivity extends AppCompatActivity {
                 }
                 toggle = !toggle;
 
+            }
+        });
+
+        startGameButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    inputManager.setInitialLocalBoard();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
