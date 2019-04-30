@@ -5,6 +5,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 import android.util.Base64;
 import com.example.botb.model.Action;
+import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
 import com.example.botb.model.weapon.Weapon;
@@ -22,7 +23,6 @@ public class ParserTest {
     @PrepareForTest({Base64.class})
     @Test
     public void actionToString() throws IOException {
-
         PowerMockito.mockStatic(Base64.class);
         when(Base64.encode(any(), anyInt())).thenAnswer(
                 invocation -> java.util.Base64.getEncoder().encode((byte[]) invocation.getArguments()[0]));
@@ -37,11 +37,21 @@ public class ParserTest {
     }
 
     @Test
-    public void boardToString() {
+    public void boardToString() throws IOException {
+        PowerMockito.mockStatic(Base64.class);
+        when(Base64.encode(any(), anyInt())).thenAnswer(
+                invocation -> java.util.Base64.getEncoder().encode((byte[]) invocation.getArguments()[0]));
+        when(Base64.decode(anyString(), anyInt())).thenAnswer(
+                invocation -> java.util.Base64.getMimeDecoder().decode((String) invocation.getArguments()[0]));
+
+        Board board = new Board(15, 15);
+
+        String boardToString = Parser.boardToString(board);
+
     }
 
     @Test
-    public void stringToAction() throws IOException, ClassNotFoundException {
+    public void stringToAction() {
     }
 
     @Test
