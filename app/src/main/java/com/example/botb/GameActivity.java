@@ -1,5 +1,6 @@
 package com.example.botb;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -64,6 +65,14 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
                 }
                 toggle = !toggle;
 
+                try {
+                    inputManager.setInitialLocalBoard();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
@@ -71,6 +80,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             public void onClick(View v) {
                 try {
                     inputManager.setInitialLocalBoard();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -96,7 +106,13 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     @Override
     public void newAction(final boolean isLocalAction) {
         System.out.println("new Action game activity");
-        gameview.updateBoard(isLocalAction);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameview.updateBoard(isLocalAction);
+                opponentView.updateBoard(isLocalAction);
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {

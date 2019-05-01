@@ -1,5 +1,6 @@
 package com.example.botb.controller;
 
+import android.util.Log;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
@@ -53,6 +54,7 @@ public class GameController {
 
     public void startGame() {
         if (initialLocalBoard != null && initialRemoteBoard != null) {
+            Log.d("GAME", "STARTED");
             game = new Game(initialLocalBoard, initialRemoteBoard, isPlayerOne);
         }else{
             throw new NullPointerException("One board is equal null");

@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
-    public Boolean isHit;
+    public Boolean isHit = false;
     private Board board;
 
     public Droppable(Context context, Boolean view, Board board) {
@@ -60,9 +60,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                Shot shot = createShot();
-                container.addView(shot);
             } else {
                 // funksjon for treff
                 View view = ((Droppable) v).getChildAt(0);

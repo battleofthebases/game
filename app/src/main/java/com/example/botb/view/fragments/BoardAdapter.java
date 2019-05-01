@@ -33,11 +33,11 @@ public class BoardAdapter extends Fragment {
 
     private List<Draggable> draggables = new ArrayList<Draggable>();
 
-    private int gridHeight = 10;
+    protected int gridHeight = 10;
 
-    private int gridWidth = 8;
+    protected int gridWidth = 8;
 
-    private InputManager inputManager = InputManager.getInstance();
+    protected InputManager inputManager = InputManager.getInstance();
 
     public void createBoard(Boolean player) {
         // Get local board
@@ -104,36 +104,6 @@ public class BoardAdapter extends Fragment {
 
     public List<Draggable> getDraggables() {
         return this.draggables;
-    }
-
-    public void updateBoard(Boolean player) {
-        Log.d("Update", "Board");
-        Board board;
-        System.out.println("The player " + player);
-        if (!player) {
-            board = inputManager.getLocalBoard();
-        } else {
-            board = inputManager.getRemoteBoard();
-        }
-        GameGrid layout = v.findViewById(R.id.grid);
-        List<Location> shots = board.getShots();
-        System.out.println("shots size" + shots.size());
-        for (int i = 0; i < shots.size(); i++) {
-            Droppable droppable = (Droppable) layout
-                    .getChildAt(shots.get(i).getX() + shots.get(i).getY() * gridWidth);
-            System.out.println("bla bla" + droppable);
-            if (!droppable.isHit) {
-                if (droppable.getChildCount() == 1) {
-                    Draggable draggable = (Draggable) droppable.getChildAt(0);
-                    if (draggable.getName() != "Shot") {
-                        draggable.updateHit();
-                    }
-                } else {
-                    droppable.addView(droppable.createShot());
-                }
-            }
-        }
-
     }
 
     private Draggable createNexus(Boolean view, Placeable placable) {

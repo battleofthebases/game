@@ -10,12 +10,42 @@ import java.util.Random;
 public class Sprites {
 
     private Bitmap overworldb;
-
     private Bitmap overworldc;
+    private Bitmap grass;
+    private Bitmap bush;
+    private Bitmap sand;
+    private Bitmap sandstone;
+    private Bitmap basep;
+    private Bitmap baseo;
+    private Bitmap shieldp;
+    private Bitmap shieldo;
 
     Sprites(Context con) {
         overworldc = BitmapFactory.decodeResource(con.getResources(), R.drawable.overworldc);
         overworldb = BitmapFactory.decodeResource(con.getResources(), R.drawable.overworldb);
+        Bitmap grass = BitmapFactory.decodeResource(con.getResources(), R.drawable.grass);
+        this.grass = Bitmap.createBitmap(grass, 0,0,50,50);
+
+        Bitmap bush = BitmapFactory.decodeResource(con.getResources(), R.drawable.bush);
+        this.bush = Bitmap.createBitmap(bush, 0,0,50,50);
+
+        Bitmap sand = BitmapFactory.decodeResource(con.getResources(), R.drawable.sand);
+        this.sand = Bitmap.createBitmap(sand, 0,0,50,50);
+
+        Bitmap sandstone = BitmapFactory.decodeResource(con.getResources(), R.drawable.sandstone);
+        this.sandstone = Bitmap.createBitmap(sandstone, 0,0,50,50);
+
+        Bitmap basep = BitmapFactory.decodeResource(con.getResources(), R.drawable.basep);
+        this.basep = Bitmap.createBitmap(basep, 0,0,50,50);
+
+        Bitmap baseo = BitmapFactory.decodeResource(con.getResources(), R.drawable.baseo);
+        this.baseo = Bitmap.createBitmap(baseo, 0,0,50,50);
+
+        Bitmap shieldp = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldp);
+        this.shieldp = Bitmap.createBitmap(shieldp, 0,0,50,50);
+
+        Bitmap shieldo = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldo);
+        this.shieldo = Bitmap.createBitmap(shieldo, 0,0,50,50);
     }
 
 
@@ -29,20 +59,20 @@ public class Sprites {
         Bitmap sprite;
         int n = rand.nextInt(6);
         if (n == 1) {
-            sprite = Bitmap.createBitmap(overworldc, 253, 296, 80, 75);
+            sprite = sand;
         } else {
-            sprite = Bitmap.createBitmap(overworldc, 0, 296, 80, 81);
+            sprite = sandstone;
         }
         BitmapDrawable background = new BitmapDrawable(sprite);
         return background;
     }
 
     public Bitmap getOpponentNexus() {
-        return Bitmap.createBitmap(overworldb, 20, 465, 80, 85);
+        return baseo;
     }
 
     public Bitmap getOpponentShield() {
-        return Bitmap.createBitmap(overworldb, 120, 505, 50, 60);
+        return shieldo;
     }
 
     public BitmapDrawable getPlayerBackground() {
@@ -51,20 +81,18 @@ public class Sprites {
         int n = rand.nextInt(6);
 
         if (n == 1) {
-            sprite = Bitmap.createBitmap(overworldc, 253, 45, 80, 75);
+            sprite = grass;
         } else {
-            sprite = Bitmap.createBitmap(overworldc, 0, 10, 80, 95);
+            sprite = bush;
         }
         BitmapDrawable background = new BitmapDrawable(sprite);
         return background;
     }
 
-    public Bitmap getPlayerNexus() {
-        return Bitmap.createBitmap(overworldb, 20, 465, 80, 85);
-    }
+    public Bitmap getPlayerNexus() { return basep; }
 
     public Bitmap getPlayerShield() {
-        return Bitmap.createBitmap(overworldb, 120, 405, 50, 60);
+        return shieldp;
     }
 
 
