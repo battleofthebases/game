@@ -21,9 +21,11 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     public Boolean isHit = false;
     private Board board;
+    private Sprites sprites;
 
-    public Droppable(Context context, Boolean view, Board board) {
+    public Droppable(Context context, Boolean view, Board board, Sprites sprites) {
         super(context);
+        this.sprites = sprites;
         this.board = board;
         BitmapDrawable background;
 
@@ -141,10 +143,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     private Location location;
 
-    private Sprites sprites = new Sprites(this.getContext());
-
-
-
     public Location getLocation() {
         return location;
     }
@@ -162,7 +160,7 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
     }
 
     public Shot createShot(){
-        Shot shot = new Shot(getContext());
+        Shot shot = new Shot(getContext(), sprites);
         shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         shot.setAdjustViewBounds(true);

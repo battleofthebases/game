@@ -16,6 +16,7 @@ import com.example.botb.model.Location;
 import com.example.botb.view.objects.Draggable;
 import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
+import com.example.botb.view.objects.Sprites;
 import java.util.List;
 
 public class GameView extends BoardAdapter {
@@ -28,13 +29,12 @@ public class GameView extends BoardAdapter {
         view.post(new Runnable() {
             @Override
             public void run() {
-                Height = v.getMeasuredHeight();
-                Width = v.getMeasuredWidth();
+                Height = v.getHeight();
+                Width = v.getWidth();
+                sprites = new Sprites(getActivity(), Width, Height);
+                createBoard(true);
             }
         });
-
-        // Create the board
-        this.createBoard(true);
         return view;
     }
 

@@ -3,7 +3,10 @@ package com.example.botb.view.objects;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.Layout;
+import android.util.Log;
 import com.example.botb.R;
 import java.util.Random;
 
@@ -13,6 +16,7 @@ public class Sprites {
     private Bitmap overworldc;
     private Bitmap grass;
     private Bitmap bush;
+    private Bitmap plain;
     private Bitmap sand;
     private Bitmap sandstone;
     private Bitmap basep;
@@ -20,34 +24,44 @@ public class Sprites {
     private Bitmap shieldp;
     private Bitmap shieldo;
 
-    Sprites(Context con) {
+    private float scaleWidth;
+    private float scaleHeight;
+
+    public Sprites(Context con, int width, int height) {
+
+        scaleHeight = ((float)height) /  1617;
+        scaleWidth = ((float)width) /  1080;
+
         overworldc = BitmapFactory.decodeResource(con.getResources(), R.drawable.overworldc);
         overworldb = BitmapFactory.decodeResource(con.getResources(), R.drawable.overworldb);
+
         Bitmap grass = BitmapFactory.decodeResource(con.getResources(), R.drawable.grass);
-        this.grass = Bitmap.createBitmap(grass, 0,0,50,50);
+        this.grass = Bitmap.createBitmap(grass, 0,0,(int) (85 *scaleWidth),(int) (85 *scaleHeight));
 
         Bitmap bush = BitmapFactory.decodeResource(con.getResources(), R.drawable.bush);
-        this.bush = Bitmap.createBitmap(bush, 0,0,50,50);
+        this.bush = Bitmap.createBitmap(bush, 0,0,(int) (85 *scaleWidth),(int) (85 *scaleHeight));
+
+        Bitmap plain = BitmapFactory.decodeResource(con.getResources(), R.drawable.plain);
+        this.plain = Bitmap.createBitmap(plain, 0,0,(int) (85 *scaleWidth),(int) (85 *scaleHeight));
 
         Bitmap sand = BitmapFactory.decodeResource(con.getResources(), R.drawable.sand);
-        this.sand = Bitmap.createBitmap(sand, 0,0,50,50);
+        this.sand = Bitmap.createBitmap(sand, 0,0,(int) (85 *scaleWidth),(int) (85 *scaleHeight));
 
         Bitmap sandstone = BitmapFactory.decodeResource(con.getResources(), R.drawable.sandstone);
-        this.sandstone = Bitmap.createBitmap(sandstone, 0,0,50,50);
+        this.sandstone = Bitmap.createBitmap(sandstone, 0,0,(int) (85 *scaleWidth),(int) (85 *scaleHeight));
 
         Bitmap basep = BitmapFactory.decodeResource(con.getResources(), R.drawable.basep);
-        this.basep = Bitmap.createBitmap(basep, 0,0,50,50);
+        this.basep = Bitmap.createBitmap(basep, 0,0,(int) (73 *scaleWidth),(int) (73 *scaleHeight));
 
         Bitmap baseo = BitmapFactory.decodeResource(con.getResources(), R.drawable.baseo);
-        this.baseo = Bitmap.createBitmap(baseo, 0,0,50,50);
+        this.baseo = Bitmap.createBitmap(baseo, 0,0,(int) (73 *scaleWidth),(int) (73 *scaleHeight));
 
         Bitmap shieldp = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldp);
-        this.shieldp = Bitmap.createBitmap(shieldp, 0,0,50,50);
+        this.shieldp = Bitmap.createBitmap(shieldp, 0,0,(int) (70 *scaleWidth),(int) (70 *scaleHeight));
 
         Bitmap shieldo = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldo);
-        this.shieldo = Bitmap.createBitmap(shieldo, 0,0,50,50);
+        this.shieldo = Bitmap.createBitmap(shieldo, 0,0,(int) (70 *scaleWidth),(int) (70 *scaleHeight));
     }
-
 
     public BitmapDrawable getFlames() {
 
@@ -59,9 +73,9 @@ public class Sprites {
         Bitmap sprite;
         int n = rand.nextInt(6);
         if (n == 1) {
-            sprite = sand;
-        } else {
             sprite = sandstone;
+        } else {
+            sprite = sand;
         }
         BitmapDrawable background = new BitmapDrawable(sprite);
         return background;
@@ -81,9 +95,11 @@ public class Sprites {
         int n = rand.nextInt(6);
 
         if (n == 1) {
-            sprite = grass;
-        } else {
             sprite = bush;
+        } else if(n == 2) {
+            sprite = plain;
+        } else {
+            sprite = grass;
         }
         BitmapDrawable background = new BitmapDrawable(sprite);
         return background;

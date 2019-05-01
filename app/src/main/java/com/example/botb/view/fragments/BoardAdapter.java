@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import com.example.botb.InputManager;
 import com.example.botb.R;
@@ -18,6 +19,7 @@ import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Nexus;
 import com.example.botb.view.objects.Shield;
+import com.example.botb.view.objects.Sprites;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,19 +31,19 @@ public class BoardAdapter extends Fragment {
 
     protected int Width;
 
-    View v;
+    public View v;
 
     private List<Draggable> draggables = new ArrayList<Draggable>();
 
     protected int gridHeight = 10;
-
     protected int gridWidth = 8;
 
     protected InputManager inputManager = InputManager.getInstance();
 
+    protected Sprites sprites;
+
     public void createBoard(Boolean player) {
         // Get local board
-
         Board board;
         if (player) {
             board = inputManager.getLocalBoard();
@@ -59,7 +61,7 @@ public class BoardAdapter extends Fragment {
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
 
-                Droppable droppable = new Droppable(getContext(), player, board);
+                Droppable droppable = new Droppable(getContext(), player, board, sprites);
                 droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
                 droppable.setOrientation(LinearLayout.HORIZONTAL);
                 droppable.setId(R.id.parent + x + y);
@@ -107,20 +109,18 @@ public class BoardAdapter extends Fragment {
     }
 
     private Draggable createNexus(Boolean view, Placeable placable) {
-        Nexus nexus = new Nexus(getContext(), view, placable);
+        Nexus nexus = new Nexus(getContext(), view, placable, sprites );
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
-        nexus.setScaleType(ImageView.ScaleType.FIT_XY);
         return nexus;
     }
 
     private Draggable createShield(Boolean player, Placeable placable) {
-        Shield shield = new Shield(getContext(), player, placable);
+        Shield shield = new Shield(getContext(), player, placable, sprites);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);
-        shield.setScaleType(ImageView.ScaleType.FIT_XY);
         return shield;
     }
 }

@@ -9,9 +9,7 @@ public class Nexus extends Draggable {
 
     private static final String TAG = "Nexus";
 
-    Sprites sprites = new Sprites(this.getContext());
-
-    public Nexus(Context context, Boolean view, Placeable placable) {
+    public Nexus(Context context, Boolean view, Placeable placable, Sprites sprites) {
         super(context);
         this.placable = placable;
         if (view) {

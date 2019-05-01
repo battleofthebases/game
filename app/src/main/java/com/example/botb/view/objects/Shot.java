@@ -20,11 +20,9 @@ public class Shot extends Draggable {
 
     Bitmap light = BitmapFactory.decodeResource(getResources(), R.drawable.light);
 
-    Sprites sprites = new Sprites(this.getContext());
-
     int width = 100;
 
-    public Shot(Context context) {
+    public Shot(Context context, Sprites sprites) {
 
         super(context);
         this.name = "Shot";

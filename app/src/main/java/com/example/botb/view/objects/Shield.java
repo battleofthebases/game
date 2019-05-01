@@ -8,9 +8,7 @@ public class Shield extends Draggable {
 
     private static final String TAG = "Shield";
 
-    Sprites sprites = new Sprites(this.getContext());
-
-    public Shield(Context context, Boolean view, Placeable placable) {
+    public Shield(Context context, Boolean view, Placeable placable, Sprites sprites) {
         super(context);
         this.placable = placable;
         if (view) {
