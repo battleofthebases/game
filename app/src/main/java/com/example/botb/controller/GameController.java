@@ -51,12 +51,11 @@ public class GameController {
         isPlayerOne = playerOne;
     }
 
-    public boolean startGame() {
+    public void startGame() {
         if (initialLocalBoard != null && initialRemoteBoard != null) {
             game = new Game(initialLocalBoard, initialRemoteBoard, isPlayerOne);
-            return true;
+        }else{
+            throw new NullPointerException("One board is equal null");
         }
-        return false;
     }
-
 }
