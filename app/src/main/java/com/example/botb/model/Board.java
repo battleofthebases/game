@@ -42,15 +42,20 @@ public class Board implements Serializable {
         return addPlaceable(placeable, new Location(x, y));
     }
 
-    public void applyAction(Action action) {
+    public boolean applyAction(Action action) {
         Weapon weapon = action.getWeapon();
         Location location = action.getLocation();
-        System.out.println("Shots Added!");
-        System.out.println(this);
 
-        shots.add(location);
-        System.out.println("bla2 " + shots.size());
+        // Check if already shot on location
+        if (shots.contains(location)) {
+            return false;
+        }
+
+        // Apply action and add location to shots
         weapon.applyToBoard(this, location);
+        shots.add(location);
+
+        return true;
     }
 
     public int getHeight() {
