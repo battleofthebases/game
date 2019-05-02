@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import com.example.botb.model.Board;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.fragments.GameView;
 import com.example.botb.view.fragments.OpponentView;
 import com.example.botb.view.fragments.statePageAdapter;
@@ -105,7 +107,6 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        System.out.println("new Action game activity");
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -121,5 +122,17 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         adapter.addFragment(opponentView, "OpponentView");
         viewPager.setAdapter(adapter);
     }
+
+    @Override
+    public void setInitialOpponentBoard(){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                opponentView.setInitialBoard();
+            }
+        });
+    }
+
+
 
 }

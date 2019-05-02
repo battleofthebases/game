@@ -106,6 +106,9 @@ public class InputManager {
     public void setInitialRemoteBoard(Board board) {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
         if (gameController.gameCanStart()) {
+            //for (InputSubscriber subscriber : subscribers) {
+            //    subscriber.setInitialOpponentBoard(); //creating objects from model
+            //}
             gameController.startGame();
         }
     }

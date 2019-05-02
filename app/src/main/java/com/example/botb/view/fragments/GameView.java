@@ -47,14 +47,16 @@ public class GameView extends BoardAdapter {
             for (int i = 0; i < shots.size(); i++) {
                 Droppable droppable = (Droppable) layout
                         .getChildAt(shots.get(i).getX()* gridWidth + shots.get(i).getY() );
-                if (!droppable.isHit) {
+                if (!droppable.isHit()) {
                     if (droppable.getChildCount() == 1) {
                         Draggable draggable = (Draggable) droppable.getChildAt(0);
+                        Log.d("draggable name", "" + draggable.getName());
                         if (draggable.getName() != "Shot") {
-                            draggable.updateHit();
+                            draggable.setHit(sprites);
+                            droppable.setHit();
                         }
                     } else {
-                        droppable.addView(droppable.createShot());
+                        droppable.addView(createShot());
                     }
                 }
             }

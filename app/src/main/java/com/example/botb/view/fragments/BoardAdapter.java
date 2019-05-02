@@ -19,13 +19,12 @@ import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Nexus;
 import com.example.botb.view.objects.Shield;
+import com.example.botb.view.objects.Shot;
 import com.example.botb.view.objects.Sprites;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardAdapter extends Fragment {
-
-    private static final String TAG = "";
 
     protected int Height;
 
@@ -33,7 +32,7 @@ public class BoardAdapter extends Fragment {
 
     public View v;
 
-    private List<Draggable> draggables = new ArrayList<Draggable>();
+    protected List<Draggable> draggables = new ArrayList<Draggable>();
 
     protected int gridHeight = 10;
     protected int gridWidth = 8;
@@ -108,7 +107,7 @@ public class BoardAdapter extends Fragment {
         return this.draggables;
     }
 
-    private Draggable createNexus(Boolean view, Placeable placable) {
+    protected Draggable createNexus(Boolean view, Placeable placable) {
         Nexus nexus = new Nexus(getContext(), view, placable, sprites );
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -116,11 +115,20 @@ public class BoardAdapter extends Fragment {
         return nexus;
     }
 
-    private Draggable createShield(Boolean player, Placeable placable) {
+    protected Draggable createShield(Boolean player, Placeable placable) {
         Shield shield = new Shield(getContext(), player, placable, sprites);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);
         return shield;
+    }
+
+    public Shot createShot(){
+        Shot shot = new Shot(getContext(), sprites);
+        shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        shot.setAdjustViewBounds(true);
+        shot.setScaleType(ImageView.ScaleType.FIT_XY);
+        return  shot;
     }
 }

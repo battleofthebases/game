@@ -1,5 +1,7 @@
 package com.example.botb;
 
+import com.example.botb.model.Board;
+
 public interface InputSubscriber {
 
     void connectionClosed();
@@ -9,4 +11,6 @@ public interface InputSubscriber {
     void matched();
 
     void newAction(boolean isLocalAction);
+
+    void setInitialOpponentBoard();
 }

@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
-    public Boolean isHit = false;
+    private Boolean hit = false;
     private Board board;
     private Sprites sprites;
 
@@ -61,18 +61,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
                     inputmanager.handleLocalAction(action);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-            } else {
-                // funksjon for treff
-                View view = ((Droppable) v).getChildAt(0);
-                // Hvis ikke allerede beskutt
-                if (view.getTag() != "Shot") {
-                    Draggable draggable = (Draggable) ((Droppable) v).getChildAt(0);
-                    if (draggable.getTag() == "Nexus") {
-                        draggable.setImageBitmap(sprites.getOpponentNexus());
-                    } else {
-                        draggable.setImageBitmap(sprites.getOpponentShield());
-                    }
                 }
             }
         }
@@ -159,16 +147,17 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
         this.setOnClickListener(new stopOnClickListener());
     }
 
-    public Shot createShot(){
-        Shot shot = new Shot(getContext(), sprites);
-        shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        shot.setAdjustViewBounds(true);
-        shot.setScaleType(ImageView.ScaleType.FIT_XY);
-        return  shot;
-    }
-
     public Board getBoard() {
         return board;
     }
+
+    public Boolean isHit(){
+       return hit;
+    }
+
+    public void setHit() {
+        hit = true;
+    }
+
+
 }

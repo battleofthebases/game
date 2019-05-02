@@ -7,10 +7,12 @@ import com.example.botb.model.placeable.Placeable;
 
 public class Nexus extends Draggable {
 
-    private static final String TAG = "Nexus";
+    Boolean view;
 
     public Nexus(Context context, Boolean view, Placeable placable, Sprites sprites) {
         super(context);
+        this.name = "Nexus";
+        this.view = view;
         this.placable = placable;
         if (view) {
             this.setImageBitmap(sprites.getPlayerNexus());
@@ -20,8 +22,12 @@ public class Nexus extends Draggable {
     }
 
     @Override
-    public Object getTag() {
-        return TAG;
+    public void setHit(Sprites sprites){
+        hit = true;
+        if(view){
+            this.setImageBitmap(sprites.getBasepdestroyed());
+        } else {
+            this.setImageBitmap(sprites.getBaseodestroyed());
+        }
     }
-
 }

@@ -23,6 +23,11 @@ public class Sprites {
     private Bitmap baseo;
     private Bitmap shieldp;
     private Bitmap shieldo;
+    private Bitmap shieldodestroyed;
+    private Bitmap shieldpdestroyed;
+    private Bitmap baseodestroyed;
+    private Bitmap basepdestroyed;
+    private Bitmap flame;
 
     private float scaleWidth;
     private float scaleHeight;
@@ -61,11 +66,41 @@ public class Sprites {
 
         Bitmap shieldo = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldo);
         this.shieldo = Bitmap.createBitmap(shieldo, 0,0,(int) (70 *scaleWidth),(int) (70 *scaleHeight));
+
+        Bitmap basepdestroyed = BitmapFactory.decodeResource(con.getResources(), R.drawable.basepdestroyed);
+        this.basepdestroyed = Bitmap.createBitmap(basepdestroyed, 0,0,(int) (73 *scaleWidth),(int) (73 *scaleHeight));
+
+        Bitmap baseodestroyed = BitmapFactory.decodeResource(con.getResources(), R.drawable.baseodestroyed);
+        this.baseodestroyed = Bitmap.createBitmap(baseodestroyed, 0,0,(int) (73 *scaleWidth),(int) (73 *scaleHeight));
+
+        Bitmap shieldpdestroyed = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldpdestroyed);
+        this.shieldpdestroyed = Bitmap.createBitmap(shieldpdestroyed, 0,0,(int) (70 *scaleWidth),(int) (70 *scaleHeight));
+
+        Bitmap shieldodestroyed = BitmapFactory.decodeResource(con.getResources(), R.drawable.shieldodestoyed);
+        this.shieldodestroyed = Bitmap.createBitmap(shieldodestroyed, 0,0,(int) (70 *scaleWidth),(int) (70 *scaleHeight));
+
+        Bitmap flame = BitmapFactory.decodeResource(con.getResources(), R.drawable.flame);
+        this.flame = Bitmap.createBitmap(flame, 0,0,(int) (73 *scaleWidth),(int) (73 *scaleHeight));
     }
 
-    public BitmapDrawable getFlames() {
+    public Bitmap getShieldodestroyed() {
+        return shieldodestroyed;
+    }
 
-        return null;
+    public Bitmap getShieldpdestroyed() {
+        return shieldpdestroyed;
+    }
+
+    public Bitmap getBaseodestroyed() {
+        return baseodestroyed;
+    }
+
+    public Bitmap getBasepdestroyed() {
+        return basepdestroyed;
+    }
+
+    public Bitmap getFlame() {
+        return flame;
     }
 
     public BitmapDrawable getOpponentBackground() {
