@@ -33,6 +33,7 @@ public class BoardAdapter extends Fragment {
     public View v;
 
     protected List<Draggable> draggables = new ArrayList<Draggable>();
+    protected List<Droppable> droppables = new ArrayList<Droppable>();
 
     protected int gridHeight = 10;
     protected int gridWidth = 8;
@@ -99,12 +100,16 @@ public class BoardAdapter extends Fragment {
                 myGLP.width = 0;
                 myGLP.height = 0;
                 layout.addView(droppable, myGLP);
+                droppables.add(droppable);
             }
         }
     }
 
     public List<Draggable> getDraggables() {
         return this.draggables;
+    }
+    public List<Droppable> getDroppables() {
+        return this.droppables;
     }
 
     protected Draggable createNexus(Boolean view, Placeable placable) {

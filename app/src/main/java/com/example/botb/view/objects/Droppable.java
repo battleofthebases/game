@@ -35,11 +35,12 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
             this.setOnDragListener(new Droppable.DragListener(background));
         } else {
             background = sprites.getOpponentBackground();
-            setOnClikcListener();
         }
         this.setBackgroundDrawable(background);
 
     }
+
+
 
     class stopOnClickListener implements OnClickListener {
 
