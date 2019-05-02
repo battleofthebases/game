@@ -131,6 +131,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
                 opponentView.setInitialBoard();
             }
         });
+
     }
 
 

@@ -49,15 +49,11 @@ public class OpponentView extends BoardAdapter {
             for (int i = 0; i < shots.size(); i++) {
                 Droppable droppable = (Droppable) layout
                         .getChildAt(shots.get(i).getX()* gridWidth + shots.get(i).getY() );
-                Log.d("Droppable size", "" + droppable.getChildCount());
-                for (int x = 0; x < droppable.getChildCount(); x++) {
-                    Log.d("Droppable child" +x+" name", "" + droppable.getChildAt(x));
-                }
                 if (!droppable.isHit()) {
                     if (droppable.getChildCount() == 1) {
                         Draggable draggable = (Draggable) droppable.getChildAt(0);
                         Log.d("draggable name", "" + draggable.getName());
-                        if (draggable.getName() == "Shot") {
+                        if (draggable.getName() != "Shot") {
                             draggable.setHit(sprites);
                             droppable.setHit();
                         }
@@ -70,18 +66,22 @@ public class OpponentView extends BoardAdapter {
     }
 
     public void setInitialBoard(){
+        Log.d("Initialization", "Setting initial opponent board");
         GameGrid layout = v.findViewById(R.id.grid);
-        Board board = inputManager.getRemoteBoard();
-        for (Map.Entry<Location, Placeable> entry : board.getPlaceables().entrySet()) {
+        Map<Location, Placeable> placables = inputManager.getRemoteBoard().getPlaceables();
+        for (Map.Entry<Location, Placeable> entry : placables.entrySet()) {
             Droppable droppable = (Droppable) layout
                     .getChildAt(entry.getKey().getX()* gridWidth + entry.getKey().getY());
 
             Draggable draggable;
-            if (entry.getValue().getName() == "Nexus") {
+            if (entry.getValue().getName().equals("Nexus")) {
                 draggable = createNexus(false, entry.getValue());
+                Log.d("Initialization", "Adding Nexus" );
             } else {
                 draggable = createShield(false, entry.getValue());
+                Log.d("Initialization", "Adding Shield" );
             }
+
             droppable.addView(draggable);
             draggables.add(draggable);
             draggable.setLocation(entry.getKey().getX(), entry.getKey().getY());

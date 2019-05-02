@@ -3,6 +3,7 @@ package com.example.botb.view.objects;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,16 +53,12 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
         @Override
         public void onClick(View v) {
             Droppable container = (Droppable) v;
-
-            if (container.getChildCount() == 0) {
-                // funksjon for bom
-                Action action = new Action(location, new ExampleWeapon());
-                InputManager inputmanager = InputManager.getInstance();
-                try {
-                    inputmanager.handleLocalAction(action);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            Action action = new Action(location, new ExampleWeapon());
+            InputManager inputmanager = InputManager.getInstance();
+            try {
+                inputmanager.handleLocalAction(action);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
