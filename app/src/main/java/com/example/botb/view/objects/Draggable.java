@@ -6,9 +6,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
+import com.example.botb.model.placeable.Placeable;
+import com.example.botb.model.placeable.Visibility;
 
-public class Draggable extends android.support.v7.widget.AppCompatImageView {
+public abstract class Draggable extends android.support.v7.widget.AppCompatImageView {
 
+    protected Placeable placable;
+    protected String name;
+    protected Boolean hit = false;
 
     private final class TouchListener implements OnTouchListener {
 
@@ -42,6 +47,8 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
         this.StartDrag();
     }
 
+    public String getName() { return name; }
+
     public void StartDrag() {
         this.setOnTouchListener(new TouchListener());
     }
@@ -54,6 +61,8 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
         return location;
     }
 
+    public abstract void setHit(Sprites sprites);
+
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -61,4 +70,5 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
     public void setLocation(int x, int y) {
         location = new Location(x, y);
     }
+
 }

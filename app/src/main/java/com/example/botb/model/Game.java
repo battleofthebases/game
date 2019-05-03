@@ -14,17 +14,14 @@ public class Game {
         this.isLocalTurn = isLocalTurn;
     }
 
-    public boolean applyAction(boolean localPlayer, Action action) {
-        if (isLocalTurn == localPlayer) {
-            if (localPlayer) {
-                remoteBoard.applyAction(action);
-            } else {
-                localBoard.applyAction(action);
-            }
-            isLocalTurn = !isLocalTurn;
-            return true;
+    public void applyAction(boolean localPlayer, Action action) {
+        System.out.println("apply action");
+        if (localPlayer) {
+            remoteBoard.applyAction(action);
+        } else {
+            localBoard.applyAction(action);
         }
-        return false;
+        isLocalTurn = !isLocalTurn;
     }
 
     public int checkWinner() {

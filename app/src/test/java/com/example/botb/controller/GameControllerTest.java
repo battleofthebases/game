@@ -7,8 +7,8 @@ import org.junit.*;
 
 public class GameControllerTest {
 
-    @Test
-    public void applyAction() {
+    @Test(expected = NullPointerException.class)
+    public void applyAction() throws NullPointerException {
         GameController gameController = new GameController();
         gameController.applyAction(true, new Action(new Location(6, 6), new ExampleWeapon()));
         //TODO: SetBoard and test applied action

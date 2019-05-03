@@ -3,17 +3,44 @@ package com.example.botb.view.objects;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.botb.InputManager;
 import com.example.botb.R;
+import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
+import com.example.botb.model.placeable.Placeable;
+import com.example.botb.model.weapon.ExampleWeapon;
 import com.example.botb.view.fragments.BoardAdapter;
+import java.io.IOException;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
+
+    private Boolean hit = false;
+    private Board board;
+    private Sprites sprites;
+
+    public Droppable(Context context, Boolean view, Board board, Sprites sprites) {
+        super(context);
+        this.sprites = sprites;
+        this.board = board;
+        BitmapDrawable background;
+
+        if (view) {
+            background = sprites.getPlayerBackground();
+            this.setOnDragListener(new Droppable.DragListener(background));
+        } else {
+            background = sprites.getOpponentBackground();
+        }
+        this.setBackgroundDrawable(background);
+
+    }
+
+
 
     class stopOnClickListener implements OnClickListener {
 
@@ -27,27 +54,12 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
         @Override
         public void onClick(View v) {
             Droppable container = (Droppable) v;
-
-            if (container.getChildCount() == 0) {
-                // funksjon for bom
-                Shot shot = new Shot(getContext());
-                shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                shot.setAdjustViewBounds(true);
-                shot.setScaleType(ImageView.ScaleType.FIT_XY);
-                container.addView(shot);
-            } else {
-                // funksjon for treff
-                View view = ((Droppable) v).getChildAt(0);
-                // Hvis ikke allerede beskutt
-                if (view.getTag() != "Shot") {
-                    Draggable draggable = (Draggable) ((Droppable) v).getChildAt(0);
-                    if (draggable.getTag() == "Nexus") {
-                        draggable.setImageBitmap(sprites.getOpponentNexus());
-                    } else {
-                        draggable.setImageBitmap(sprites.getOpponentShield());
-                    }
-                }
+            Action action = new Action(location, new ExampleWeapon());
+            InputManager inputmanager = InputManager.getInstance();
+            try {
+                inputmanager.handleLocalAction(action);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -117,24 +129,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     private Location location;
 
-    private Sprites sprites = new Sprites(this.getContext());
-
-    public Droppable(Context context, Boolean view) {
-        super(context);
-
-        BitmapDrawable background;
-
-        if (view) {
-            background = sprites.getPlayerBackground();
-            this.setOnDragListener(new Droppable.DragListener(background));
-        } else {
-            background = sprites.getOpponentBackground();
-            setOnClikcListener();
-        }
-        this.setBackgroundDrawable(background);
-
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -150,5 +144,18 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
     public void stopClikcListener() {
         this.setOnClickListener(new stopOnClickListener());
     }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Boolean isHit(){
+       return hit;
+    }
+
+    public void setHit() {
+        hit = true;
+    }
+
 
 }

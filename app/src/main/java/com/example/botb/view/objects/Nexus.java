@@ -2,16 +2,18 @@ package com.example.botb.view.objects;
 
 
 import android.content.Context;
+import com.example.botb.model.placeable.Placeable;
 
 
 public class Nexus extends Draggable {
 
-    private static final String TAG = "Nexus";
+    Boolean view;
 
-    Sprites sprites = new Sprites(this.getContext());
-
-    public Nexus(Context context, Boolean view) {
+    public Nexus(Context context, Boolean view, Placeable placable, Sprites sprites) {
         super(context);
+        this.name = "Nexus";
+        this.view = view;
+        this.placable = placable;
         if (view) {
             this.setImageBitmap(sprites.getPlayerNexus());
         } else {
@@ -20,8 +22,12 @@ public class Nexus extends Draggable {
     }
 
     @Override
-    public Object getTag() {
-        return TAG;
+    public void setHit(Sprites sprites){
+        hit = true;
+        if(view){
+            this.setImageBitmap(sprites.getBasepdestroyed());
+        } else {
+            this.setImageBitmap(sprites.getBaseodestroyed());
+        }
     }
-
 }

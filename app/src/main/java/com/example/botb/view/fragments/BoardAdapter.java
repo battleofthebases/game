@@ -2,47 +2,58 @@ package com.example.botb.view.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import com.example.botb.InputManager;
 import com.example.botb.R;
+import com.example.botb.model.Board;
+import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.objects.Draggable;
 import com.example.botb.view.objects.Droppable;
 import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Nexus;
 import com.example.botb.view.objects.Shield;
+import com.example.botb.view.objects.Shot;
+import com.example.botb.view.objects.Sprites;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardAdapter extends Fragment {
 
-    private static final String TAG = "";
-
     protected int Height;
 
     protected int Width;
 
-    View v;
+    public View v;
 
-    private List<Draggable> draggables = new ArrayList<Draggable>();
+    protected List<Draggable> draggables = new ArrayList<Draggable>();
+    protected List<Droppable> droppables = new ArrayList<Droppable>();
 
-    public void createBoard(Boolean view) {
+    protected int gridHeight = 10;
+    protected int gridWidth = 8;
+
+    protected InputManager inputManager = InputManager.getInstance();
+
+    protected Sprites sprites;
+
+    public void createBoard(Boolean player) {
         // Get local board
-
-        com.example.botb.model.Board board;
-        if (view) {
-            board = InputManager.getInstance().getLocalBoard();
+        Board board;
+        if (player) {
+            board = inputManager.getLocalBoard();
         } else {
-            board = InputManager.getInstance().getRemoteBoard();
+            board = inputManager.getRemoteBoard();
         }
         GameGrid layout = v.findViewById(R.id.grid);
         layout.removeAllViews();
-        layout.setRowCount(10);
-        layout.setColumnCount(8);
+        layout.setRowCount(gridHeight);
+        layout.setColumnCount(gridWidth);
 
         int lineHeight = Height / layout.getRowCount();
         int lineWidth = Width / layout.getColumnCount();
@@ -50,7 +61,7 @@ public class BoardAdapter extends Fragment {
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
 
-                Droppable droppable = new Droppable(getContext(), view);
+                Droppable droppable = new Droppable(getContext(), player, board, sprites);
                 droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
                 droppable.setOrientation(LinearLayout.HORIZONTAL);
                 droppable.setId(R.id.parent + x + y);
@@ -72,9 +83,9 @@ public class BoardAdapter extends Fragment {
                 if (placeable != null) {
                     Draggable draggable;
                     if (placeable.getName() == "Nexus") {
-                        draggable = createNexus(view);
+                        draggable = createNexus(player, placeable);
                     } else {
-                        draggable = createShield(view);
+                        draggable = createShield(player, placeable);
                     }
                     droppable.addView(draggable);
                     draggables.add(draggable);
@@ -89,6 +100,7 @@ public class BoardAdapter extends Fragment {
                 myGLP.width = 0;
                 myGLP.height = 0;
                 layout.addView(droppable, myGLP);
+                droppables.add(droppable);
             }
         }
     }
@@ -96,22 +108,32 @@ public class BoardAdapter extends Fragment {
     public List<Draggable> getDraggables() {
         return this.draggables;
     }
+    public List<Droppable> getDroppables() {
+        return this.droppables;
+    }
 
-    private Draggable createNexus(Boolean view) {
-        Nexus nexus = new Nexus(getContext(), view);
+    protected Draggable createNexus(Boolean view, Placeable placable) {
+        Nexus nexus = new Nexus(getContext(), view, placable, sprites );
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
-        nexus.setScaleType(ImageView.ScaleType.FIT_XY);
         return nexus;
     }
 
-    private Draggable createShield(Boolean view) {
-        Shield shield = new Shield(getContext(), view);
+    protected Draggable createShield(Boolean player, Placeable placable) {
+        Shield shield = new Shield(getContext(), player, placable, sprites);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);
-        shield.setScaleType(ImageView.ScaleType.FIT_XY);
         return shield;
+    }
+
+    public Shot createShot(){
+        Shot shot = new Shot(getContext(), sprites);
+        shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        shot.setAdjustViewBounds(true);
+        shot.setScaleType(ImageView.ScaleType.FIT_XY);
+        return  shot;
     }
 }
