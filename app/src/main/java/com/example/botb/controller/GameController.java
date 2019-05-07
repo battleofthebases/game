@@ -1,5 +1,6 @@
 package com.example.botb.controller;
 
+import android.util.Log;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
@@ -31,6 +32,10 @@ public class GameController {
         return game;
     }
 
+    public void setGame(final Game game) {
+        this.game = game;
+    }
+
     public Board getLocalBoard() {
         return game.getLocalBoard();
     }
@@ -47,6 +52,10 @@ public class GameController {
         initialLocalBoard = board;
     }
 
+    public void setInitialRemoteBoard(final Board initialRemoteBoard) {
+        this.initialRemoteBoard = initialRemoteBoard;
+    }
+
     public void setInitialRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
         initialRemoteBoard = new Board(width, height, placeables);
     }
@@ -57,6 +66,7 @@ public class GameController {
 
     public void startGame() {
         if (initialLocalBoard != null && initialRemoteBoard != null) {
+            Log.d("GAME", "STARTED");
             game = new Game(initialLocalBoard, initialRemoteBoard, isPlayerOne);
         } else {
             throw new NullPointerException("One board is equal null");

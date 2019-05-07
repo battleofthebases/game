@@ -9,11 +9,11 @@ import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.placeable.Visibility;
 
-public class Draggable extends android.support.v7.widget.AppCompatImageView {
+public abstract class Draggable extends android.support.v7.widget.AppCompatImageView {
 
     protected Placeable placable;
     protected String name;
-    private Boolean hit = false;
+    protected Boolean hit = false;
 
     private final class TouchListener implements OnTouchListener {
 
@@ -49,11 +49,6 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
 
     public String getName() { return name; }
 
-    public void updateHit(){
-        hit = true;
-        // change bitmap
-    }
-
     public void StartDrag() {
         this.setOnTouchListener(new TouchListener());
     }
@@ -66,6 +61,8 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
         return location;
     }
 
+    public abstract void setHit(Sprites sprites);
+
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -73,4 +70,5 @@ public class Draggable extends android.support.v7.widget.AppCompatImageView {
     public void setLocation(int x, int y) {
         location = new Location(x, y);
     }
+
 }

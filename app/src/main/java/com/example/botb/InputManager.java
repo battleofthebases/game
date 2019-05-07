@@ -6,6 +6,8 @@ import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
 import com.example.botb.model.placeable.ExamplePlaceable;
+import com.example.botb.model.placeable.Nexus;
+import com.example.botb.model.placeable.Shield;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,9 +41,10 @@ public class InputManager {
         connectionHandler = new ConnectionHandler(this);
 
         tempLocalBoard = new Board(10, 8);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 0, 0);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 1, 1);
-        tempLocalBoard.addPlaceable(new ExamplePlaceable(), 2, 2);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 0);
+        tempLocalBoard.addPlaceable(new Shield(), 1, 1);
+        tempLocalBoard.addPlaceable(new Shield(), 2, 2);
+        tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
     }
 
     public void connectToServer() {
@@ -103,6 +106,9 @@ public class InputManager {
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
         if (gameController.gameCanStart()) {
             gameController.startGame();
+            for (InputSubscriber subscriber : subscribers) {
+                subscriber.setInitialOpponentBoard(); //creating objects from model
+            }
         }
     }
 
@@ -110,6 +116,9 @@ public class InputManager {
         gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
         if (gameController.gameCanStart()) {
             gameController.startGame();
+            for (InputSubscriber subscriber : subscribers) {
+                subscriber.setInitialOpponentBoard(); //creating objects from model
+            }
         }
     }
 

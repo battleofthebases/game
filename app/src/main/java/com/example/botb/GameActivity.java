@@ -1,15 +1,20 @@
 package com.example.botb;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import com.example.botb.model.Board;
+import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.fragments.GameView;
 import com.example.botb.view.fragments.OpponentView;
 import com.example.botb.view.fragments.statePageAdapter;
 import com.example.botb.view.objects.Draggable;
+import com.example.botb.view.objects.Droppable;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,8 +40,8 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         setContentView(R.layout.activity_game);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mainButton = (Button) findViewById(R.id.Main_button);
-        startGameButton = (Button) findViewById(R.id.startGame);
         final InputManager inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
 
@@ -46,31 +51,22 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
         mainButton.setOnClickListener(new View.OnClickListener() {
 
-            Boolean toggle = true;
-
             @Override
             public void onClick(View v) {
 
                 List<Draggable> draggables = gameview.getDraggables();
+                List<Droppable> droppables = opponentView.getDroppables();
 
-                if (toggle) {
-                    for (Draggable d : draggables) {
-                        d.StopDrag();
-                    }
-                } else {
-                    for (Draggable d : draggables) {
-                        d.StartDrag();
-                    }
+
+                for (Draggable d : draggables) {
+                    d.StopDrag();
                 }
-                toggle = !toggle;
-
-            }
-        });
-
-        startGameButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                for (Droppable droppable : droppables){
+                    droppable.setOnClikcListener();
+                }
                 try {
                     inputManager.setInitialLocalBoard();
+                    mainButton.setText("Ready!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -95,8 +91,13 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        System.out.println("new Action game activity");
-        gameview.updateBoard(isLocalAction);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameview.updateBoard(isLocalAction);
+                opponentView.updateBoard(isLocalAction);
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -105,5 +106,23 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         adapter.addFragment(opponentView, "OpponentView");
         viewPager.setAdapter(adapter);
     }
+
+    @Override
+    public void setInitialOpponentBoard(){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                opponentView.setInitialBoard();
+                mainButton.setText("FIGHT!");
+                mainButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {};
+                });
+            }
+        });
+
+    }
+
+
 
 }

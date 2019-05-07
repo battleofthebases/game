@@ -51,5 +51,9 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
         });
     }
 
+    @Override
+    public void setInitialOpponentBoard(){
+
+    }
 
 }
