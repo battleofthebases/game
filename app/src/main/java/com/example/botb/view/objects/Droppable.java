@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.botb.InputManager;
+import com.example.botb.controller.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;

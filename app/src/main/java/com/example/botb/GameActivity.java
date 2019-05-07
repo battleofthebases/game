@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.example.botb.controller.InputManager;
+import com.example.botb.controller.InputSubscriber;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;

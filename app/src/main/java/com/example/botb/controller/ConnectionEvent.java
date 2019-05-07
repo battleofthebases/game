@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 public enum ConnectionEvent {
     CONNECTED, DISCONNECTED, MATCHED

@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import com.example.botb.model.Board;
 

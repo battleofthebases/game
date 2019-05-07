@@ -1,7 +1,6 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import android.util.Log;
-import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;

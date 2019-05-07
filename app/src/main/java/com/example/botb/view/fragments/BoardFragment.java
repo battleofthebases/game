@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.example.botb.InputManager;
+import com.example.botb.controller.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
