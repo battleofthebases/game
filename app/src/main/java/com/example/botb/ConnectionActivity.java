@@ -56,4 +56,10 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
 
     }
 
+    @Override
+    public void gameEnd(final boolean localWin) {
+        inputManager.unsubscribe(this);
+        finish();
+    }
+
 }

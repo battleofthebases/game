@@ -13,4 +13,6 @@ public interface InputSubscriber {
     void newAction(boolean isLocalAction);
 
     void setInitialOpponentBoard();
+
+    void gameEnd(boolean localWin);
 }
