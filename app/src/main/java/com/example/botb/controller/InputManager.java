@@ -23,7 +23,7 @@ public class InputManager {
 
     private ConnectionHandler connectionHandler;
 
-    private GameController gameController;
+    private GameModelController gameModelController;
 
     private List<InputSubscriber> subscribers = new ArrayList<InputSubscriber>();
 
@@ -35,7 +35,7 @@ public class InputManager {
 
     //private constructor to avoid client applications to use constructor
     private InputManager() {
-        gameController = new GameController();
+        gameModelController = new GameModelController();
         //creating the ConnectionActivity
         connectionHandler = new ConnectionHandler(this);
 
@@ -54,7 +54,7 @@ public class InputManager {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ObjectOutputStream outputStrm = new ObjectOutputStream(outputStream);
-            outputStrm.writeObject(gameController.getGame());
+            outputStrm.writeObject(gameModelController.getGame());
             ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
             ObjectInputStream objInputStream = new ObjectInputStream(inputStream);
             return (Game) objInputStream.readObject();
@@ -65,29 +65,29 @@ public class InputManager {
     }
 
     public Board getLocalBoard() {
-        if (gameController.getGame() == null) {
+        if (gameModelController.getGame() == null) {
             return tempLocalBoard;
         } else {
-            return gameController.getLocalBoard();
+            return gameModelController.getLocalBoard();
         }
     }
 
     public Board getRemoteBoard() {
-        if (gameController.getGame() != null) {
-            return gameController.getRemoteBoard();
+        if (gameModelController.getGame() != null) {
+            return gameModelController.getRemoteBoard();
         }
         return null;
     }
 
     public boolean handleLocalAction(Action action) throws IOException {
-        if (!gameController.isLocalTurn()) {
+        if (!gameModelController.isLocalTurn()) {
             return false;
         }
-        if (gameController.applyAction(true, action)) {
+        if (gameModelController.applyAction(true, action)) {
             connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
             for (InputSubscriber subscriber : subscribers) {
                 subscriber.newAction(true);
-                Winner winner = gameController.checkWinner();
+                Winner winner = gameModelController.checkWinner();
                 if (winner != Winner.NONE) {
                     subscriber.gameEnd(winner == Winner.LOCAL_PLAYER);
                 }
@@ -98,10 +98,10 @@ public class InputManager {
     }
 
     public void handleRemoteAction(Action action) {
-        gameController.applyAction(false, action);
+        gameModelController.applyAction(false, action);
         for (InputSubscriber subscriber : subscribers) {
             subscriber.newAction(false);
-            Winner winner = gameController.checkWinner();
+            Winner winner = gameModelController.checkWinner();
             if (winner != Winner.NONE) {
                 subscriber.gameEnd(winner == Winner.LOCAL_PLAYER);
             }
@@ -109,10 +109,10 @@ public class InputManager {
     }
 
     public void setInitialLocalBoard() throws IOException {
-        gameController.setInitialLocalBoard(tempLocalBoard);
+        gameModelController.setInitialLocalBoard(tempLocalBoard);
         connectionHandler.sendMessage("InitialGameBoard:" + Parser.boardToString(tempLocalBoard));
-        if (gameController.gameCanStart()) {
-            gameController.startGame();
+        if (gameModelController.gameCanStart()) {
+            gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
                 subscriber.setInitialOpponentBoard(); //creating objects from model
             }
@@ -120,9 +120,9 @@ public class InputManager {
     }
 
     public void setInitialRemoteBoard(Board board) {
-        gameController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
-        if (gameController.gameCanStart()) {
-            gameController.startGame();
+        gameModelController.setInitialRemoteBoard(board.getWidth(), board.getHeight(), board.getPlaceables());
+        if (gameModelController.gameCanStart()) {
+            gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
                 subscriber.setInitialOpponentBoard(); //creating objects from model
             }
@@ -130,7 +130,7 @@ public class InputManager {
     }
 
     public void setPlayerOne(boolean playerOne) {
-        gameController.setPlayerOne(playerOne);
+        gameModelController.setPlayerOne(playerOne);
     }
 
     public void subscribe(InputSubscriber newSubscriber) {

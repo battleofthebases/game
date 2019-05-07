@@ -5,12 +5,12 @@ import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
 import org.junit.*;
 
-public class GameControllerTest {
+public class GameModelControllerTest {
 
     @Test(expected = NullPointerException.class)
     public void applyAction() throws NullPointerException {
-        GameController gameController = new GameController();
-        gameController.applyAction(true, new Action(new Location(6, 6), new ExampleWeapon()));
+        GameModelController gameModelController = new GameModelController();
+        gameModelController.applyAction(true, new Action(new Location(6, 6), new ExampleWeapon()));
         //TODO: SetBoard and test applied action
     }
 

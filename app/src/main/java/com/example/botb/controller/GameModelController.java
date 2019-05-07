@@ -9,7 +9,7 @@ import com.example.botb.model.Winner;
 import com.example.botb.model.placeable.Placeable;
 import java.util.Map;
 
-public class GameController {
+public class GameModelController {
 
     private Game game;
 
