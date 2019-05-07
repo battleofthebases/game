@@ -1,5 +1,7 @@
 package com.example.botb.model;
 
+import com.example.botb.Winner;
+
 public class Game {
 
     private boolean isLocalTurn;
@@ -15,7 +17,7 @@ public class Game {
     }
 
     public boolean applyAction(boolean localPlayer, Action action) {
-        
+
         if (localPlayer != isLocalTurn) {
             return false;
         }
@@ -35,9 +37,13 @@ public class Game {
         return false;
     }
 
-    public int checkWinner() {
-        // TODO: How do we check winner?
-        return 0;
+    public Winner checkWinner() {
+        if (localBoard.checkWinCondition()) {
+            return Winner.REMOTE_PLAYER;
+        } else if (remoteBoard.checkWinCondition()) {
+            return Winner.LOCAL_PLAYER;
+        }
+        return Winner.NONE;
     }
 
     public Board getLocalBoard() {
