@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.643" />
 
     <TextView
-        android:id="@+id/end_State"
+        android:id="@+id/you_have"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="72dp"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="0.63" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/end_State"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

@@ -35,23 +35,26 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
 
     @Override
     public void gameEnd(final boolean localWin) {
-        inputManager.unsubscribe(this);
-        finish();
+        Log.e(TAG, "GameEnd should not get called in this class!");
+        //inputManager.unsubscribe(this);
+        //finish();
     }
 
     @Override
     public void matched() {
         startActivity(new Intent(ConnectionActivity.this, GameActivity.class));
+        inputManager.unsubscribe(this);
+        finish();
     }
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        Log.e(TAG, " This function should not get called in this class!");
+        Log.e(TAG, "NewAction should not get called in this class!");
     }
 
     @Override
     public void setInitialOpponentBoard() {
-        Log.e(TAG, " This function should not get called in this class!");
+        Log.e(TAG, "SetInitialOpponentBoard should not get called in this class!");
     }
 
     private void updateTheStatusText(final String text) {

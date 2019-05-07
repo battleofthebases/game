@@ -101,6 +101,10 @@ public class InputManager {
         gameController.applyAction(false, action);
         for (InputSubscriber subscriber : subscribers) {
             subscriber.newAction(false);
+            Winner winner = gameController.checkWinner();
+            if (winner != Winner.NONE) {
+                subscriber.gameEnd(winner == Winner.LOCAL_PLAYER);
+            }
         }
     }
 

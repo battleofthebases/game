@@ -25,7 +25,6 @@ public class GameEndActivity extends AppCompatActivity {
         }
 
         runOnUiThread(new Runnable() {
-
             @Override
             public void run() {
                 TextView statusTextView = (TextView) findViewById(R.id.end_State);

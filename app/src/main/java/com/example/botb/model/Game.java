@@ -17,7 +17,7 @@ public class Game {
     }
 
     public boolean applyAction(boolean localPlayer, Action action) {
-        
+
         if (localPlayer != isLocalTurn) {
             return false;
         }
@@ -38,10 +38,10 @@ public class Game {
     }
 
     public Winner checkWinner() {
-        if(localBoard.checkWinCondition()){
-            return Winner.LOCAL_PLAYER;
-        }else if(remoteBoard.checkWinCondition()){
+        if (localBoard.checkWinCondition()) {
             return Winner.REMOTE_PLAYER;
+        } else if (remoteBoard.checkWinCondition()) {
+            return Winner.LOCAL_PLAYER;
         }
         return Winner.NONE;
     }
