@@ -16,9 +16,9 @@ public class GameController {
 
     private boolean isPlayerOne;
 
-    public void applyAction(boolean localPlayer, Action action) {
+    public boolean applyAction(boolean localPlayer, Action action) {
         if (game != null) {
-            game.applyAction(localPlayer, action);
+            return game.applyAction(localPlayer, action);
         } else {
             throw new NullPointerException("Game is null");
         }
@@ -44,6 +44,10 @@ public class GameController {
         return game.getRemoteBoard();
     }
 
+    public boolean isLocalTurn() {
+        return game.isLocalTurn();
+    }
+
     public void setInitialLocalBoard(Board board) {
         initialLocalBoard = board;
     }
@@ -64,7 +68,7 @@ public class GameController {
         if (initialLocalBoard != null && initialRemoteBoard != null) {
             Log.d("GAME", "STARTED");
             game = new Game(initialLocalBoard, initialRemoteBoard, isPlayerOne);
-        }else{
+        } else {
             throw new NullPointerException("One board is equal null");
         }
     }

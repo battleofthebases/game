@@ -80,12 +80,18 @@ public class InputManager {
         return null;
     }
 
-    public void handleLocalAction(Action action) throws IOException {
-        gameController.applyAction(true, action);
-        connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
-        for (InputSubscriber subscriber : subscribers) {
-            subscriber.newAction(true);
+    public boolean handleLocalAction(Action action) throws IOException {
+        if (!gameController.isLocalTurn()) {
+            return false;
         }
+        if (gameController.applyAction(true, action)) {
+            connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
+            for (InputSubscriber subscriber : subscribers) {
+                subscriber.newAction(true);
+            }
+            return true;
+        }
+        return false;
     }
 
     public void handleRemoteAction(Action action) {
