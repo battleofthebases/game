@@ -1,5 +1,6 @@
 package com.example.botb.model;
 
+import com.example.botb.model.placeable.Nexus;
 import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.Weapon;
 import java.io.Serializable;
@@ -56,6 +57,15 @@ public class Board implements Serializable {
         shots.add(location);
 
         return true;
+    }
+
+    public boolean checkWinCondition() {
+        for (Placeable placeable : placeables.values()) {
+            if (placeable instanceof Nexus && placeable.isDestroyed()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getHeight() {

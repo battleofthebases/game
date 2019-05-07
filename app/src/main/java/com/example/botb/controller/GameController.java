@@ -1,6 +1,7 @@
 package com.example.botb.controller;
 
 import android.util.Log;
+import com.example.botb.Winner;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
@@ -22,6 +23,10 @@ public class GameController {
         } else {
             throw new NullPointerException("Game is null");
         }
+    }
+
+    public Winner checkWinner() {
+        return game.checkWinner();
     }
 
     public boolean gameCanStart() {

@@ -5,7 +5,6 @@ import com.example.botb.controller.GameController;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
-import com.example.botb.model.placeable.ExamplePlaceable;
 import com.example.botb.model.placeable.Nexus;
 import com.example.botb.model.placeable.Shield;
 import java.io.ByteArrayInputStream;
@@ -88,6 +87,10 @@ public class InputManager {
             connectionHandler.sendMessage("Action:" + Parser.actionToString(action));
             for (InputSubscriber subscriber : subscribers) {
                 subscriber.newAction(true);
+                Winner winner = gameController.checkWinner();
+                if (winner != Winner.NONE) {
+                    subscriber.gameEnd(winner == Winner.LOCAL_PLAYER);
+                }
             }
             return true;
         }
