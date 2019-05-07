@@ -1,11 +1,11 @@
 package com.example.botb.controller;
 
 import android.util.Log;
-import com.example.botb.Winner;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Game;
 import com.example.botb.model.Location;
+import com.example.botb.model.Winner;
 import com.example.botb.model.placeable.Placeable;
 import java.util.Map;
 
@@ -37,10 +37,6 @@ public class GameController {
         return game;
     }
 
-    public void setGame(final Game game) {
-        this.game = game;
-    }
-
     public Board getLocalBoard() {
         return game.getLocalBoard();
     }
@@ -55,10 +51,6 @@ public class GameController {
 
     public void setInitialLocalBoard(Board board) {
         initialLocalBoard = board;
-    }
-
-    public void setInitialRemoteBoard(final Board initialRemoteBoard) {
-        this.initialRemoteBoard = initialRemoteBoard;
     }
 
     public void setInitialRemoteBoard(int width, int height, Map<Location, Placeable> placeables) {
