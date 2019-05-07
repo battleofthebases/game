@@ -1,7 +1,6 @@
 package com.example.botb;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import com.example.botb.model.Board;
-import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.fragments.GameView;
 import com.example.botb.view.fragments.OpponentView;
 import com.example.botb.view.fragments.statePageAdapter;
@@ -30,6 +26,8 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     private statePageAdapter adapter;
 
+    private InputManager inputManager;
+
     private Button mainButton;
 
     private Button startGameButton;
@@ -37,8 +35,6 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     private int toggle = 0;
 
     private ViewPager viewPager;
-
-    private InputManager inputManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +59,10 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
                 List<Draggable> draggables = gameview.getDraggables();
                 List<Droppable> droppables = opponentView.getDroppables();
 
-
                 for (Draggable d : draggables) {
                     d.StopDrag();
                 }
-                for (Droppable droppable : droppables){
+                for (Droppable droppable : droppables) {
                     droppable.setOnClikcListener();
                 }
                 try {
@@ -88,12 +83,21 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void connectionOpen() {
-        Log.e(TAG," This function should not get called in this class!");
+        Log.e(TAG, " This function should not get called in this class!");
+    }
+
+    @Override
+    public void gameEnd(final boolean localWin) {
+        inputManager.unsubscribe(this);
+        Intent intent = new Intent(getBaseContext(), GameEndActivity.class);
+        intent.putExtra("LOCAL_WIN", localWin);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void matched() {
-        Log.e(TAG," This function should not get called in this class!");
+        Log.e(TAG, " This function should not get called in this class!");
     }
 
     @Override
@@ -107,15 +111,8 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         });
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        statePageAdapter adapter = new statePageAdapter(getSupportFragmentManager());
-        adapter.addFragment(gameview, "GameView");
-        adapter.addFragment(opponentView, "OpponentView");
-        viewPager.setAdapter(adapter);
-    }
-
     @Override
-    public void setInitialOpponentBoard(){
+    public void setInitialOpponentBoard() {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -123,19 +120,20 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
                 mainButton.setText("FIGHT!");
                 mainButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {};
+                    public void onClick(View v) {
+                    }
+
+                    ;
                 });
             }
         });
 
     }
 
-    @Override
-    public void gameEnd(final boolean localWin) {
-        inputManager.unsubscribe(this);
-        Intent intent = new Intent(getBaseContext(),GameEndActivity.class);
-        intent.putExtra("LOCAL_WIN",localWin);
-        startActivity(intent);
-        finish();
+    private void setupViewPager(ViewPager viewPager) {
+        statePageAdapter adapter = new statePageAdapter(getSupportFragmentManager());
+        adapter.addFragment(gameview, "GameView");
+        adapter.addFragment(opponentView, "OpponentView");
+        viewPager.setAdapter(adapter);
     }
 }
