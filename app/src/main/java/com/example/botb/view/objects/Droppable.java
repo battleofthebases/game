@@ -3,57 +3,24 @@ package com.example.botb.view.objects;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import com.example.botb.InputManager;
 import com.example.botb.R;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
-import com.example.botb.model.placeable.Placeable;
 import com.example.botb.model.weapon.ExampleWeapon;
 import com.example.botb.view.fragments.BoardAdapter;
 import java.io.IOException;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
-    private Boolean hit = false;
-    private Board board;
-    private Sprites sprites;
-
-    public Droppable(Context context, Boolean view, Board board, Sprites sprites) {
-        super(context);
-        this.sprites = sprites;
-        this.board = board;
-        BitmapDrawable background;
-
-        if (view) {
-            background = sprites.getPlayerBackground();
-            this.setOnDragListener(new Droppable.DragListener(background));
-        } else {
-            background = sprites.getOpponentBackground();
-        }
-        this.setBackgroundDrawable(background);
-
-    }
-
-
-
-    class stopOnClickListener implements OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        }
-    }
-
     class onClickListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {
-            Droppable container = (Droppable) v;
             Action action = new Action(location, new ExampleWeapon());
             InputManager inputmanager = InputManager.getInstance();
             try {
@@ -127,10 +94,34 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     public BoardAdapter gameView;
 
+    private Boolean hit = false;
+
     private Location location;
+
+    public Droppable(Context context, boolean localPlayer, Sprites sprites) {
+        super(context);
+
+        BitmapDrawable background;
+
+        if (localPlayer) {
+            background = sprites.getPlayerBackground();
+            this.setOnDragListener(new Droppable.DragListener(background));
+        } else {
+            background = sprites.getOpponentBackground();
+        }
+        this.setBackgroundDrawable(background);
+    }
 
     public Location getLocation() {
         return location;
+    }
+
+    public Boolean isHit() {
+        return hit;
+    }
+
+    public void setHit() {
+        hit = true;
     }
 
     public void setLocation(int x, int y) {
@@ -139,22 +130,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     public void setOnClikcListener() {
         this.setOnClickListener(new onClickListener());
-    }
-
-    public void stopClikcListener() {
-        this.setOnClickListener(new stopOnClickListener());
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public Boolean isHit(){
-       return hit;
-    }
-
-    public void setHit() {
-        hit = true;
     }
 
 
