@@ -10,7 +10,7 @@ import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.view.objects.Sprites;
 
-public class GameView extends BoardAdapter {
+public class LocalBoardFragment extends BoardFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -20,9 +20,9 @@ public class GameView extends BoardAdapter {
         view.post(new Runnable() {
             @Override
             public void run() {
-                Height = v.getHeight();
-                Width = v.getWidth();
-                sprites = new Sprites(getActivity(), Width, Height);
+                height = v.getHeight();
+                width = v.getWidth();
+                sprites = new Sprites(getActivity(), width, height);
                 createBoard(true);
             }
         });

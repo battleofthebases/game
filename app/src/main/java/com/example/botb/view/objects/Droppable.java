@@ -12,7 +12,6 @@ import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
-import com.example.botb.view.fragments.BoardAdapter;
 import java.io.IOException;
 
 public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
@@ -91,8 +90,6 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
             return true;
         }
     }
-
-    public BoardAdapter gameView;
 
     private Boolean hit = false;
 

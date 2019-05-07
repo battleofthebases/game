@@ -22,13 +22,9 @@ import com.example.botb.view.objects.Sprites;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardAdapter extends Fragment {
+public class BoardFragment extends Fragment {
 
     public View v;
-
-    protected int Height;
-
-    protected int Width;
 
     protected List<Draggable> draggables = new ArrayList<Draggable>();
 
@@ -37,6 +33,8 @@ public class BoardAdapter extends Fragment {
     protected int gridHeight = 10;
 
     protected int gridWidth = 8;
+
+    protected int height, width;
 
     protected InputManager inputManager = InputManager.getInstance();
 
@@ -57,8 +55,8 @@ public class BoardAdapter extends Fragment {
         layout.setRowCount(gridHeight);
         layout.setColumnCount(gridWidth);
 
-        int lineHeight = Height / layout.getRowCount();
-        int lineWidth = Width / layout.getColumnCount();
+        int lineHeight = height / layout.getRowCount();
+        int lineWidth = width / layout.getColumnCount();
 
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
@@ -69,7 +67,6 @@ public class BoardAdapter extends Fragment {
                 droppable.setId(R.id.parent + x + y);
                 droppable.setGravity(Gravity.CENTER);
                 droppable.setLocation(x, y);
-                droppable.gameView = this;
 
                 // Get placeable
 

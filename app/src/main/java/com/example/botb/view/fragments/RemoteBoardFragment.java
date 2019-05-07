@@ -18,8 +18,7 @@ import com.example.botb.view.objects.GameGrid;
 import com.example.botb.view.objects.Sprites;
 import java.util.Map;
 
-public class OpponentView extends BoardAdapter {
-
+public class RemoteBoardFragment extends BoardFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -29,9 +28,9 @@ public class OpponentView extends BoardAdapter {
         view.post(new Runnable() {
             @Override
             public void run() {
-                Height = v.getHeight();
-                Width = v.getWidth();
-                sprites = new Sprites(getActivity(), Width, Height);
+                height = v.getHeight();
+                width = v.getWidth();
+                sprites = new Sprites(getActivity(), width, height);
                 createBoard(false);
             }
         });
@@ -40,9 +39,11 @@ public class OpponentView extends BoardAdapter {
 
     public void setInitialBoard() {
         Log.d("Initialization", "Setting initial opponent board");
+
         GameGrid layout = v.findViewById(R.id.grid);
-        Map<Location, Placeable> placables = inputManager.getRemoteBoard().getPlaceables();
-        for (Map.Entry<Location, Placeable> entry : placables.entrySet()) {
+        Map<Location, Placeable> placeables = inputManager.getRemoteBoard().getPlaceables();
+
+        for (Map.Entry<Location, Placeable> entry : placeables.entrySet()) {
             Droppable droppable = (Droppable) layout
                     .getChildAt(entry.getKey().getX() * gridWidth + entry.getKey().getY());
 
@@ -58,9 +59,7 @@ public class OpponentView extends BoardAdapter {
             droppable.addView(draggable);
             draggables.add(draggable);
             draggable.setLocation(entry.getKey().getX(), entry.getKey().getY());
-
         }
-
     }
 
     public void updateBoard(boolean isLocalAction) {
