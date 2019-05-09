@@ -106,10 +106,10 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
         BitmapDrawable background;
 
         if (localPlayer) {
-            background = spriteLoader.getPlayerBackground();
+            background = spriteLoader.getLocalBackground();
             this.setOnDragListener(new GridCellDragListener(background));
         } else {
-            background = spriteLoader.getOpponentBackground();
+            background = spriteLoader.getRemoteBackground();
         }
         this.setBackground(background);
     }

@@ -24,9 +24,9 @@ public class Shield extends GridPlaceable {
     @Override
     public void setHit(SpriteLoader spriteLoader) {
         if (localPlayer) {
-            this.setImageBitmap(spriteLoader.getShieldpdestroyed());
+            this.setImageBitmap(spriteLoader.getLocalShieldDestroyed());
         } else {
-            this.setImageBitmap(spriteLoader.getShieldodestroyed());
+            this.setImageBitmap(spriteLoader.getRemoteShieldDestroyed());
         }
     }
 
