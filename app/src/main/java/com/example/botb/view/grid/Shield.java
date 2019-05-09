@@ -7,14 +7,14 @@ import com.example.botb.view.SpriteLoader;
 
 public class Shield extends GridPlaceable {
 
-    private Boolean view;
+    private boolean localPlayer;
 
-    public Shield(Context context, Boolean view, Placeable placable, SpriteLoader spriteLoader) {
+    public Shield(Context context, boolean localPlayer, Placeable placable, SpriteLoader spriteLoader) {
         super(context);
-        this.view = view;
+        this.localPlayer = localPlayer;
         this.name = "Shield";
         this.placable = placable;
-        if (view) {
+        if (localPlayer) {
             this.setImageBitmap(spriteLoader.getPlayerShield());
         } else {
             this.StopDrag();
@@ -22,9 +22,9 @@ public class Shield extends GridPlaceable {
     }
 
     @Override
-    public void setHit(SpriteLoader spriteLoader){
+    public void setHit(SpriteLoader spriteLoader) {
         hit = true;
-        if(view){
+        if (localPlayer) {
             this.setImageBitmap(spriteLoader.getShieldpdestroyed());
         } else {
             this.setImageBitmap(spriteLoader.getShieldodestroyed());

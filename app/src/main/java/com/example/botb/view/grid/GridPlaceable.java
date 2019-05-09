@@ -11,11 +11,7 @@ import com.example.botb.view.SpriteLoader;
 
 public abstract class GridPlaceable extends android.support.v7.widget.AppCompatImageView {
 
-    protected Placeable placable;
-    protected String name;
-    protected Boolean hit = false;
-
-    private final class TouchListener implements OnTouchListener {
+    private final class GridPlaceableTouchListener implements OnTouchListener {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -32,13 +28,11 @@ public abstract class GridPlaceable extends android.support.v7.widget.AppCompatI
         }
     }
 
-    private final class StopTouchListener implements OnTouchListener {
+    protected boolean hit = false;
 
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            return false;
-        }
-    }
+    protected String name;
+
+    protected Placeable placable;
 
     private Location location;
 
@@ -47,25 +41,27 @@ public abstract class GridPlaceable extends android.support.v7.widget.AppCompatI
         this.StartDrag();
     }
 
-    public String getName() { return name; }
-
     public void StartDrag() {
-        this.setOnTouchListener(new TouchListener());
+        this.setOnTouchListener(new GridPlaceableTouchListener());
     }
 
     public void StopDrag() {
-        this.setOnTouchListener(new StopTouchListener());
+        this.setOnTouchListener((v, event) -> false);
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public abstract void setHit(SpriteLoader spriteLoader);
-
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract void setHit(SpriteLoader spriteLoader);
 
     public void setLocation(int x, int y) {
         location = new Location(x, y);

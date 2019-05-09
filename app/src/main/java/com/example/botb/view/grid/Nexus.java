@@ -8,14 +8,14 @@ import com.example.botb.view.SpriteLoader;
 
 public class Nexus extends GridPlaceable {
 
-    Boolean view;
+    private boolean localPlayer;
 
-    public Nexus(Context context, Boolean view, Placeable placable, SpriteLoader spriteLoader) {
+    public Nexus(Context context, boolean localPlayer, Placeable placable, SpriteLoader spriteLoader) {
         super(context);
         this.name = "Nexus";
-        this.view = view;
+        this.localPlayer = localPlayer;
         this.placable = placable;
-        if (view) {
+        if (localPlayer) {
             this.setImageBitmap(spriteLoader.getPlayerNexus());
         } else {
             this.StopDrag();
@@ -23,9 +23,9 @@ public class Nexus extends GridPlaceable {
     }
 
     @Override
-    public void setHit(SpriteLoader spriteLoader){
+    public void setHit(SpriteLoader spriteLoader) {
         hit = true;
-        if(view){
+        if (localPlayer) {
             this.setImageBitmap(spriteLoader.getBasepdestroyed());
         } else {
             this.setImageBitmap(spriteLoader.getBaseodestroyed());

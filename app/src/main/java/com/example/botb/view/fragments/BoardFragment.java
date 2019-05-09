@@ -26,11 +26,11 @@ public class BoardFragment extends Fragment {
 
     public View v;
 
-    protected List<GridCell> gridCells = new ArrayList<GridCell>();
+    protected List<GridCell> gridCells = new ArrayList<>();
 
     protected int gridHeight = 10;
 
-    protected List<GridPlaceable> gridPlaceables = new ArrayList<GridPlaceable>();
+    protected List<GridPlaceable> gridPlaceables = new ArrayList<>();
 
     protected int gridWidth = 8;
 
@@ -141,16 +141,16 @@ public class BoardFragment extends Fragment {
         }
     }
 
-    protected GridPlaceable createNexus(Boolean view, Placeable placable) {
-        Nexus nexus = new Nexus(getContext(), view, placable, spriteLoader);
+    protected GridPlaceable createNexus(boolean localPlayer, Placeable placable) {
+        Nexus nexus = new Nexus(getContext(), localPlayer, placable, spriteLoader);
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
         return nexus;
     }
 
-    protected GridPlaceable createShield(Boolean player, Placeable placable) {
-        Shield shield = new Shield(getContext(), player, placable, spriteLoader);
+    protected GridPlaceable createShield(boolean localPlayer, Placeable placable) {
+        Shield shield = new Shield(getContext(), localPlayer, placable, spriteLoader);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);

@@ -6,15 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;
-import com.example.botb.view.grid.GridPlaceable;
 import com.example.botb.view.grid.GridCell;
+import com.example.botb.view.grid.GridPlaceable;
 import java.io.IOException;
 import java.util.List;
 
@@ -46,26 +45,22 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         viewPager = findViewById(R.id.contianer);
         setupViewPager(viewPager);
 
-        mainButton.setOnClickListener(new View.OnClickListener() {
+        mainButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
+            List<GridCell> gridCells = remoteBoardFragment.getGridCells();
 
-                List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
-                List<GridCell> gridCells = remoteBoardFragment.getGridCells();
-
-                for (GridPlaceable d : gridPlaceables) {
-                    d.StopDrag();
-                }
-                for (GridCell gridCell : gridCells) {
-                    gridCell.setOnClikcListener();
-                }
-                try {
-                    inputManager.setInitialLocalBoard();
-                    mainButton.setText("Ready!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            for (GridPlaceable d : gridPlaceables) {
+                d.StopDrag();
+            }
+            for (GridCell gridCell : gridCells) {
+                gridCell.setOnClikcListener();
+            }
+            try {
+                inputManager.setInitialLocalBoard();
+                mainButton.setText("Ready!");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -97,31 +92,20 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                localBoardFragment.updateBoard(isLocalAction);
-                remoteBoardFragment.updateBoard(isLocalAction);
-            }
+        this.runOnUiThread(() -> {
+            localBoardFragment.updateBoard(isLocalAction);
+            remoteBoardFragment.updateBoard(isLocalAction);
         });
     }
 
     @Override
     public void setInitialOpponentBoard() {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                remoteBoardFragment.setInitialBoard();
-                mainButton.setText("FIGHT!");
-                mainButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-
-                });
-            }
+        this.runOnUiThread(() -> {
+            remoteBoardFragment.setInitialBoard();
+            mainButton.setText("FIGHT!");
+            mainButton.setOnClickListener(v -> {
+            });
         });
-
     }
 
     private void setupViewPager(ViewPager viewPager) {

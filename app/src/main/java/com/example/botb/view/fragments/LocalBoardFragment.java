@@ -17,14 +17,11 @@ public class LocalBoardFragment extends BoardFragment {
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                height = v.getHeight();
-                width = v.getWidth();
-                spriteLoader = new SpriteLoader(getActivity(), width, height);
-                createBoard(true);
-            }
+        view.post(() -> {
+            height = v.getHeight();
+            width = v.getWidth();
+            spriteLoader = new SpriteLoader(getActivity(), width, height);
+            createBoard(true);
         });
         return view;
     }

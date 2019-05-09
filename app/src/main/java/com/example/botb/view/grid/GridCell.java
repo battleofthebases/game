@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.botb.controller.InputManager;
 import com.example.botb.R;
+import com.example.botb.controller.InputManager;
 import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
@@ -17,21 +17,7 @@ import java.io.IOException;
 
 public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
-    class onClickListener implements OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Action action = new Action(location, new ExampleWeapon());
-            InputManager inputmanager = InputManager.getInstance();
-            try {
-                inputmanager.handleLocalAction(action);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    class DragListener implements OnDragListener {
+    private final class GridCellDragListener implements OnDragListener {
 
         BitmapDrawable background;
 
@@ -40,7 +26,7 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
         Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
 
-        DragListener(BitmapDrawable background) {
+        GridCellDragListener(BitmapDrawable background) {
             this.background = background;
         }
 
@@ -59,13 +45,13 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     if (container.getChildCount() > 0 && container != owner) {
-                        v.setBackgroundDrawable(noEntryShape);
+                        v.setBackground(noEntryShape);
                     } else {
-                        v.setBackgroundDrawable(enterShape);
+                        v.setBackground(enterShape);
                     }
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackgroundDrawable(background);
+                    v.setBackground(background);
                     break;
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
@@ -84,7 +70,7 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
                     gridPlaceable.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    v.setBackgroundDrawable(background);
+                    v.setBackground(background);
                 default:
                     break;
             }
@@ -92,7 +78,21 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
         }
     }
 
-    private Boolean hit = false;
+    private final class GridCellClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Action action = new Action(location, new ExampleWeapon());
+            InputManager inputmanager = InputManager.getInstance();
+            try {
+                inputmanager.handleLocalAction(action);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean hit = false;
 
     private Location location;
 
@@ -103,18 +103,18 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
         if (localPlayer) {
             background = spriteLoader.getPlayerBackground();
-            this.setOnDragListener(new GridCell.DragListener(background));
+            this.setOnDragListener(new GridCellDragListener(background));
         } else {
             background = spriteLoader.getOpponentBackground();
         }
-        this.setBackgroundDrawable(background);
+        this.setBackground(background);
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public Boolean isHit() {
+    public boolean isHit() {
         return hit;
     }
 
@@ -127,7 +127,7 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
     }
 
     public void setOnClikcListener() {
-        this.setOnClickListener(new onClickListener());
+        this.setOnClickListener(new GridCellClickListener());
     }
 
 
