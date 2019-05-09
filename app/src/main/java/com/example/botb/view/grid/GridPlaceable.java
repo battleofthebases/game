@@ -28,8 +28,6 @@ public abstract class GridPlaceable extends android.support.v7.widget.AppCompatI
         }
     }
 
-    protected boolean hit = false;
-
     protected String name;
 
     protected Placeable placable;

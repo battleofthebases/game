@@ -24,7 +24,6 @@ public class Nexus extends GridPlaceable {
 
     @Override
     public void setHit(SpriteLoader spriteLoader) {
-        hit = true;
         if (localPlayer) {
             this.setImageBitmap(spriteLoader.getBasepdestroyed());
         } else {

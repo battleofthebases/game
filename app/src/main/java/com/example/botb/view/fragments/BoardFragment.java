@@ -122,20 +122,32 @@ public class BoardFragment extends Fragment {
     }
 
     public void updateBoard(Board board) {
+
         GameGrid layout = v.findViewById(R.id.grid);
         List<Location> shots = board.getShots();
+
+        // Loop all shots on board
         for (int i = 0; i < shots.size(); i++) {
-            GridCell gridCell = (GridCell) layout
-                    .getChildAt(shots.get(i).getX() * gridWidth + shots.get(i).getY());
+
+            // Get gridCell at shot location
+            GridCell gridCell = (GridCell) layout.getChildAt(shots.get(i).getX() * gridWidth + shots.get(i).getY());
+
+            // Check if gridCell is not hit already
             if (!gridCell.isHit()) {
                 if (gridCell.getChildCount() == 1) {
+
+                    // Get gridPlaceable in gridCell and apply hit
                     GridPlaceable gridPlaceable = (GridPlaceable) gridCell.getChildAt(0);
                     if (gridPlaceable.getName() != "Shot") {
                         gridPlaceable.setHit(spriteLoader);
                         gridCell.setHit();
                     }
+
                 } else {
+
+                    // Add shot placeable if gridCell is empty
                     gridCell.addView(createShot());
+
                 }
             }
         }
