@@ -1,4 +1,4 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.Context;
 import android.util.AttributeSet;

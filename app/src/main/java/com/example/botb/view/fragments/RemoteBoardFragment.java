@@ -12,10 +12,10 @@ import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.objects.Draggable;
-import com.example.botb.view.objects.Droppable;
-import com.example.botb.view.objects.GameGrid;
-import com.example.botb.view.objects.Sprites;
+import com.example.botb.view.grid.GridPlaceable;
+import com.example.botb.view.grid.GridCell;
+import com.example.botb.view.grid.GameGrid;
+import com.example.botb.view.Sprites;
 import java.util.Map;
 
 public class RemoteBoardFragment extends BoardFragment {
@@ -44,21 +44,21 @@ public class RemoteBoardFragment extends BoardFragment {
         Map<Location, Placeable> placeables = inputManager.getRemoteBoard().getPlaceables();
 
         for (Map.Entry<Location, Placeable> entry : placeables.entrySet()) {
-            Droppable droppable = (Droppable) layout
+            GridCell gridCell = (GridCell) layout
                     .getChildAt(entry.getKey().getX() * gridWidth + entry.getKey().getY());
 
-            Draggable draggable;
+            GridPlaceable gridPlaceable;
             if (entry.getValue().getName().equals("Nexus")) {
-                draggable = createNexus(false, entry.getValue());
+                gridPlaceable = createNexus(false, entry.getValue());
                 Log.d("Initialization", "Adding Nexus");
             } else {
-                draggable = createShield(false, entry.getValue());
+                gridPlaceable = createShield(false, entry.getValue());
                 Log.d("Initialization", "Adding Shield");
             }
 
-            droppable.addView(draggable);
-            draggables.add(draggable);
-            draggable.setLocation(entry.getKey().getX(), entry.getKey().getY());
+            gridCell.addView(gridPlaceable);
+            gridPlaceables.add(gridPlaceable);
+            gridPlaceable.setLocation(entry.getKey().getX(), entry.getKey().getY());
         }
     }
 

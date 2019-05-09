@@ -1,4 +1,4 @@
-package com.example.botb.view.objects;
+package com.example.botb.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

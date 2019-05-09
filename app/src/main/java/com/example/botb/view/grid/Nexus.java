@@ -1,11 +1,12 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 
 import android.content.Context;
 import com.example.botb.model.placeable.Placeable;
+import com.example.botb.view.Sprites;
 
 
-public class Nexus extends Draggable {
+public class Nexus extends GridPlaceable {
 
     Boolean view;
 

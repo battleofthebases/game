@@ -1,11 +1,9 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import com.example.botb.R;
+import com.example.botb.view.Sprites;
 
-public class Shot extends Draggable {
+public class Shot extends GridPlaceable {
 
     public Shot(Context context, Sprites sprites) {
 

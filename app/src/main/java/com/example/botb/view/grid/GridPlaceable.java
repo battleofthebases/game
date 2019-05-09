@@ -1,4 +1,4 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.model.placeable.Visibility;
+import com.example.botb.view.Sprites;
 
-public abstract class Draggable extends android.support.v7.widget.AppCompatImageView {
+public abstract class GridPlaceable extends android.support.v7.widget.AppCompatImageView {
 
     protected Placeable placable;
     protected String name;
@@ -42,7 +42,7 @@ public abstract class Draggable extends android.support.v7.widget.AppCompatImage
 
     private Location location;
 
-    public Draggable(Context context) {
+    public GridPlaceable(Context context) {
         super(context);
         this.StartDrag();
     }

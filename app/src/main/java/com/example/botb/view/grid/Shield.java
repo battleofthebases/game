@@ -1,12 +1,11 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.Context;
-import android.text.BoringLayout;
-import android.view.View;
 import com.example.botb.model.placeable.Placeable;
+import com.example.botb.view.Sprites;
 
 
-public class Shield extends Draggable {
+public class Shield extends GridPlaceable {
 
     private Boolean view;
 

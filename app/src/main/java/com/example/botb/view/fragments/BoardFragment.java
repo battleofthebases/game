@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.example.botb.controller.InputManager;
 import com.example.botb.R;
+import com.example.botb.controller.InputManager;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.objects.Draggable;
-import com.example.botb.view.objects.Droppable;
-import com.example.botb.view.objects.GameGrid;
-import com.example.botb.view.objects.Nexus;
-import com.example.botb.view.objects.Shield;
-import com.example.botb.view.objects.Shot;
-import com.example.botb.view.objects.Sprites;
+import com.example.botb.view.Sprites;
+import com.example.botb.view.grid.GameGrid;
+import com.example.botb.view.grid.GridCell;
+import com.example.botb.view.grid.GridPlaceable;
+import com.example.botb.view.grid.Nexus;
+import com.example.botb.view.grid.Shield;
+import com.example.botb.view.grid.Shot;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +26,11 @@ public class BoardFragment extends Fragment {
 
     public View v;
 
-    protected List<Draggable> draggables = new ArrayList<Draggable>();
-
-    protected List<Droppable> droppables = new ArrayList<Droppable>();
+    protected List<GridCell> gridCells = new ArrayList<GridCell>();
 
     protected int gridHeight = 10;
+
+    protected List<GridPlaceable> gridPlaceables = new ArrayList<GridPlaceable>();
 
     protected int gridWidth = 8;
 
@@ -61,12 +61,12 @@ public class BoardFragment extends Fragment {
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
 
-                Droppable droppable = new Droppable(getContext(), localPlayer, sprites);
-                droppable.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
-                droppable.setOrientation(LinearLayout.HORIZONTAL);
-                droppable.setId(R.id.parent + x + y);
-                droppable.setGravity(Gravity.CENTER);
-                droppable.setLocation(x, y);
+                GridCell gridCell = new GridCell(getContext(), localPlayer, sprites);
+                gridCell.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
+                gridCell.setOrientation(LinearLayout.HORIZONTAL);
+                gridCell.setId(R.id.parent + x + y);
+                gridCell.setGravity(Gravity.CENTER);
+                gridCell.setLocation(x, y);
 
                 // Get placeable
 
@@ -80,15 +80,15 @@ public class BoardFragment extends Fragment {
                 }
 
                 if (placeable != null) {
-                    Draggable draggable;
+                    GridPlaceable gridPlaceable;
                     if (placeable.getName() == "Nexus") {
-                        draggable = createNexus(localPlayer, placeable);
+                        gridPlaceable = createNexus(localPlayer, placeable);
                     } else {
-                        draggable = createShield(localPlayer, placeable);
+                        gridPlaceable = createShield(localPlayer, placeable);
                     }
-                    droppable.addView(draggable);
-                    draggables.add(draggable);
-                    draggable.setLocation(x, y);
+                    gridCell.addView(gridPlaceable);
+                    gridPlaceables.add(gridPlaceable);
+                    gridPlaceable.setLocation(x, y);
                 }
 
                 GridLayout.LayoutParams myGLP = new GridLayout.LayoutParams();
@@ -98,8 +98,8 @@ public class BoardFragment extends Fragment {
                 myGLP.columnSpec = colSpec;
                 myGLP.width = 0;
                 myGLP.height = 0;
-                layout.addView(droppable, myGLP);
-                droppables.add(droppable);
+                layout.addView(gridCell, myGLP);
+                gridCells.add(gridCell);
             }
         }
     }
@@ -113,35 +113,35 @@ public class BoardFragment extends Fragment {
         return shot;
     }
 
-    public List<Draggable> getDraggables() {
-        return this.draggables;
+    public List<GridCell> getGridCells() {
+        return this.gridCells;
     }
 
-    public List<Droppable> getDroppables() {
-        return this.droppables;
+    public List<GridPlaceable> getGridPlaceables() {
+        return this.gridPlaceables;
     }
 
     public void updateBoard(Board board) {
         GameGrid layout = v.findViewById(R.id.grid);
         List<Location> shots = board.getShots();
         for (int i = 0; i < shots.size(); i++) {
-            Droppable droppable = (Droppable) layout
+            GridCell gridCell = (GridCell) layout
                     .getChildAt(shots.get(i).getX() * gridWidth + shots.get(i).getY());
-            if (!droppable.isHit()) {
-                if (droppable.getChildCount() == 1) {
-                    Draggable draggable = (Draggable) droppable.getChildAt(0);
-                    if (draggable.getName() != "Shot") {
-                        draggable.setHit(sprites);
-                        droppable.setHit();
+            if (!gridCell.isHit()) {
+                if (gridCell.getChildCount() == 1) {
+                    GridPlaceable gridPlaceable = (GridPlaceable) gridCell.getChildAt(0);
+                    if (gridPlaceable.getName() != "Shot") {
+                        gridPlaceable.setHit(sprites);
+                        gridCell.setHit();
                     }
                 } else {
-                    droppable.addView(createShot());
+                    gridCell.addView(createShot());
                 }
             }
         }
     }
 
-    protected Draggable createNexus(Boolean view, Placeable placable) {
+    protected GridPlaceable createNexus(Boolean view, Placeable placable) {
         Nexus nexus = new Nexus(getContext(), view, placable, sprites);
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -149,7 +149,7 @@ public class BoardFragment extends Fragment {
         return nexus;
     }
 
-    protected Draggable createShield(Boolean player, Placeable placable) {
+    protected GridPlaceable createShield(Boolean player, Placeable placable) {
         Shield shield = new Shield(getContext(), player, placable, sprites);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

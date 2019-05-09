@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.botb.R;
 import com.example.botb.model.Board;
-import com.example.botb.view.objects.Sprites;
+import com.example.botb.view.Sprites;
 
 public class LocalBoardFragment extends BoardFragment {
 

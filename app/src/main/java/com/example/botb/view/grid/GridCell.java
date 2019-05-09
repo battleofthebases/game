@@ -1,4 +1,4 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,9 +12,10 @@ import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
+import com.example.botb.view.Sprites;
 import java.io.IOException;
 
-public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
+public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
     class onClickListener implements OnClickListener {
 
@@ -46,9 +47,9 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
-            Draggable draggable = (Draggable) event.getLocalState();
-            Droppable container = (Droppable) v;
-            ViewGroup owner = (ViewGroup) draggable.getParent();
+            GridPlaceable gridPlaceable = (GridPlaceable) event.getLocalState();
+            GridCell container = (GridCell) v;
+            ViewGroup owner = (ViewGroup) gridPlaceable.getParent();
 
             Board board = InputManager.getInstance().getLocalBoard();
 
@@ -71,16 +72,16 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
                     if (container.getChildCount() == 0) {
 
                         // Move placeable and recreate board
-                        Location fromLocation = draggable.getLocation();
+                        Location fromLocation = gridPlaceable.getLocation();
                         Location toLocation = getLocation();
 
                         board.movePlaceable(fromLocation, toLocation);
-                        draggable.setLocation(toLocation);
+                        gridPlaceable.setLocation(toLocation);
 
-                        owner.removeView(draggable);
-                        container.addView(draggable);
+                        owner.removeView(gridPlaceable);
+                        container.addView(gridPlaceable);
                     }
-                    draggable.setVisibility(View.VISIBLE);
+                    gridPlaceable.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.setBackgroundDrawable(background);
@@ -95,14 +96,14 @@ public class Droppable extends android.support.v7.widget.LinearLayoutCompat {
 
     private Location location;
 
-    public Droppable(Context context, boolean localPlayer, Sprites sprites) {
+    public GridCell(Context context, boolean localPlayer, Sprites sprites) {
         super(context);
 
         BitmapDrawable background;
 
         if (localPlayer) {
             background = sprites.getPlayerBackground();
-            this.setOnDragListener(new Droppable.DragListener(background));
+            this.setOnDragListener(new GridCell.DragListener(background));
         } else {
             background = sprites.getOpponentBackground();
         }

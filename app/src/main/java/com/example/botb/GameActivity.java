@@ -13,8 +13,8 @@ import com.example.botb.controller.InputSubscriber;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;
-import com.example.botb.view.objects.Draggable;
-import com.example.botb.view.objects.Droppable;
+import com.example.botb.view.grid.GridPlaceable;
+import com.example.botb.view.grid.GridCell;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,14 +51,14 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             @Override
             public void onClick(View v) {
 
-                List<Draggable> draggables = localBoardFragment.getDraggables();
-                List<Droppable> droppables = remoteBoardFragment.getDroppables();
+                List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
+                List<GridCell> gridCells = remoteBoardFragment.getGridCells();
 
-                for (Draggable d : draggables) {
+                for (GridPlaceable d : gridPlaceables) {
                     d.StopDrag();
                 }
-                for (Droppable droppable : droppables) {
-                    droppable.setOnClikcListener();
+                for (GridCell gridCell : gridCells) {
+                    gridCell.setOnClikcListener();
                 }
                 try {
                     inputManager.setInitialLocalBoard();
