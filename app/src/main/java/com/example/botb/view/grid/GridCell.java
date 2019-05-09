@@ -34,42 +34,46 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
         public boolean onDrag(View v, DragEvent event) {
 
             GridPlaceable gridPlaceable = (GridPlaceable) event.getLocalState();
-            GridCell container = (GridCell) v;
+            GridCell gridCell = (GridCell) v;
             ViewGroup owner = (ViewGroup) gridPlaceable.getParent();
 
-            Board board = InputManager.getInstance().getLocalBoard();
-
             switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    // do nothing
-                    break;
+
+                // When dragged placeable enters this gridCell
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    if (container.getChildCount() > 0 && container != owner) {
+                    if (gridCell.getChildCount() > 0 && gridCell != owner) {
+                        // Not allowed to place here
                         v.setBackground(noEntryShape);
                     } else {
+                        // Can place here
                         v.setBackground(enterShape);
                     }
                     break;
-                case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackground(background);
-                    break;
-                case DragEvent.ACTION_DROP:
-                    // Dropped, reassign View to ViewGroup
-                    if (container.getChildCount() == 0) {
 
-                        // Move placeable and recreate board
+                // When dragged placeable is dropped in this gridCell
+                case DragEvent.ACTION_DROP:
+                    // Check if gridCell is empty
+                    if (gridCell.getChildCount() == 0) {
+
+                        // Get from and to location
                         Location fromLocation = gridPlaceable.getLocation();
                         Location toLocation = getLocation();
 
+                        // Get the board and move placeable
+                        Board board = InputManager.getInstance().getLocalBoard();
                         board.movePlaceable(fromLocation, toLocation);
-                        gridPlaceable.setLocation(toLocation);
 
+                        // Move gridPlaceable and update location
                         owner.removeView(gridPlaceable);
-                        container.addView(gridPlaceable);
+                        gridCell.addView(gridPlaceable);
+                        gridPlaceable.setLocation(toLocation);
                     }
                     gridPlaceable.setVisibility(View.VISIBLE);
                     break;
+
+                // When dragged placeable exits this gridCell
                 case DragEvent.ACTION_DRAG_ENDED:
+                case DragEvent.ACTION_DRAG_EXITED:
                     v.setBackground(background);
                 default:
                     break;
