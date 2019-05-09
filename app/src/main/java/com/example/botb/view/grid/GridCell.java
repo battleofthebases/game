@@ -12,7 +12,7 @@ import com.example.botb.model.Action;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.weapon.ExampleWeapon;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 import java.io.IOException;
 
 public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
@@ -96,16 +96,16 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
     private Location location;
 
-    public GridCell(Context context, boolean localPlayer, Sprites sprites) {
+    public GridCell(Context context, boolean localPlayer, SpriteLoader spriteLoader) {
         super(context);
 
         BitmapDrawable background;
 
         if (localPlayer) {
-            background = sprites.getPlayerBackground();
+            background = spriteLoader.getPlayerBackground();
             this.setOnDragListener(new GridCell.DragListener(background));
         } else {
-            background = sprites.getOpponentBackground();
+            background = spriteLoader.getOpponentBackground();
         }
         this.setBackgroundDrawable(background);
     }

@@ -15,7 +15,7 @@ import com.example.botb.model.placeable.Placeable;
 import com.example.botb.view.grid.GridPlaceable;
 import com.example.botb.view.grid.GridCell;
 import com.example.botb.view.grid.GameGrid;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 import java.util.Map;
 
 public class RemoteBoardFragment extends BoardFragment {
@@ -30,7 +30,7 @@ public class RemoteBoardFragment extends BoardFragment {
             public void run() {
                 height = v.getHeight();
                 width = v.getWidth();
-                sprites = new Sprites(getActivity(), width, height);
+                spriteLoader = new SpriteLoader(getActivity(), width, height);
                 createBoard(false);
             }
         });

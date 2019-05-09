@@ -2,32 +2,32 @@ package com.example.botb.view.grid;
 
 import android.content.Context;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 
 
 public class Shield extends GridPlaceable {
 
     private Boolean view;
 
-    public Shield(Context context, Boolean view, Placeable placable, Sprites sprites) {
+    public Shield(Context context, Boolean view, Placeable placable, SpriteLoader spriteLoader) {
         super(context);
         this.view = view;
         this.name = "Shield";
         this.placable = placable;
         if (view) {
-            this.setImageBitmap(sprites.getPlayerShield());
+            this.setImageBitmap(spriteLoader.getPlayerShield());
         } else {
             this.StopDrag();
         }
     }
 
     @Override
-    public void setHit(Sprites sprites){
+    public void setHit(SpriteLoader spriteLoader){
         hit = true;
         if(view){
-            this.setImageBitmap(sprites.getShieldpdestroyed());
+            this.setImageBitmap(spriteLoader.getShieldpdestroyed());
         } else {
-            this.setImageBitmap(sprites.getShieldodestroyed());
+            this.setImageBitmap(spriteLoader.getShieldodestroyed());
         }
     }
 

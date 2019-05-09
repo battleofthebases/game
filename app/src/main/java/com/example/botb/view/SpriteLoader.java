@@ -10,7 +10,7 @@ import android.util.Log;
 import com.example.botb.R;
 import java.util.Random;
 
-public class Sprites {
+public class SpriteLoader {
 
     private Bitmap overworldb;
     private Bitmap overworldc;
@@ -32,7 +32,7 @@ public class Sprites {
     private float scaleWidth;
     private float scaleHeight;
 
-    public Sprites(Context con, int width, int height) {
+    public SpriteLoader(Context con, int width, int height) {
 
         scaleHeight = ((float)height) /  1617;
         scaleWidth = ((float)width) /  1080;

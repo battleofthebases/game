@@ -1,20 +1,20 @@
 package com.example.botb.view.grid;
 
 import android.content.Context;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 
 public class Shot extends GridPlaceable {
 
-    public Shot(Context context, Sprites sprites) {
+    public Shot(Context context, SpriteLoader spriteLoader) {
 
         super(context);
         this.name = "Shot";
-        this.setImageBitmap(sprites.getFlame());
+        this.setImageBitmap(spriteLoader.getFlame());
         this.StopDrag();
     }
 
     @Override
-    public void setHit(final Sprites sprites) {
+    public void setHit(final SpriteLoader spriteLoader) {
 
     }
 }

@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 
 public abstract class GridPlaceable extends android.support.v7.widget.AppCompatImageView {
 
@@ -61,7 +61,7 @@ public abstract class GridPlaceable extends android.support.v7.widget.AppCompatI
         return location;
     }
 
-    public abstract void setHit(Sprites sprites);
+    public abstract void setHit(SpriteLoader spriteLoader);
 
     public void setLocation(Location location) {
         this.location = location;

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.botb.R;
 import com.example.botb.model.Board;
-import com.example.botb.view.Sprites;
+import com.example.botb.view.SpriteLoader;
 
 public class LocalBoardFragment extends BoardFragment {
 
@@ -22,7 +22,7 @@ public class LocalBoardFragment extends BoardFragment {
             public void run() {
                 height = v.getHeight();
                 width = v.getWidth();
-                sprites = new Sprites(getActivity(), width, height);
+                spriteLoader = new SpriteLoader(getActivity(), width, height);
                 createBoard(true);
             }
         });
