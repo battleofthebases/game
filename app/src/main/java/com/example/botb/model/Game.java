@@ -1,7 +1,5 @@
 package com.example.botb.model;
 
-import com.example.botb.Winner;
-
 public class Game {
 
     private boolean isLocalTurn;

@@ -1,8 +1,10 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.mockito.Mockito.*;
 
+import com.example.botb.controller.ConnectionHandler;
+import com.example.botb.controller.ServerValues;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.java_websocket.client.WebSocketClient;

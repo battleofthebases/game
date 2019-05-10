@@ -6,13 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import com.example.botb.view.fragments.GameView;
-import com.example.botb.view.fragments.OpponentView;
-import com.example.botb.view.fragments.statePageAdapter;
-import com.example.botb.view.objects.Draggable;
-import com.example.botb.view.objects.Droppable;
+import com.example.botb.controller.InputManager;
+import com.example.botb.controller.InputSubscriber;
+import com.example.botb.view.fragments.BoardPagerAdapter;
+import com.example.botb.view.fragments.LocalBoardFragment;
+import com.example.botb.view.fragments.RemoteBoardFragment;
+import com.example.botb.view.grid.GridCell;
+import com.example.botb.view.grid.GridPlaceable;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,19 +21,13 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     private static final String TAG = "GameActivity";
 
-    public GameView gameview = new GameView();
+    public LocalBoardFragment localBoardFragment = new LocalBoardFragment();
 
-    public OpponentView opponentView = new OpponentView();
-
-    private statePageAdapter adapter;
+    public RemoteBoardFragment remoteBoardFragment = new RemoteBoardFragment();
 
     private InputManager inputManager;
 
     private Button mainButton;
-
-    private Button startGameButton;
-
-    private int toggle = 0;
 
     private ViewPager viewPager;
 
@@ -43,34 +38,29 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mainButton = (Button) findViewById(R.id.Main_button);
+        mainButton = findViewById(R.id.Main_button);
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
 
-        adapter = new statePageAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.contianer);
+        viewPager = findViewById(R.id.contianer);
         setupViewPager(viewPager);
 
-        mainButton.setOnClickListener(new View.OnClickListener() {
+        mainButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
+            List<GridCell> gridCells = remoteBoardFragment.getGridCells();
 
-                List<Draggable> draggables = gameview.getDraggables();
-                List<Droppable> droppables = opponentView.getDroppables();
-
-                for (Draggable d : draggables) {
-                    d.StopDrag();
-                }
-                for (Droppable droppable : droppables) {
-                    droppable.setOnClikcListener();
-                }
-                try {
-                    inputManager.setInitialLocalBoard();
-                    mainButton.setText("Ready!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            for (GridPlaceable d : gridPlaceables) {
+                d.StopDrag();
+            }
+            for (GridCell gridCell : gridCells) {
+                gridCell.setOnClikcListener();
+            }
+            try {
+                inputManager.setInitialLocalBoard();
+                mainButton.setText("Ready!");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -102,38 +92,26 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     @Override
     public void newAction(final boolean isLocalAction) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                gameview.updateBoard(isLocalAction);
-                opponentView.updateBoard(isLocalAction);
-            }
+        this.runOnUiThread(() -> {
+            localBoardFragment.updateBoard(isLocalAction);
+            remoteBoardFragment.updateBoard(isLocalAction);
         });
     }
 
     @Override
     public void setInitialOpponentBoard() {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                opponentView.setInitialBoard();
-                mainButton.setText("FIGHT!");
-                mainButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-
-                    ;
-                });
-            }
+        this.runOnUiThread(() -> {
+            remoteBoardFragment.setInitialBoard();
+            mainButton.setText("FIGHT!");
+            mainButton.setOnClickListener(v -> {
+            });
         });
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        statePageAdapter adapter = new statePageAdapter(getSupportFragmentManager());
-        adapter.addFragment(gameview, "GameView");
-        adapter.addFragment(opponentView, "OpponentView");
+        BoardPagerAdapter adapter = new BoardPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(localBoardFragment, "LocalBoardFragment");
+        adapter.addFragment(remoteBoardFragment, "RemoteBoardFragment");
         viewPager.setAdapter(adapter);
     }
 }

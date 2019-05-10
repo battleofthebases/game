@@ -1,4 +1,4 @@
-package com.example.botb.view.objects;
+package com.example.botb.view.grid;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -7,15 +7,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.model.placeable.Visibility;
+import com.example.botb.view.SpriteLoader;
 
-public abstract class Draggable extends android.support.v7.widget.AppCompatImageView {
+public abstract class GridPlaceable extends android.support.v7.widget.AppCompatImageView {
 
-    protected Placeable placable;
-    protected String name;
-    protected Boolean hit = false;
-
-    private final class TouchListener implements OnTouchListener {
+    private final class GridPlaceableTouchListener implements OnTouchListener {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -32,40 +28,38 @@ public abstract class Draggable extends android.support.v7.widget.AppCompatImage
         }
     }
 
-    private final class StopTouchListener implements OnTouchListener {
+    protected String name;
 
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            return false;
-        }
-    }
+    protected Placeable placable;
 
     private Location location;
 
-    public Draggable(Context context) {
+    public GridPlaceable(Context context) {
         super(context);
         this.StartDrag();
     }
 
-    public String getName() { return name; }
-
     public void StartDrag() {
-        this.setOnTouchListener(new TouchListener());
+        this.setOnTouchListener(new GridPlaceableTouchListener());
     }
 
     public void StopDrag() {
-        this.setOnTouchListener(new StopTouchListener());
+        this.setOnTouchListener((v, event) -> false);
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public abstract void setHit(Sprites sprites);
-
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract void setHit(SpriteLoader spriteLoader);
 
     public void setLocation(int x, int y) {
         location = new Location(x, y);

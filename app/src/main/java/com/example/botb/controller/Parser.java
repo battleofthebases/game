@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import android.util.Base64;
 import com.example.botb.model.Action;

@@ -1,7 +1,8 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import static org.junit.Assert.*;
 
+import com.example.botb.controller.InputManager;
 import com.example.botb.model.Board;
 import org.junit.*;
 

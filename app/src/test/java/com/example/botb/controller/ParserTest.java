@@ -1,4 +1,4 @@
-package com.example.botb;
+package com.example.botb.controller;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -15,7 +15,6 @@ import org.junit.runner.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Base64.class})
