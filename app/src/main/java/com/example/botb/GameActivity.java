@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Button;
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
+import com.example.botb.view.SpriteLoader;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;

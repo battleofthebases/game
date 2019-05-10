@@ -9,24 +9,24 @@ public class Shield extends GridPlaceable {
 
     private boolean localPlayer;
 
-    public Shield(Context context, boolean localPlayer, Placeable placable, SpriteLoader spriteLoader) {
+    public Shield(Context context, boolean localPlayer, Placeable placable) {
         super(context);
         this.name = "Shield";
         this.localPlayer = localPlayer;
         this.placable = placable;
         if (localPlayer) {
-            this.setImageBitmap(spriteLoader.getPlayerShield());
+            this.setImageDrawable(SpriteLoader.getShieldLocal());
         } else {
             this.StopDrag();
         }
     }
 
     @Override
-    public void setHit(SpriteLoader spriteLoader) {
+    public void setHit() {
         if (localPlayer) {
-            this.setImageBitmap(spriteLoader.getLocalShieldDestroyed());
+            this.setImageDrawable(SpriteLoader.getShieldLocalDestroyed());
         } else {
-            this.setImageBitmap(spriteLoader.getRemoteShieldDestroyed());
+            this.setImageDrawable(SpriteLoader.getShieldRemoteDestroyed());
         }
     }
 

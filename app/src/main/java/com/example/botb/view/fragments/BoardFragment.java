@@ -12,7 +12,6 @@ import com.example.botb.controller.InputManager;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.SpriteLoader;
 import com.example.botb.view.grid.GameGrid;
 import com.example.botb.view.grid.GridCell;
 import com.example.botb.view.grid.GridPlaceable;
@@ -38,8 +37,6 @@ public class BoardFragment extends Fragment {
 
     protected InputManager inputManager = InputManager.getInstance();
 
-    protected SpriteLoader spriteLoader;
-
     public void createBoard(boolean localPlayer) {
 
         // Get board
@@ -61,7 +58,7 @@ public class BoardFragment extends Fragment {
         for (int x = 0; x < layout.getRowCount(); x++) {
             for (int y = 0; y < layout.getColumnCount(); y++) {
 
-                GridCell gridCell = new GridCell(getContext(), localPlayer, spriteLoader);
+                GridCell gridCell = new GridCell(getContext(), localPlayer);
                 gridCell.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
                 gridCell.setOrientation(LinearLayout.HORIZONTAL);
                 gridCell.setId(R.id.parent + x + y);
@@ -105,7 +102,7 @@ public class BoardFragment extends Fragment {
     }
 
     public Shot createShot() {
-        Shot shot = new Shot(getContext(), spriteLoader);
+        Shot shot = new Shot(getContext());
         shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         shot.setAdjustViewBounds(true);
@@ -139,7 +136,7 @@ public class BoardFragment extends Fragment {
                     // Get gridPlaceable in gridCell and apply hit
                     GridPlaceable gridPlaceable = (GridPlaceable) gridCell.getChildAt(0);
                     if (gridPlaceable.getName() != "Shot") {
-                        gridPlaceable.setHit(spriteLoader);
+                        gridPlaceable.setHit();
                         gridCell.setHit();
                     }
 
@@ -154,7 +151,7 @@ public class BoardFragment extends Fragment {
     }
 
     protected GridPlaceable createNexus(boolean localPlayer, Placeable placable) {
-        Nexus nexus = new Nexus(getContext(), localPlayer, placable, spriteLoader);
+        Nexus nexus = new Nexus(getContext(), localPlayer, placable);
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
@@ -162,7 +159,7 @@ public class BoardFragment extends Fragment {
     }
 
     protected GridPlaceable createShield(boolean localPlayer, Placeable placable) {
-        Shield shield = new Shield(getContext(), localPlayer, placable, spriteLoader);
+        Shield shield = new Shield(getContext(), localPlayer, placable);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);

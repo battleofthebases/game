@@ -12,7 +12,6 @@ import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.SpriteLoader;
 import com.example.botb.view.grid.GameGrid;
 import com.example.botb.view.grid.GridCell;
 import com.example.botb.view.grid.GridPlaceable;
@@ -28,7 +27,6 @@ public class RemoteBoardFragment extends BoardFragment {
         view.post(() -> {
             height = v.getHeight();
             width = v.getWidth();
-            spriteLoader = new SpriteLoader(getActivity(), width, height);
             createBoard(false);
         });
         return view;

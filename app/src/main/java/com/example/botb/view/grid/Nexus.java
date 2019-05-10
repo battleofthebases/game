@@ -10,24 +10,24 @@ public class Nexus extends GridPlaceable {
 
     private boolean localPlayer;
 
-    public Nexus(Context context, boolean localPlayer, Placeable placable, SpriteLoader spriteLoader) {
+    public Nexus(Context context, boolean localPlayer, Placeable placable) {
         super(context);
         this.name = "Nexus";
         this.localPlayer = localPlayer;
         this.placable = placable;
         if (localPlayer) {
-            this.setImageBitmap(spriteLoader.getPlayerNexus());
+            this.setImageDrawable(SpriteLoader.getBaseLocal());
         } else {
             this.StopDrag();
         }
     }
 
     @Override
-    public void setHit(SpriteLoader spriteLoader) {
+    public void setHit() {
         if (localPlayer) {
-            this.setImageBitmap(spriteLoader.getLocalBaseDestroyed());
+            this.setImageDrawable(SpriteLoader.getBaseLocalDestroyed());
         } else {
-            this.setImageBitmap(spriteLoader.getRemoteBaseDestroyed());
+            this.setImageDrawable(SpriteLoader.getBaseRemoteDestroyed());
         }
     }
 }
