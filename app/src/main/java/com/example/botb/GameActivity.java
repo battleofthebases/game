@@ -2,6 +2,7 @@ package com.example.botb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.widget.Button;
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
-import com.example.botb.view.SpriteLoader;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;
@@ -25,6 +25,8 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     public LocalBoardFragment localBoardFragment = new LocalBoardFragment();
 
     public RemoteBoardFragment remoteBoardFragment = new RemoteBoardFragment();
+
+    private Handler handler;
 
     private InputManager inputManager;
 
@@ -42,6 +44,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         mainButton = findViewById(R.id.Main_button);
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
+        handler = new Handler();
 
         viewPager = findViewById(R.id.contianer);
         setupViewPager(viewPager);
@@ -103,6 +106,12 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             localBoardFragment.updateBoard(isLocalAction);
             remoteBoardFragment.updateBoard(isLocalAction);
         });
+
+        // Automatically swipe to other board after a slight delay
+        handler.postDelayed(() -> {
+            int item = viewPager.getCurrentItem() + (isLocalAction ? -1 : 1);
+            viewPager.setCurrentItem(item, true);
+        }, 1000);
     }
 
     @Override
