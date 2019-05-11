@@ -69,4 +69,10 @@ public class GameModelController {
             throw new NullPointerException("One board is equal null");
         }
     }
+
+    public void reset() {
+        game = null;
+        initialLocalBoard = null;
+        initialRemoteBoard = null;
+    }
 }

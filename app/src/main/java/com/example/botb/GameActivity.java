@@ -67,6 +67,12 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        inputManager.setupGame();
+    }
+
+    @Override
     public void connectionClosed() {
         inputManager.unsubscribe(this);
         finish();

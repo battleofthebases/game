@@ -35,19 +35,26 @@ public class InputManager {
 
     //private constructor to avoid client applications to use constructor
     private InputManager() {
-        gameModelController = new GameModelController();
         //creating the ConnectionActivity
         connectionHandler = new ConnectionHandler(this);
+        gameModelController = new GameModelController();
+    }
 
+    public void connectToServer() {
+        connectionHandler.connect();
+    }
+
+    public void setupGame() {
+        gameModelController.reset();
+
+        // Create initial local board
         tempLocalBoard = new Board(10, 8);
         tempLocalBoard.addPlaceable(new Shield(), 0, 0);
         tempLocalBoard.addPlaceable(new Shield(), 1, 1);
         tempLocalBoard.addPlaceable(new Shield(), 2, 2);
         tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
-    }
 
-    public void connectToServer() {
-        connectionHandler.connect();
+        Log.d(TAG, "Setup game");
     }
 
     public Game getGame() {
