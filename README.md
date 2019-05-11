@@ -65,3 +65,22 @@ To create test coverage report
 
 ## Game Instructions
 Press "Play" and follow the in-game instructions.
+
+## Installation
+### Requirements
+To run the game you need an Android device running minimum API level: 19 Android 4.4(KITKAT)
+
+### Easy installation
+Download the game to your Android device from the following [url](https://drive.google.com/open?id=19u5-Zs2CV6bi1L_OwWxzOoQV09W-HCze)
+
+### Development installation
+#### Game
+- Clone the repository
+```console
+foo@bar:~$ git clone https://github.com/battleofthebases/game.git
+```
+- Download and install the latest version of [Android Studio](https://developer.android.com/studio/?gclid=CjwKCAjw5dnmBRACEiwAmMYGOflSlfAQpt9Oq52CFh7S1pG1E8d93Q8huF4q-1gWykTxmjh-hYvubBoC-zsQAvD_BwE)
+- Open the project files through the setup wizard or by using the navigation bar in Android Studio
+- Press *Ctrl + R* on Mac or *Shift + F10* on Windows/Linux to run the application
+- Choose your connected device if you have one connected through the USB interface. You can also use a virtual device.
+- Press *OK* to build and run the game on the chosen device
