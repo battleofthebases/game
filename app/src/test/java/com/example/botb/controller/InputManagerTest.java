@@ -2,7 +2,6 @@ package com.example.botb.controller;
 
 import static org.junit.Assert.*;
 
-import com.example.botb.controller.InputManager;
 import com.example.botb.model.Board;
 import org.junit.*;
 
@@ -29,6 +28,7 @@ public class InputManagerTest {
     @Test
     public void getLocalBoard() {
         final InputManager instance = InputManager.getInstance();
+        instance.setupGame();
         final Board localBoard = instance.getLocalBoard();
         assertEquals(localBoard.getHeight(), 8);
         assertEquals(localBoard.getWidth(), 10);

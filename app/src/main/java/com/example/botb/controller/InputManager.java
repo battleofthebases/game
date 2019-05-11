@@ -44,19 +44,6 @@ public class InputManager {
         connectionHandler.connect();
     }
 
-    public void setupGame() {
-        gameModelController.reset();
-
-        // Create initial local board
-        tempLocalBoard = new Board(10, 8);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 0);
-        tempLocalBoard.addPlaceable(new Shield(), 1, 1);
-        tempLocalBoard.addPlaceable(new Shield(), 2, 2);
-        tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
-
-        Log.d(TAG, "Setup game");
-    }
-
     public Game getGame() {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -138,6 +125,17 @@ public class InputManager {
 
     public void setPlayerOne(boolean playerOne) {
         gameModelController.setPlayerOne(playerOne);
+    }
+
+    public void setupGame() {
+        gameModelController.reset();
+
+        // Create initial local board
+        tempLocalBoard = new Board(10, 8);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 0);
+        tempLocalBoard.addPlaceable(new Shield(), 1, 1);
+        tempLocalBoard.addPlaceable(new Shield(), 2, 2);
+        tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
     }
 
     public void subscribe(InputSubscriber newSubscriber) {
