@@ -10,11 +10,12 @@ public class Nexus extends GridPlaceable {
 
     private boolean localPlayer;
 
+    private boolean detected;
+
     public Nexus(Context context, boolean localPlayer, Placeable placable) {
         super(context);
         this.name = "Nexus";
         this.localPlayer = localPlayer;
-        this.placable = placable;
         if (localPlayer) {
             this.setImageDrawable(SpriteLoader.getBaseLocal());
         } else {
@@ -29,5 +30,18 @@ public class Nexus extends GridPlaceable {
         } else {
             this.setImageDrawable(SpriteLoader.getBaseRemoteDestroyed());
         }
+    }
+
+    public void detect() {
+        this.detected = true;
+        if (localPlayer) {
+            this.setImageDrawable(SpriteLoader.getBaseLocalDetected());
+        } else {
+            this.setImageDrawable(SpriteLoader.getBaseRemote());
+        }
+    }
+
+    public boolean isDetected() {
+        return detected;
     }
 }

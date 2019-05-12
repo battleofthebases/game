@@ -13,7 +13,6 @@ public class Shield extends GridPlaceable {
         super(context);
         this.name = "Shield";
         this.localPlayer = localPlayer;
-        this.placable = placable;
         if (localPlayer) {
             this.setImageDrawable(SpriteLoader.getShieldLocal());
         } else {

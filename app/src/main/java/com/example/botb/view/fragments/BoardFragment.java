@@ -105,14 +105,13 @@ public class BoardFragment extends Fragment {
 
     public void updateBoard(Board board) {
 
-        GameGrid layout = v.findViewById(R.id.grid);
         List<Location> shots = board.getShots();
 
         // Loop all shots on board
-        for (int i = 0; i < shots.size(); i++) {
+        for (Location shotLocation : shots) {
 
             // Get gridCell at shot location
-            GridCell gridCell = (GridCell) layout.getChildAt(shots.get(i).getX() * board.getWidth() + shots.get(i).getY());
+            GridCell gridCell = getGridCellAtLocation(shotLocation);
 
             // Check if gridCell is not hit already
             if (!gridCell.isHit()) {
@@ -120,9 +119,20 @@ public class BoardFragment extends Fragment {
 
                     // Get gridPlaceable in gridCell and apply hit
                     GridPlaceable gridPlaceable = (GridPlaceable) gridCell.getChildAt(0);
-                    if (gridPlaceable.getName() != "Shot") {
-                        gridPlaceable.setHit();
-                        gridCell.setHit();
+                    if (!(gridPlaceable instanceof  Shot)) {
+                        if (gridPlaceable instanceof Nexus) {
+
+                            Nexus nexus = (Nexus) gridPlaceable;
+                            if (board.getPlaceable(shotLocation).isDestroyed()) {
+                                nexus.setHit();
+                            } else if (!nexus.isDetected()) {
+                                nexus.detect();
+                            }
+
+                        } else {
+                            gridPlaceable.setHit();
+                            gridCell.setHit();
+                        }
                     }
 
                 } else {

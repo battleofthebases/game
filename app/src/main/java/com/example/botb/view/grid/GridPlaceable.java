@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import com.example.botb.model.Location;
-import com.example.botb.model.placeable.Placeable;
 
 public abstract class GridPlaceable extends android.support.v7.widget.AppCompatImageView {
 
@@ -28,8 +27,6 @@ public abstract class GridPlaceable extends android.support.v7.widget.AppCompatI
     }
 
     protected String name;
-
-    protected Placeable placable;
 
     private Location location;
 

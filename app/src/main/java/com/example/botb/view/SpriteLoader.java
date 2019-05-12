@@ -9,6 +9,7 @@ import com.example.botb.R;
 public class SpriteLoader {
 
     private static Drawable baseLocal;
+    private static Drawable baseLocalDetected;
     private static Drawable baseLocalDestroyed;
     private static Drawable baseRemote;
     private static Drawable baseRemoteDestroyed;
@@ -24,6 +25,7 @@ public class SpriteLoader {
         Resources res = context.getResources();
 
         baseLocal = res.getDrawable(R.drawable.base_local);
+        baseLocalDetected = res.getDrawable(R.drawable.base_local_detected);
         baseLocalDestroyed = res.getDrawable(R.drawable.base_local_destroyed);
         baseRemote = res.getDrawable(R.drawable.base_remote);
         baseRemoteDestroyed = res.getDrawable(R.drawable.base_remote_destroyed);
@@ -38,6 +40,10 @@ public class SpriteLoader {
 
     public static Drawable getBaseLocal() {
         return baseLocal;
+    }
+
+    public static Drawable getBaseLocalDetected() {
+        return baseLocalDetected;
     }
 
     public static Drawable getBaseLocalDestroyed() {
