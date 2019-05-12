@@ -1,7 +1,6 @@
 package com.example.botb.view.fragments;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import com.example.botb.controller.InputManager;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.SpriteLoader;
 import com.example.botb.view.grid.GameGrid;
 import com.example.botb.view.grid.GridCell;
 import com.example.botb.view.grid.GridPlaceable;
@@ -28,84 +26,59 @@ public class BoardFragment extends Fragment {
 
     protected List<GridCell> gridCells = new ArrayList<>();
 
-    protected int gridHeight = 10;
-
     protected List<GridPlaceable> gridPlaceables = new ArrayList<>();
-
-    protected int gridWidth = 8;
-
-    protected int height, width;
 
     protected InputManager inputManager = InputManager.getInstance();
 
-    protected SpriteLoader spriteLoader;
-
     public void createBoard(boolean localPlayer) {
 
-        // Get board
-        Board board;
-        if (localPlayer) {
-            board = inputManager.getLocalBoard();
-        } else {
-            board = inputManager.getRemoteBoard();
-        }
+        // Get local board
+        Board board = inputManager.getLocalBoard();
 
         GameGrid layout = v.findViewById(R.id.grid);
         layout.removeAllViews();
-        layout.setRowCount(gridHeight);
-        layout.setColumnCount(gridWidth);
+        layout.setRowCount(board.getHeight());
+        layout.setColumnCount(board.getWidth());
 
-        int lineHeight = height / layout.getRowCount();
-        int lineWidth = width / layout.getColumnCount();
+        int cellWidth = v.getWidth() / layout.getColumnCount();
+        int cellHeight = v.getWidth() / layout.getRowCount();
 
-        for (int x = 0; x < layout.getRowCount(); x++) {
-            for (int y = 0; y < layout.getColumnCount(); y++) {
+        for (int x = 0; x < board.getWidth(); x++) {
+            for (int y = 0; y < board.getHeight(); y++) {
 
-                GridCell gridCell = new GridCell(getContext(), localPlayer, spriteLoader);
-                gridCell.setLayoutParams(new ViewGroup.LayoutParams(lineHeight, lineWidth));
+                // Create grid cell
+                GridCell gridCell = new GridCell(getContext(), localPlayer);
+                gridCell.setLayoutParams(new ViewGroup.LayoutParams(cellWidth, cellHeight));
                 gridCell.setOrientation(LinearLayout.HORIZONTAL);
                 gridCell.setId(R.id.parent + x + y);
                 gridCell.setGravity(Gravity.CENTER);
                 gridCell.setLocation(x, y);
 
-                // Get placeable
-
-                //TODO: FixNullPointerExceptionHandling
-                Placeable placeable = null;
-                try {
-                    placeable = board.getPlaceable(x, y);
-
-                } catch (NullPointerException e) {
-
-                }
-
-                if (placeable != null) {
-                    GridPlaceable gridPlaceable;
-                    if (placeable.getName() == "Nexus") {
-                        gridPlaceable = createNexus(localPlayer, placeable);
-                    } else {
-                        gridPlaceable = createShield(localPlayer, placeable);
+                // Get placeable if this is the local player
+                if (localPlayer) {
+                    Placeable placeable = board.getPlaceable(x, y);
+                    if (placeable != null) {
+                        GridPlaceable gridPlaceable;
+                        if (placeable.getName() == "Nexus") {
+                            gridPlaceable = createNexus(localPlayer, placeable);
+                        } else {
+                            gridPlaceable = createShield(localPlayer, placeable);
+                        }
+                        gridCell.addView(gridPlaceable);
+                        gridPlaceables.add(gridPlaceable);
+                        gridPlaceable.setLocation(x, y);
                     }
-                    gridCell.addView(gridPlaceable);
-                    gridPlaceables.add(gridPlaceable);
-                    gridPlaceable.setLocation(x, y);
                 }
 
-                GridLayout.LayoutParams myGLP = new GridLayout.LayoutParams();
-                GridLayout.Spec rowSpec = GridLayout.spec(x, 1, 1);
-                GridLayout.Spec colSpec = GridLayout.spec(y, 1, 1);
-                myGLP.rowSpec = rowSpec;
-                myGLP.columnSpec = colSpec;
-                myGLP.width = 0;
-                myGLP.height = 0;
-                layout.addView(gridCell, myGLP);
+                // Add grid cell to layout
+                layout.addView(gridCell);
                 gridCells.add(gridCell);
             }
         }
     }
 
     public Shot createShot() {
-        Shot shot = new Shot(getContext(), spriteLoader);
+        Shot shot = new Shot(getContext());
         shot.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         shot.setAdjustViewBounds(true);
@@ -117,20 +90,28 @@ public class BoardFragment extends Fragment {
         return this.gridCells;
     }
 
+    public GridCell getGridCellAtLocation(Location location) {
+        for (GridCell gridCell : gridCells) {
+            if (gridCell.getLocation().equals(location)) {
+                return gridCell;
+            }
+        }
+        return null;
+    }
+
     public List<GridPlaceable> getGridPlaceables() {
         return this.gridPlaceables;
     }
 
     public void updateBoard(Board board) {
 
-        GameGrid layout = v.findViewById(R.id.grid);
         List<Location> shots = board.getShots();
 
         // Loop all shots on board
-        for (int i = 0; i < shots.size(); i++) {
+        for (Location shotLocation : shots) {
 
             // Get gridCell at shot location
-            GridCell gridCell = (GridCell) layout.getChildAt(shots.get(i).getX() * gridWidth + shots.get(i).getY());
+            GridCell gridCell = getGridCellAtLocation(shotLocation);
 
             // Check if gridCell is not hit already
             if (!gridCell.isHit()) {
@@ -138,9 +119,20 @@ public class BoardFragment extends Fragment {
 
                     // Get gridPlaceable in gridCell and apply hit
                     GridPlaceable gridPlaceable = (GridPlaceable) gridCell.getChildAt(0);
-                    if (gridPlaceable.getName() != "Shot") {
-                        gridPlaceable.setHit(spriteLoader);
-                        gridCell.setHit();
+                    if (!(gridPlaceable instanceof  Shot)) {
+                        if (gridPlaceable instanceof Nexus) {
+
+                            Nexus nexus = (Nexus) gridPlaceable;
+                            if (board.getPlaceable(shotLocation).isDestroyed()) {
+                                nexus.setHit();
+                            } else if (!nexus.isDetected()) {
+                                nexus.detect();
+                            }
+
+                        } else {
+                            gridPlaceable.setHit();
+                            gridCell.setHit();
+                        }
                     }
 
                 } else {
@@ -154,7 +146,7 @@ public class BoardFragment extends Fragment {
     }
 
     protected GridPlaceable createNexus(boolean localPlayer, Placeable placable) {
-        Nexus nexus = new Nexus(getContext(), localPlayer, placable, spriteLoader);
+        Nexus nexus = new Nexus(getContext(), localPlayer, placable);
         nexus.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         nexus.setAdjustViewBounds(true);
@@ -162,7 +154,7 @@ public class BoardFragment extends Fragment {
     }
 
     protected GridPlaceable createShield(boolean localPlayer, Placeable placable) {
-        Shield shield = new Shield(getContext(), localPlayer, placable, spriteLoader);
+        Shield shield = new Shield(getContext(), localPlayer, placable);
         shield.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         shield.setAdjustViewBounds(true);

@@ -5,15 +5,15 @@ import com.example.botb.view.SpriteLoader;
 
 public class Shot extends GridPlaceable {
 
-    public Shot(Context context, SpriteLoader spriteLoader) {
+    public Shot(Context context) {
         super(context);
         this.name = "Shot";
-        this.setImageBitmap(spriteLoader.getFlame());
+        this.setImageDrawable(SpriteLoader.getFlames());
         this.StopDrag();
     }
 
     @Override
-    public void setHit(final SpriteLoader spriteLoader) {
+    public void setHit() {
 
     }
 

@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:paddingBottom="70dp"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingTop="70dp"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp"
         app:columnCount="3"
-        app:rowCount="3"/>
+        app:rowCount="3" />
 
 
 

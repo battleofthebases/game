@@ -12,10 +12,9 @@ import com.example.botb.R;
 import com.example.botb.model.Board;
 import com.example.botb.model.Location;
 import com.example.botb.model.placeable.Placeable;
-import com.example.botb.view.SpriteLoader;
-import com.example.botb.view.grid.GameGrid;
 import com.example.botb.view.grid.GridCell;
 import com.example.botb.view.grid.GridPlaceable;
+
 import java.util.Map;
 
 public class RemoteBoardFragment extends BoardFragment {
@@ -26,9 +25,6 @@ public class RemoteBoardFragment extends BoardFragment {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
         view.post(() -> {
-            height = v.getHeight();
-            width = v.getWidth();
-            spriteLoader = new SpriteLoader(getActivity(), width, height);
             createBoard(false);
         });
         return view;
@@ -37,25 +33,27 @@ public class RemoteBoardFragment extends BoardFragment {
     public void setInitialBoard() {
         Log.d("Initialization", "Setting initial opponent board");
 
-        GameGrid layout = v.findViewById(R.id.grid);
-        Map<Location, Placeable> placeables = inputManager.getRemoteBoard().getPlaceables();
+        Board board = inputManager.getRemoteBoard();
+        Map<Location, Placeable> placeables = board.getPlaceables();
 
         for (Map.Entry<Location, Placeable> entry : placeables.entrySet()) {
-            GridCell gridCell = (GridCell) layout
-                    .getChildAt(entry.getKey().getX() * gridWidth + entry.getKey().getY());
+            Location location = entry.getKey();
+            Placeable placeable = entry.getValue();
+
+            GridCell gridCell = getGridCellAtLocation(location);
 
             GridPlaceable gridPlaceable;
-            if (entry.getValue().getName().equals("Nexus")) {
-                gridPlaceable = createNexus(false, entry.getValue());
+            if (placeable.getName().equals("Nexus")) {
+                gridPlaceable = createNexus(false, placeable);
                 Log.d("Initialization", "Adding Nexus");
             } else {
-                gridPlaceable = createShield(false, entry.getValue());
+                gridPlaceable = createShield(false, placeable);
                 Log.d("Initialization", "Adding Shield");
             }
+            gridPlaceable.setLocation(location);
 
             gridCell.addView(gridPlaceable);
             gridPlaceables.add(gridPlaceable);
-            gridPlaceable.setLocation(entry.getKey().getX(), entry.getKey().getY());
         }
     }
 

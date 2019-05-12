@@ -1,57 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
-
-            <Button
-                android:id="@+id/Main_button"
-                android:layout_width="124dp"
-                android:layout_height="wrap_content"
-                android:text="Start Game"
-                app:layout_anchor="@+id/appBarLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
-
-
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".GameActivity"
-        tools:showIn="@layout/activity_game">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/contianer"
+        <TextView
+            android:id="@+id/txt_status"
             android:layout_width="match_parent"
-            android:layout_height="616dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:text="Set up your board"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <com.example.botb.view.fragments.BoardViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+        </com.example.botb.view.fragments.BoardViewPager>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <Button
+            android:id="@+id/btn_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ready" />
+
+    </LinearLayout>
 
 
-        </android.support.v4.view.ViewPager>
-
-    </android.support.constraint.ConstraintLayout>
-
-
-
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

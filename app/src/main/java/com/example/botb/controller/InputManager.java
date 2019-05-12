@@ -35,15 +35,9 @@ public class InputManager {
 
     //private constructor to avoid client applications to use constructor
     private InputManager() {
-        gameModelController = new GameModelController();
         //creating the ConnectionActivity
         connectionHandler = new ConnectionHandler(this);
-
-        tempLocalBoard = new Board(10, 8);
-        tempLocalBoard.addPlaceable(new Shield(), 0, 0);
-        tempLocalBoard.addPlaceable(new Shield(), 1, 1);
-        tempLocalBoard.addPlaceable(new Shield(), 2, 2);
-        tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
+        gameModelController = new GameModelController();
     }
 
     public void connectToServer() {
@@ -114,7 +108,7 @@ public class InputManager {
         if (gameModelController.gameCanStart()) {
             gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
-                subscriber.setInitialOpponentBoard(); //creating objects from model
+                subscriber.gameStart(gameModelController.isLocalTurn());
             }
         }
     }
@@ -124,13 +118,24 @@ public class InputManager {
         if (gameModelController.gameCanStart()) {
             gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
-                subscriber.setInitialOpponentBoard(); //creating objects from model
+                subscriber.gameStart(gameModelController.isLocalTurn());
             }
         }
     }
 
     public void setPlayerOne(boolean playerOne) {
         gameModelController.setPlayerOne(playerOne);
+    }
+
+    public void setupGame() {
+        gameModelController.reset();
+
+        // Create initial local board
+        tempLocalBoard = new Board(8, 8);
+        tempLocalBoard.addPlaceable(new Shield(), 0, 0);
+        tempLocalBoard.addPlaceable(new Shield(), 1, 1);
+        tempLocalBoard.addPlaceable(new Shield(), 2, 2);
+        tempLocalBoard.addPlaceable(new Nexus(), 3, 3);
     }
 
     public void subscribe(InputSubscriber newSubscriber) {

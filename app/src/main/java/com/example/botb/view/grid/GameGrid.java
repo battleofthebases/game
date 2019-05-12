@@ -41,4 +41,11 @@ public class GameGrid extends android.support.v7.widget.GridLayout {
         this.setOnDragListener(new DragListener());
     }
 
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec) {
+        super.onMeasure(widthSpec, heightSpec);
+        // Force grid to be square
+        int width = getMeasuredWidth();
+        setMeasuredDimension(width, width);
+    }
 }

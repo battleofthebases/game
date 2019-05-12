@@ -55,8 +55,8 @@ public class ConnectionActivity extends AppCompatActivity implements InputSubscr
     }
 
     @Override
-    public void setInitialOpponentBoard() {
-        Log.e(TAG, "SetInitialOpponentBoard should not get called in this class!");
+    public void gameStart(boolean localTurn) {
+        Log.e(TAG, "gameStart should not get called in this class!");
     }
 
     private void updateTheStatusText(final String text) {

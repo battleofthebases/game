@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.botb.R;
 import com.example.botb.model.Board;
-import com.example.botb.view.SpriteLoader;
 
 public class LocalBoardFragment extends BoardFragment {
 
@@ -18,9 +17,6 @@ public class LocalBoardFragment extends BoardFragment {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
         view.post(() -> {
-            height = v.getHeight();
-            width = v.getWidth();
-            spriteLoader = new SpriteLoader(getActivity(), width, height);
             createBoard(true);
         });
         return view;

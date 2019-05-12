@@ -1,7 +1,6 @@
 package com.example.botb.view.grid;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
@@ -19,14 +18,14 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
     private final class GridCellDragListener implements OnDragListener {
 
-        BitmapDrawable background;
+        Drawable background;
 
         Drawable enterShape = getContext().getResources().getDrawable(
                 R.drawable.shape_droptarget);
 
         Drawable noEntryShape = getContext().getResources().getDrawable(R.drawable.no_entry_shape);
 
-        GridCellDragListener(BitmapDrawable background) {
+        GridCellDragListener(Drawable background) {
             this.background = background;
         }
 
@@ -100,16 +99,16 @@ public class GridCell extends android.support.v7.widget.LinearLayoutCompat {
 
     private Location location;
 
-    public GridCell(Context context, boolean localPlayer, SpriteLoader spriteLoader) {
+    public GridCell(Context context, boolean localPlayer) {
         super(context);
 
-        BitmapDrawable background;
+        Drawable background;
 
         if (localPlayer) {
-            background = spriteLoader.getLocalBackground();
+            background = SpriteLoader.getGrass();
             this.setOnDragListener(new GridCellDragListener(background));
         } else {
-            background = spriteLoader.getRemoteBackground();
+            background = SpriteLoader.getSand();
         }
         this.setBackground(background);
     }

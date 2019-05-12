@@ -2,13 +2,17 @@ package com.example.botb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
+import com.example.botb.view.fragments.BoardViewPager;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;
@@ -25,28 +29,33 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     public RemoteBoardFragment remoteBoardFragment = new RemoteBoardFragment();
 
+    private Handler handler;
+
     private InputManager inputManager;
 
-    private Button mainButton;
+    private Button readyButton;
 
-    private ViewPager viewPager;
+    private TextView statusText;
+
+    private BoardViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mainButton = findViewById(R.id.Main_button);
+
+        readyButton = findViewById(R.id.btn_ready);
+        statusText = findViewById(R.id.txt_status);
+
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
 
-        viewPager = findViewById(R.id.contianer);
+        handler = new Handler();
+
+        viewPager = findViewById(R.id.viewPager);
         setupViewPager(viewPager);
 
-        mainButton.setOnClickListener(v -> {
-
+        readyButton.setOnClickListener(v -> {
             List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
             List<GridCell> gridCells = remoteBoardFragment.getGridCells();
 
@@ -58,11 +67,22 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             }
             try {
                 inputManager.setInitialLocalBoard();
-                mainButton.setText("Ready!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            this.runOnUiThread(() -> {
+                readyButton.setText("You are ready!");
+                readyButton.setEnabled(false);
+                statusText.setText("Waiting for opponent");
+            });
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        inputManager.setupGame();
     }
 
     @Override
@@ -95,16 +115,28 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         this.runOnUiThread(() -> {
             localBoardFragment.updateBoard(isLocalAction);
             remoteBoardFragment.updateBoard(isLocalAction);
+
+            // Automatically swipe to other board after a slight delay
+            handler.postDelayed(() -> {
+                int item = viewPager.getCurrentItem() + (isLocalAction ? -1 : 1);
+                viewPager.setCurrentItem(item, true);
+                statusText.setText((isLocalAction ? "Opponent's" : "Your") + " turn");
+            }, 1000);
         });
     }
 
     @Override
-    public void setInitialOpponentBoard() {
+    public void gameStart(boolean localTurn) {
         this.runOnUiThread(() -> {
             remoteBoardFragment.setInitialBoard();
-            mainButton.setText("FIGHT!");
-            mainButton.setOnClickListener(v -> {
-            });
+            readyButton.setVisibility(View.INVISIBLE);
+
+            // Automatically swipe to other board after a slight delay
+            handler.postDelayed(() -> {
+                int item = viewPager.getCurrentItem() + (localTurn ? 1 : -1);
+                viewPager.setCurrentItem(item, true);
+                statusText.setText((localTurn ? "Your" : "Opponent's") + " turn");
+            }, 1000);
         });
     }
 
