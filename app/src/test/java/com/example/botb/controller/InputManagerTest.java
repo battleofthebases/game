@@ -31,7 +31,7 @@ public class InputManagerTest {
         instance.setupGame();
         final Board localBoard = instance.getLocalBoard();
         assertEquals(localBoard.getHeight(), 8);
-        assertEquals(localBoard.getWidth(), 10);
+        assertEquals(localBoard.getWidth(), 8);
     }
 
     @Test
