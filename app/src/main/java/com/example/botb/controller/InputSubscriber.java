@@ -1,7 +1,5 @@
 package com.example.botb.controller;
 
-import com.example.botb.model.Board;
-
 public interface InputSubscriber {
 
     void connectionClosed();
@@ -12,7 +10,7 @@ public interface InputSubscriber {
 
     void newAction(boolean isLocalAction);
 
-    void setInitialOpponentBoard();
+    void gameStart(boolean localTurn);
 
     void gameEnd(boolean localWin);
 }

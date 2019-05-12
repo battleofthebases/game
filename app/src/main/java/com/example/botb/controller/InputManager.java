@@ -108,7 +108,7 @@ public class InputManager {
         if (gameModelController.gameCanStart()) {
             gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
-                subscriber.setInitialOpponentBoard(); //creating objects from model
+                subscriber.gameStart(gameModelController.isLocalTurn());
             }
         }
     }
@@ -118,7 +118,7 @@ public class InputManager {
         if (gameModelController.gameCanStart()) {
             gameModelController.startGame();
             for (InputSubscriber subscriber : subscribers) {
-                subscriber.setInitialOpponentBoard(); //creating objects from model
+                subscriber.gameStart(gameModelController.isLocalTurn());
             }
         }
     }

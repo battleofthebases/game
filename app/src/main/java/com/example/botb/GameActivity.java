@@ -105,22 +105,28 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         this.runOnUiThread(() -> {
             localBoardFragment.updateBoard(isLocalAction);
             remoteBoardFragment.updateBoard(isLocalAction);
-        });
 
-        // Automatically swipe to other board after a slight delay
-        handler.postDelayed(() -> {
-            int item = viewPager.getCurrentItem() + (isLocalAction ? -1 : 1);
-            viewPager.setCurrentItem(item, true);
-        }, 1000);
+            // Automatically swipe to other board after a slight delay
+            handler.postDelayed(() -> {
+                int item = viewPager.getCurrentItem() + (isLocalAction ? -1 : 1);
+                viewPager.setCurrentItem(item, true);
+            }, 1000);
+        });
     }
 
     @Override
-    public void setInitialOpponentBoard() {
+    public void gameStart(boolean localTurn) {
         this.runOnUiThread(() -> {
             remoteBoardFragment.setInitialBoard();
             mainButton.setText("FIGHT!");
             mainButton.setOnClickListener(v -> {
             });
+
+            // Automatically swipe to other board after a slight delay
+            handler.postDelayed(() -> {
+                int item = viewPager.getCurrentItem() + (localTurn ? 1 : -1);
+                viewPager.setCurrentItem(item, true);
+            }, 1000);
         });
     }
 
