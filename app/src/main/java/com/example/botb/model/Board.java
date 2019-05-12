@@ -2,6 +2,7 @@ package com.example.botb.model;
 
 import com.example.botb.model.placeable.Nexus;
 import com.example.botb.model.placeable.Placeable;
+import com.example.botb.model.placeable.Shield;
 import com.example.botb.model.weapon.Weapon;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,7 +50,10 @@ public class Board implements Serializable {
 
         // Check if already shot on location
         if (shots.contains(location)) {
-            return false;
+            Placeable placeable = getPlaceable(location);
+            if (placeable != null && !(placeable instanceof Nexus) || !allShieldsDestroyed()) {
+                return false;
+            }
         }
 
         // Apply action and add location to shots
@@ -60,9 +64,11 @@ public class Board implements Serializable {
     }
 
     public boolean checkWinCondition() {
-        for (Placeable placeable : placeables.values()) {
-            if (placeable instanceof Nexus && placeable.isDestroyed()) {
-                return true;
+        if (allShieldsDestroyed()) {
+            for (Placeable placeable : placeables.values()) {
+                if (placeable instanceof Nexus && placeable.isDestroyed()) {
+                    return true;
+                }
             }
         }
         return false;
@@ -117,5 +123,14 @@ public class Board implements Serializable {
         }
 
         return false;
+    }
+
+    public boolean allShieldsDestroyed() {
+        for (Placeable placeable : placeables.values()) {
+            if (placeable instanceof Shield && !placeable.isDestroyed()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
