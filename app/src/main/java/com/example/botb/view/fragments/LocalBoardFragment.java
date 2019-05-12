@@ -17,8 +17,6 @@ public class LocalBoardFragment extends BoardFragment {
         View view = inflater.inflate(R.layout.game_view, container, false);
         v = view;
         view.post(() -> {
-            height = v.getHeight();
-            width = v.getWidth();
             createBoard(true);
         });
         return view;

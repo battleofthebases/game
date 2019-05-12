@@ -131,7 +131,7 @@ public class InputManager {
         gameModelController.reset();
 
         // Create initial local board
-        tempLocalBoard = new Board(10, 8);
+        tempLocalBoard = new Board(8, 8);
         tempLocalBoard.addPlaceable(new Shield(), 0, 0);
         tempLocalBoard.addPlaceable(new Shield(), 1, 1);
         tempLocalBoard.addPlaceable(new Shield(), 2, 2);
