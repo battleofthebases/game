@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
+import com.example.botb.view.fragments.BoardViewPager;
 import com.example.botb.view.fragments.BoardPagerAdapter;
 import com.example.botb.view.fragments.LocalBoardFragment;
 import com.example.botb.view.fragments.RemoteBoardFragment;
@@ -32,7 +35,9 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     private Button readyButton;
 
-    private ViewPager viewPager;
+    private TextView statusText;
+
+    private BoardViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         setContentView(R.layout.activity_game);
 
         readyButton = findViewById(R.id.btn_ready);
+        statusText = findViewById(R.id.txt_status);
 
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
@@ -50,7 +56,6 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
         setupViewPager(viewPager);
 
         readyButton.setOnClickListener(v -> {
-
             List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
             List<GridCell> gridCells = remoteBoardFragment.getGridCells();
 
@@ -62,11 +67,15 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             }
             try {
                 inputManager.setInitialLocalBoard();
-                readyButton.setText("You are ready!");
-                readyButton.setEnabled(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            this.runOnUiThread(() -> {
+                readyButton.setText("You are ready!");
+                readyButton.setEnabled(false);
+                statusText.setText("Waiting for opponent");
+            });
         });
     }
 
@@ -111,6 +120,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             handler.postDelayed(() -> {
                 int item = viewPager.getCurrentItem() + (isLocalAction ? -1 : 1);
                 viewPager.setCurrentItem(item, true);
+                statusText.setText((isLocalAction ? "Opponent's" : "Your") + " turn");
             }, 1000);
         });
     }
@@ -125,6 +135,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             handler.postDelayed(() -> {
                 int item = viewPager.getCurrentItem() + (localTurn ? 1 : -1);
                 viewPager.setCurrentItem(item, true);
+                statusText.setText((localTurn ? "Your" : "Opponent's") + " turn");
             }, 1000);
         });
     }
