@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import com.example.botb.controller.InputManager;
 import com.example.botb.controller.InputSubscriber;
@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
 
     private InputManager inputManager;
 
-    private Button mainButton;
+    private Button readyButton;
 
     private ViewPager viewPager;
 
@@ -38,18 +38,18 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mainButton = findViewById(R.id.Main_button);
+
+        readyButton = findViewById(R.id.btn_ready);
+
         inputManager = InputManager.getInstance();
         inputManager.subscribe(this);
+
         handler = new Handler();
 
-        viewPager = findViewById(R.id.contianer);
+        viewPager = findViewById(R.id.viewPager);
         setupViewPager(viewPager);
 
-        mainButton.setOnClickListener(v -> {
+        readyButton.setOnClickListener(v -> {
 
             List<GridPlaceable> gridPlaceables = localBoardFragment.getGridPlaceables();
             List<GridCell> gridCells = remoteBoardFragment.getGridCells();
@@ -62,7 +62,8 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
             }
             try {
                 inputManager.setInitialLocalBoard();
-                mainButton.setText("Ready!");
+                readyButton.setText("You are ready!");
+                readyButton.setEnabled(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,9 +119,7 @@ public class GameActivity extends AppCompatActivity implements InputSubscriber {
     public void gameStart(boolean localTurn) {
         this.runOnUiThread(() -> {
             remoteBoardFragment.setInitialBoard();
-            mainButton.setText("FIGHT!");
-            mainButton.setOnClickListener(v -> {
-            });
+            readyButton.setVisibility(View.INVISIBLE);
 
             // Automatically swipe to other board after a slight delay
             handler.postDelayed(() -> {
